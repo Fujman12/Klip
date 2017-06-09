@@ -244,27 +244,27 @@
                               </tr>
                               <tr>
                                   <td>Street address</td>
-                                  <td><a id="street-address" data-placeholder="street address" data-pk="1" data-type="text" href="#" class="editable editable-click"></a></td>
+                                  <td><a id="street-address" data-url="{% url 'users_app:change_street_address' %}" data-placeholder="street address" data-pk="1" data-type="text" href="#" class="editable editable-click">{% if user.profile.street_address %}{{ user.profile.street_address }}{%  endif %}</a></td>
                               </tr>
                               <tr>
                                   <td>Apt/Unit No</td>
-                                  <td><a id="apt-unit-no" data-placeholder="apt/unit No" data-pk="1" data-type="text" href="#" class="editable editable-click"></a></td>
+                                  <td><a id="apt-unit-no" data-url="{% url 'users_app:change_apt_unit' %}" data-placeholder="apt/unit No" data-pk="1" data-type="text" href="#" class="editable editable-click">{% if user.profile.street_apt_unit %}{{ user.profile.apt_unit }}{% endif %}</a></td>
                               </tr>
                               <tr>
                                   <td>City</td>
-                                  <td><a id="city" data-placeholder="city" data-pk="1" data-type="text" href="#" class="editable editable-click"></a></td>
+                                  <td><a id="city" data-url="{% url 'users_app:change_city' %}" data-placeholder="city" data-pk="1" data-type="text" href="#" class="editable editable-click">{% if user.profile.city %}{{ user.profile.city }}{% endif %}</a></td>
                               </tr>
                               <tr>
                                   <td>State</td>
-                                  <td><a id="state" data-placeholder="state" data-pk="1" data-type="text" href="#" class="editable editable-click"></a></td>
+                                  <td><a id="state" data-url="{% url 'users_app:change_state' %}" data-placeholder="state" data-pk="1" data-type="text" href="#" class="editable editable-click">{% if user.profile.state %}{{ user.profile.state }}{% endif %}</a></td>
                               </tr>
                               <tr>
                                   <td>Zip code</td>
-                                  <td><a id="zip-code" data-placeholder="zip-code" data-pk="1" data-type="text" href="#" class="editable editable-click"></a></td>
+                                  <td><a id="zip-code" data-url="{% url 'users_app:change_zipcode' %}" data-placeholder="zip-code" data-pk="1" data-type="text" href="#" class="editable editable-click">{% if user.profile.zipcode %}{{ user.profile.zipcode }}{% endif %}</a></td>
                               </tr>
                               <tr>
                                   <td>Phone number</td>
-                                  <td><a id="phone-number" data-placeholder="phone-number" data-pk="1" data-type="text" href="#" class="editable editable-click"></a></td>
+                                  <td><a id="phone-number" data-url="{% url 'users_app:change_phone_number' %}" data-placeholder="phone-number" data-pk="1" data-type="text" href="#" class="editable editable-empty">{% if user.profile.phone_number %}{{ user.profile.phone_number }}{% endif %}</a></td>
                               </tr>
                           </tbody>
                       </table>

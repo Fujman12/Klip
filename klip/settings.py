@@ -36,6 +36,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 # Application definition
+SESSION_COOKIE_SECURE=False
 
 INSTALLED_APPS = [
 
@@ -92,7 +93,7 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.twitter.TwitterOAuth',
     'social_core.backends.facebook.FacebookOAuth2',
     'social_core.backends.google.GoogleOAuth2',
-    'klip.EmailBackend.EmailBackend',
+
     'django.contrib.auth.backends.ModelBackend',
 )
 
