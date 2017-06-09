@@ -16,7 +16,22 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 
+from main_app import views as main_views
+from users_app.views import *
+from django.contrib.auth import views as auth_views
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url('', include('main_app.urls'))
+
+    url('^$', main_views.index, name = 'index'),
+    url(r'^login/$', auth_views.login, name='login'),
+    url(r'^logout/$', auth_views.logout, name='logout'),
+    url(r'^oauth/', include('social_django.urls', namespace='social')),  # <--
+
+    url(r'^register/$', register, name = 'register'),
+    url(r'^register/success/$', register_success, name = 'register_success'),
+
+    url(r'^profile/', include('users_app.urls')),
+
 ]
+

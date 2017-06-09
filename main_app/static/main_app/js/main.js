@@ -15,6 +15,7 @@
 */
 
 (function($) {
+
     "use strict";
 
     $.fn.hasAttr = function(attr) {  

@@ -12,9 +12,17 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 
+SOCIAL_AUTH_FACEBOOK_KEY = '267393197067693'  # App ID
+SOCIAL_AUTH_FACEBOOK_SECRET = 'b0c96836f59b84ea22c3436ec72db669'  # App Secret
+
+SOCIAL_AUTH_TWITTER_KEY = 'BGcPeS9n9kESEPcjaQyOMsqko'
+SOCIAL_AUTH_TWITTER_SECRET = 'uSHt3Yqikw00UZRaJxz2oDK8o7sQ5XrBLwl98U1qqEbr8ODfKV'
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '719505996632-bs0psdpiakak0bg35min6flo9a9jrep2.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'JOEOGHLjncz05_OA7OEFr3zu'
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
@@ -27,17 +35,22 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
-    'main_app',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'social_django',  # <--
+    'widget_tweaks',
+
+    'users_app',
+    'main_app',
 ]
 
 MIDDLEWARE = [
@@ -48,14 +61,17 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'social_django.middleware.SocialAuthExceptionMiddleware',  # <--
 ]
 
 ROOT_URLCONF = 'klip.urls'
+PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ["%s/templates/" % PROJECT_PATH ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -63,13 +79,24 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                'social_django.context_processors.backends',  # <--
+                'social_django.context_processors.login_redirect',  # <--
             ],
         },
     },
 ]
 
-WSGI_APPLICATION = 'klip.wsgi.application'
+## Added for auth
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.twitter.TwitterOAuth',
+    'social_core.backends.facebook.FacebookOAuth2',
+    'social_core.backends.google.GoogleOAuth2',
+    'klip.EmailBackend.EmailBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
 
+WSGI_APPLICATION = 'klip.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
@@ -80,7 +107,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -100,7 +126,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
@@ -114,8 +139,13 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+LOGIN_URL = 'login'
+LOGOUT_URL = 'logout'
+LOGIN_REDIRECT_URL = 'index'
+LOGOUT_REDIRECT_URL = 'index'
+
