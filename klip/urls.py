@@ -32,6 +32,7 @@ urlpatterns = [
     url(r'^register/success/$', register_success, name = 'register_success'),
 
     url(r'^profile/', include('users_app.urls')),
+    url(r'^site/',include('main_app.urls'))
 
 ]
 

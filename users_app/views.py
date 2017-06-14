@@ -50,6 +50,7 @@ def home(request):
 
 def profile(request):
     user = request.user
+    print(user.social_auth)
 
     data = {'user': user}
     return render(request, 'users_app/profile.html', data)

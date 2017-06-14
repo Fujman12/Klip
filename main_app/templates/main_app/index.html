@@ -6,6 +6,7 @@
 <html lang="zxx" dir="ltr" class="no-js">
 <!--<![endif]-->
 {% load static %}
+{% load widget_tweaks %}
 <head>
     <!-- ––––––––––––––––––––––––––––––––––––––––– -->
     <!-- META TAGS                                 -->
@@ -153,9 +154,11 @@
                         <div class="header-search">
                             <div class="">
                                 <div class="col-xs-12 mtb-40">
-                                    <form class="search-form">
+                                    <form class="search-form" action="{% url 'map_view' %}" method="post" >
+                                        {%  csrf_token %}
                                         <div class="input-group">
-                                            <input type="text" class="form-control input-lg search-input" style="background-color: rgba(255,255,255, 0.9)" placeholder="Enter location ..." required="required">
+                                            {% render_field form.location class="form-control input-lg search-input" style="background-color: rgba(255,255,255, 0.9)" placeholder="Enter location ..." required="required " %}
+                                            <!--input type="text" class="form-control input-lg search-input" style="background-color: rgba(255,255,255, 0.9)" placeholder="Enter location ..." required="required"-->
                                             <div class="input-group-btn" style="background-color: rgba(255,255,255, 0.9)">
                                                 <div class="input-group">
                                                     <select class="form-control input-lg search-select">

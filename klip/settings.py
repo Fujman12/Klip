@@ -9,8 +9,11 @@ https://docs.djangoproject.com/en/1.11/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.11/ref/settings/
 """
-
+import pymysql
 import os
+
+pymysql.install_as_MySQLdb()
+
 
 SOCIAL_AUTH_FACEBOOK_KEY = '267393197067693'  # App ID
 SOCIAL_AUTH_FACEBOOK_SECRET = 'b0c96836f59b84ea22c3436ec72db669'  # App Secret
@@ -104,8 +107,12 @@ WSGI_APPLICATION = 'klip.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'mydb',
+        'USER': 'Fujman',
+        'PASSWORD': '1q2w3e',
+        'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
+        'PORT': '8889',
     }
 }
 

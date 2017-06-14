@@ -5,7 +5,8 @@
 <!--[if (gt IE 10)|!(IE)]><!-->
 <html lang="zxx" dir="ltr" class="no-js">
 <!--<![endif]-->
-
+{% load static %}
+{% load widget_tweaks %}
 <head>
 
     <!-- ––––––––––––––––––––––––––––––––––––––––– -->
@@ -34,37 +35,37 @@
     <!-- ––––––––––––––––––––––––––––––––––––––––– -->
     <!-- PAGE FAVICON                              -->
     <!-- ––––––––––––––––––––––––––––––––––––––––– -->
-    <link rel="apple-touch-icon" href="assets/images/favicon/apple-touch-icon.png">
-    <link rel="icon" href="assets/images/favicon/favicon.ico">
+    <link rel="apple-touch-icon" href="{% static "main_app/images/favicon/apple-touch-icon.png" %}" >
+    <link rel="icon" href="{% static "main_app/images/favicon/favicon.ico" %}" >
 
     <!-- ––––––––––––––––––––––––––––––––––––––––– -->
     <!-- GOOGLE FONTS                              -->
     <!-- ––––––––––––––––––––––––––––––––––––––––– -->
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600"  rel="stylesheet">
 
     <!-- ––––––––––––––––––––––––––––––––––––––––– -->
     <!-- Include CSS Filess                        -->
     <!-- ––––––––––––––––––––––––––––––––––––––––– -->
 
     <!-- Bootstrap -->
-    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{% static "main_app/css/bootstrap.min.css" %}" rel="stylesheet">
 
     <!-- Font Awesome -->
-    <link href="assets/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="{% static "main_app/vendors/font-awesome/css/font-awesome.min.css" %}" rel="stylesheet">
 
     <!-- Linearicons -->
-    <link href="assets/vendors/linearicons/css/linearicons.css" rel="stylesheet">
+    <link href="{% static "main_app/vendors/linearicons/css/linearicons.css" %}" rel="stylesheet">
 
     <!-- Owl Carousel -->
-    <link href="assets/vendors/owl-carousel/owl.carousel.min.css" rel="stylesheet">
-    <link href="assets/vendors/owl-carousel/owl.theme.min.css" rel="stylesheet">
+    <link href="{% static "main_app/vendors/owl-carousel/owl.carousel.min.css" %}" rel="stylesheet">
+    <link href="{% static "main_app/vendors/owl-carousel/owl.theme.min.css" %}" rel="stylesheet">
 
     <!-- Flex Slider -->
-    <link href="assets/vendors/flexslider/flexslider.css" rel="stylesheet">
+    <link href="{% static "main_app/vendors/flexslider/flexslider.css" %}" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="assets/css/base.css" rel="stylesheet">
-    <link href="assets/css/style.css" rel="stylesheet">
+    <link href="{% static "main_app/css/base.css" %}" rel="stylesheet">
+    <link href="{% static "main_app/css/style.css" %}" rel="stylesheet">
 
 </head>
 
@@ -118,10 +119,11 @@
                         </div>
                         <div class="col-sm-12 col-md-8">
                             <ul class="nav-top nav-top-right list-inline t-xs-center t-md-right">
-                                <li class="hidden">
-                                    <a href="#"><i class="fa fa-account"></i>Armen <i class="fa fa-caret-down"></i></a>
+                               {% if user.is_authenticated %}
+                                <li>
+                                    <a href="#"><i class="fa fa-account"></i>{{ user.first_name }} {{ user.last_name }}<i class="fa fa-caret-down"></i></a>
                                     <ul>
-                                        <li><a href="#">profile</a>
+                                        <li><a href="{% url 'users_app:profile' %}">profile</a>
                                         </li>
                                         <li><a href="#">setings</a>
                                         </li>
@@ -129,12 +131,16 @@
                                         </li>
                                         <li><a href="#">wallet</a>
                                         </li>
+                                        <li><a href="{% url 'logout' %}">Sign Out</a>
+                                        </li>
                                     </ul>
                                 </li>
-                                <li><a href="signin.html"><i class="fa fa-lock"></i>Sign In</a>
+                                {% else %}
+                                <li><a href="{% url 'login' %}"><i class="fa fa-lock"></i>Sign In</a>
                                 </li>
-                                <li><a href="signup.html"><i class="fa fa-user"></i>Sign Up</a>
+                                <li><a href="{% url 'register' %}"><i class="fa fa-user"></i>Sign Up</a>
                                 </li>
+                                {% endif %}
                             </ul>
                         </div>
                     </div>
@@ -148,16 +154,18 @@
                     <div class="row row-rl-0 row-tb-20 row-md-cell">
                         <div class="brand col-md-3 t-xs-center t-md-left valign-middle">
                             <a href="#" class="logo">
-                                <img src="assets/images/logo.png" alt="" width="250">
+                                <img src="{% static "main_app/images/logo.png" %}" alt="" width="250">
                             </a>
                         </div>
                         <div class="header-search col-md-9">
                             <div class="row row-tb-10 ">
                                 <div class="col-sm-8">
-                                    <form class="search-form">
+                                    <form class="search-form" action="{% url 'map_view' %}" method="post" >
+                                        {%  csrf_token %}
                                         <div class="input-group">
-                                            <input type="text" class="form-control input-lg search-input" placeholder="Enter location ..." required="required">
-                                            <div class="input-group-btn">
+                                            {% render_field form.location class="form-control input-lg search-input" style="background-color: rgba(255,255,255, 0.9)" placeholder="Enter location ..." required="required " %}
+                                            <!--input type="text" class="form-control input-lg search-input" style="background-color: rgba(255,255,255, 0.9)" placeholder="Enter location ..." required="required"-->
+                                            <div class="input-group-btn" style="background-color: rgba(255,255,255, 0.9)">
                                                 <div class="input-group">
                                                     <select class="form-control input-lg search-select">
                                                         <option>Select Type</option>
@@ -169,7 +177,7 @@
                                                         <option>Edibles</option>
                                                     </select>
                                                     <div class="input-group-btn">
-                                                        <button type="submit" class="btn btn-lg btn-search btn-block">
+                                                        <button type="submit" class="btn btn-lg btn-search btn-block" style="margin-left: 0;">
                                                             <i class="fa fa-search font-16"></i>
                                                         </button>
                                                     </div>
@@ -177,6 +185,7 @@
                                             </div>
                                         </div>
                                     </form>
+
                                 </div>
                                 <div class="col-sm-4 t-xs-center t-md-right">
                                     <div class="header-cart">
@@ -223,7 +232,7 @@
                         <div class="row row-tb-20">
                             <div class="footer-col col-sm-6">
                                 <div class="footer-about">
-                                    <img class="mb-40" src="assets/images/logo_light.png" width="250" alt="">
+                                    <img class="mb-40" src="{% static "main_app/images/logo_light.png" %}" width="250" alt="">
                                     <p class="color-light">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam dolores quidem mollitia id ipsa nisi necessitatibus iure repudiandae aperiam, odit ipsam dolor fugiat corporis nesciunt illo nemo minus.</p>
                                 </div>
                             </div>
@@ -270,32 +279,32 @@
 
 
                                         <div class="instagram-widget__item col-xs-4">
-                                            <img src="assets/images/instagram/instagram_01.jpg" alt="">
+                                            <img src="{% static "main_app/images/instagram/instagram_01.jpg" %}" alt="">
                                         </div>
 
 
                                         <div class="instagram-widget__item col-xs-4">
-                                            <img src="assets/images/instagram/instagram_02.jpg" alt="">
+                                            <img src="{% static "main_app/images/instagram/instagram_02.jpg" %}" alt="">
                                         </div>
 
 
                                         <div class="instagram-widget__item col-xs-4">
-                                            <img src="assets/images/instagram/instagram_03.jpg" alt="">
+                                            <img src="{% static "main_app/images/instagram/instagram_03.jpg" %}" alt="">
                                         </div>
 
 
                                         <div class="instagram-widget__item col-xs-4">
-                                            <img src="assets/images/instagram/instagram_04.jpg" alt="">
+                                            <img src="{% static "main_app/images/instagram/instagram_04.jpg" %}" alt="">
                                         </div>
 
 
                                         <div class="instagram-widget__item col-xs-4">
-                                            <img src="assets/images/instagram/instagram_05.jpg" alt="">
+                                            <img src="{% static "main_app/images/instagram/instagram_05.jpg" %}" alt="">
                                         </div>
 
 
                                         <div class="instagram-widget__item col-xs-4">
-                                            <img src="assets/images/instagram/instagram_06.jpg" alt="">
+                                            <img src="{% static "main_app/images/instagram/instagram_06.jpg" %}" alt="">
                                         </div>
 
 
@@ -306,11 +315,11 @@
                     </div>
                     <div class="col-xs-12">
                         <div class="payment-methods t-center">
-                            <span><img src="assets/images/icons/payment/paypal.jpg" alt=""></span>
-                            <span><img src="assets/images/icons/payment/visa.jpg" alt=""></span>
-                            <span><img src="assets/images/icons/payment/mastercard.jpg" alt=""></span>
-                            <span><img src="assets/images/icons/payment/discover.jpg" alt=""></span>
-                            <span><img src="assets/images/icons/payment/american.jpg" alt=""></span>
+                            <span><img src="{% static "main_app/images/icons/payment/paypal.jpg" %}" alt=""></span>
+                            <span><img src="{% static "main_app/images/icons/payment/visa.jpg" %}" alt=""></span>
+                            <span><img src="{% static "main_app/images/icons/payment/mastercard.jpg" %}" alt=""></span>
+                            <span><img src="{% static "main_app/images/icons/payment/discover.jpg" %}" alt=""></span>
+                            <span><img src="{% static "main_app/images/icons/payment/american.jpg" %}" alt=""></span>
                         </div>
                     </div>
                 </div>
@@ -348,12 +357,12 @@
     <!-- ––––––––––––––––––––––––––––––––––––––––– -->
     <!-- Initialize jQuery library                 -->
     <!-- ––––––––––––––––––––––––––––––––––––––––– -->
-    <script src="assets/js/jquery-1.12.3.min.js"></script>
+    <script src="{% static "main_app/js/jquery-1.12.3.min.js" %}"></script>
 
     <!-- ––––––––––––––––––––––––––––––––––––––––– -->
     <!-- Latest compiled and minified Bootstrap    -->
     <!-- ––––––––––––––––––––––––––––––––––––––––– -->
-    <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="{% static "main_app/js/bootstrap.min.js" %}"></script>
 
     <!-- ––––––––––––––––––––––––––––––––––––––––– -->
     <!-- JavaScript Plugins                        -->
@@ -361,41 +370,38 @@
     <!-- (!) Include all compiled plugins (below), or include individual files as needed -->
 
     <!-- Modernizer JS -->
-    <script src="assets/vendors/modernizr/modernizr-2.6.2.min.js"></script>
+    <script src="{% static "main_app/vendors/modernizr/modernizr-2.6.2.min.js" %}"></script>
     
     <!-- Owl Carousel -->
-    <script type="text/javascript" src="assets/vendors/owl-carousel/owl.carousel.min.js"></script>
+    <script type="text/javascript" src="{% static "main_app/vendors/owl-carousel/owl.carousel.min.js" %}"></script>
 
     <!-- FlexSlider -->
-    <script type="text/javascript" src="assets/vendors/flexslider/jquery.flexslider-min.js"></script>
+    <script type="text/javascript" src="{% static "main_app/vendors/flexslider/jquery.flexslider-min.js" %}"></script>
 
     <!-- Coutdown -->
-    <script type="text/javascript" src="assets/vendors/countdown/jquery.countdown.js"></script>
+    <script type="text/javascript" src="{% static "main_app/vendors/countdown/jquery.countdown.js" %}"></script>
 
     <!-- Like-Dislike -->
-    <script src="assets/vendors/Like-Dislike/js/like-dislike.min.js"></script>
+    <script src="{% static "main_app/vendors/Like-Dislike/js/like-dislike.min.js" %}"></script>
     <!-- ––––––––––––––––––––––––––––––––––––––––– -->
     <!-- Custom Template JavaScript                   -->
     <!-- ––––––––––––––––––––––––––––––––––––––––– -->
-    <script type="text/javascript" src="assets/js/main.js"></script>
+    <script type="text/javascript" src="{% static "main_app/js/main.js" %}"></script>
 
     <script type="text/javascript">
     //<![CDATA[
+
     var side_bar_html = "";
     var markers = [];
     var map;
+    var deals = [];
+
+
+
     function myclick(i) {
       google.maps.event.trigger(markers[i], "click");
     }
-    function initMap() {
-      var uluru = {lat: -25.363, lng: 131.044};
-      map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 4,
-        center: uluru,
-        disableDefaultUI: true
-      });
-
-      function createMarker(position, name, info_html) {
+    function createMarker(position, name, info_html) {
 
         var marker = new google.maps.Marker({
           position: position,
@@ -405,27 +411,63 @@
         var infowindow = new google.maps.InfoWindow({
           content: info_html
         });
+
         marker.addListener('click', function() {
             infowindow.open(map, marker);
             map.setCenter(marker.position);
           });
+
         markers.push(marker);
         side_bar_html += '<a href="javascript:myclick(' + (markers.length-1) + ')"><div class="map_sidebar_item"><div class="store_img_wrapper"></div><div class="map_sidebar_content1"><div class="p-wrapper" style="padding-top: 3px;width: 244px; height: 55px; line-height: 1.4; font-size: 18px; font-weight: 500;"><p>' + name + '</p></div><ul class="deal-meta list-inline color-mid" style="font-weight: 500"> <li><i class="ico fa fa-globe"></i> Ebay</li><li><i class="ico fa fa-map-marker"></i> Los-Angeles, CA</li><li><i class="ico fa fa-shopping-basket"></i> 75 Bought</li></ul></div></div></a>';
 
       }
-      createMarker({lat: -25.363, lng: 131.044}, 'Deal name 1', 'gogogo');
-      createMarker({lat: -40.363, lng: 140.044}, 'Deal name 2', 'gKidsogo');
-      createMarker({lat: -50.363, lng: 170.044}, 'Deal name 3', 'Karamb');
-      createMarker({lat: -5.363, lng: 181.044}, 'Deal name 4', 'gogodsfgo');
-      createMarker({lat: -60.363, lng: 110.044}, 'Deal name 5', 'gKidsfdsogo');
-      createMarker({lat: -90.363, lng: 150.044}, 'Deal name 6', 'Karssdfamb');
 
-      document.getElementById("side_bar").innerHTML = side_bar_html;
+      function getDeals(callback){
+          $.ajax({
+            url: '{% url 'deals_around' %}',
+            type: 'post',
+            data: {location: '{{ location }}'},
+            success: function(data){
+               callback(data);
+            }
+
+          });
+      }
+
+    function initMap() {
+      var center = {lat: {{ center.lat }}, lng: {{ center.lng }} };
+      console.log(deals);
+      map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 10,
+        center: center,
+        disableDefaultUI: true
+      });
+
+
+
+      getDeals(function(data){
+          console.log(data);
+          deals = data.deals;
+
+          deals.forEach(function(deal, i, deals) {
+              createMarker({lat: deal.lat, lng: deal.lng}, deal.title, deal.description);
+          });
+          /*
+          createMarker({lat: -25.363, lng: 131.044}, 'Deal name 1', 'gogogo');
+          createMarker({lat: -40.363, lng: 140.044}, 'Deal name 2', 'gKidsogo');
+          createMarker({lat: -50.363, lng: 170.044}, 'Deal name 3', 'Karamb');
+          createMarker({lat: -5.363, lng: 181.044}, 'Deal name 4', 'gogodsfgo');
+          createMarker({lat: -60.363, lng: 110.044}, 'Deal name 5', 'gKidsfdsogo');
+          createMarker({lat: -90.363, lng: 150.044}, 'Deal name 6', 'Karssdfamb');
+          */
+          document.getElementById("side_bar").innerHTML = side_bar_html;
+      });
+
     }
 
     </script>
-    <script  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAW0b9tbcJ6Sj4D31PLx5zfJ7WXItdOfsQ&callback=initMap"> type="text/javascript"></script>
-    <script src="assets/vendors/jQuery.dotdotdot-master/src/jquery.dotdotdot.min.js"></script>
+    <script  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAW0b9tbcJ6Sj4D31PLx5zfJ7WXItdOfsQ&callback=initMap" type="text/javascript"></script>
+    <script src="{% static "main_app/vendors/jQuery.dotdotdot-master/src/jquery.dotdotdot.min.js" %}" ></script>
     <script>
         $(".p-wrapper").dotdotdot({
         ellipsis    : '...',
