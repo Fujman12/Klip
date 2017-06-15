@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -47,5 +47,13 @@ def map_view(request):
 
     return render(request, 'main_app/map_view.html', context)
 
+
+def deal(request, pk):
+    _deal = get_object_or_404(Deal, pk=pk)
+    context = dict()
+
+    context['deal'] = _deal
+
+    return render(request, 'main_app/deal.html', context)
 
 

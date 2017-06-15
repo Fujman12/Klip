@@ -5,5 +5,7 @@ urlpatterns = [
 
     url(r'^$',views.index, name='index'),
     url(r'deals_around', views.deals_around, name='deals_around'),
-    url(r'map_view', views.map_view, name='map_view')
+    url(r'map_view', views.map_view, name='map_view'),
+
+    url(r'deal/(?P<pk>[0-9]+)', views.deal, name='deal')
 ]

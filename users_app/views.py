@@ -134,3 +134,11 @@ def change_phone_number(request):
     user.save()
 
     return JsonResponse({'value': 'OK'})
+
+
+def upload_image(request):
+    user = request.user
+    user.profile.avatar = request.FILES['file']
+    user.save()
+
+    return JsonResponse({'value': 'OK'})
