@@ -33,7 +33,11 @@ def deals_around(request):
 
 def map_view(request):
     location = request.POST['location']
+
     center = geocoder.google(location)
+    #if center is None:
+    #    center = geocoder.google('Hollywood')
+
     form = SearchForm()
 
     context = dict()
