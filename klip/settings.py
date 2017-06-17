@@ -36,7 +36,7 @@ SECRET_KEY = 'i4s$i##ucjhgq244v3x739o+ti$espl-urrk48t_8k&@6tgk7='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['fujman.pythonanywhere.com']
 
 # Application definition
 SESSION_COOKIE_SECURE=False
