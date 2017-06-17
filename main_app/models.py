@@ -1,5 +1,6 @@
 from django.db import models
 from datetime import timedelta, datetime
+from django.contrib.auth.models import User
 import django
 # Create your models here.
 
@@ -8,6 +9,7 @@ class Deal(models.Model):
     title = models.CharField(max_length=150, blank=False, null=False)
     description = models.TextField(blank=False, null=False)
     price = models.DecimalField(blank=False, null=False, max_digits=10, decimal_places=2)
+    old_price = models.DecimalField(blank=True, null=True, max_digits=10, decimal_places=2)
     likes = models.IntegerField(blank=False, null=False, default=0)
     dislikes = models.IntegerField(blank=False, null=False, default=0)
 
@@ -36,4 +38,9 @@ class Dispensary(models.Model):
         return "{} - {}".format(self.name, self.description)
 
 
+class Review(models.Model):
+    user = models.ForeignKey(User, related_name='reviews')
+    text = models.TextField()
+    deal = models.ForeignKey('Deal', related_name='reviews')
 
+    date_created = models.DateTimeField(auto_now_add=True)

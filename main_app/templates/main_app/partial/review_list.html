@@ -1,0 +1,21 @@
+<h3 class="h-title">{{ deal.reviews.all.count }} Reviews</h3>
+    {% for review in deal.reviews.all %}
+    <div class="review-single pt-30">
+        <div class="media">
+            <div class="media-left">
+                <img class="media-object mr-10 radius-4" src="{{ review.user.profile.avatar.url }}" width="90" alt="">
+            </div>
+            <div class="media-body">
+                <div class="review-wrapper clearfix">
+                    <ul class="list-inline">
+                        <li>
+                            <span class="review-holder-name h5">{{ review.user.first_name }} {{ review.user.last_name }}</span>
+                        </li>
+                    </ul>
+                    <p class="review-date mb-5">{{ review.date_created }}</p>
+                    <p class="copy">{{ review.text|linebreaks }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}

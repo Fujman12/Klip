@@ -1,9 +1,10 @@
 from django.shortcuts import render, get_object_or_404
+from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-from .models import Deal, Dispensary
-from .forms import SearchForm
+from .models import Deal, Dispensary, Review
+from .forms import SearchForm, ReviewForm
 import geocoder
 # Create your views here.
 
@@ -50,10 +51,51 @@ def map_view(request):
 
 def deal(request, pk):
     _deal = get_object_or_404(Deal, pk=pk)
-    context = dict()
 
+    review_form = ReviewForm()
+
+    context = dict()
     context['deal'] = _deal
+    context['review_form'] = review_form
 
     return render(request, 'main_app/deal.html', context)
 
+
+# updates deal's likes/dislikes
+def update_likes(request, pk):
+
+    _deal = get_object_or_404(Deal, pk=pk)
+    _deal.likes = request.POST['likes']
+    _deal.dislikes = request.POST['dislikes']
+    _deal.save()
+
+    return JsonResponse({'status': True})
+
+
+def post_review(request, pk):
+
+    context = dict()
+
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+
+        if form.is_valid():
+            context['form_is_valid'] = True
+            review = form.save(commit=False)
+
+            user = request.user
+            review.user = user
+
+            _deal = get_object_or_404(Deal, pk=pk)
+            review.deal = _deal
+
+            review.save()
+            print(_deal.reviews.all().count())
+            context['html_review_list'] = render_to_string('main_app/partial/review_list.html', {'deal': _deal})
+
+        else:
+
+            context['form_is_valid'] = False
+
+    return JsonResponse(context)
 
