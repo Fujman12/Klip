@@ -36,7 +36,7 @@ SECRET_KEY = 'i4s$i##ucjhgq244v3x739o+ti$espl-urrk48t_8k&@6tgk7='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['fujman.pythonanywhere.com']
+ALLOWED_HOSTS = ['fujman.pythonanywhere.com', 'localhost']
 
 # Application definition
 SESSION_COOKIE_SECURE=False
@@ -110,9 +110,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'mydb',
         'USER': 'Fujman',
-        'PASSWORD': '1q2w3e',
-        'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
-        'PORT': '8889',
+        'PASSWORD': '1q2w3e4r5t',
+        'HOST': 'Fujman.mysql.pythonanywhere-services.com',   # Or an IP Address that your DB is hosted on
+        #'PORT': '8889',
     }
 }
 
