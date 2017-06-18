@@ -111,17 +111,17 @@
                     <div class="row">
                         <div class="col-sm-12 col-md-4 is-hidden-sm-down">
                             <ul class="nav-top nav-top-left list-inline t-left">
-                                <li><a href="about_us.html"><i class="fa fa-question-circle"></i>About</a>
+                                <li><a href="{% url 'about_us' %}"><i class="fa fa-question-circle"></i>About</a>
                                 </li>
-                                <li><a href="contact_us_01.html"><i class="fa fa-support"></i>Contact Us</a>
+                                <li><a href="{% url 'contact_us' %}"><i class="fa fa-support"></i>Contact Us</a>
                                 </li>
                             </ul>
                         </div>
                         <div class="col-sm-12 col-md-8">
                             <ul class="nav-top nav-top-right list-inline t-xs-center t-md-right">
-                               {% if user.is_authenticated %}
+                                {% if user.is_authenticated %}
                                 <li>
-                                    <a href="#"><i class="fa fa-account"></i>{{ user.first_name }} {{ user.last_name }}<i class="fa fa-caret-down"></i></a>
+                                    <a href="#"><i class="fa fa-account"></i>{{ user.first_name }} {{ user.last_name }} <i class="fa fa-caret-down"></i></a>
                                     <ul>
                                         <li><a href="{% url 'users_app:profile' %}">profile</a>
                                         </li>
@@ -153,7 +153,7 @@
                 <div class="container">
                     <div class="row row-rl-0 row-tb-20 row-md-cell">
                         <div class="brand col-md-3 t-xs-center t-md-left valign-middle">
-                            <a href="#" class="logo">
+                            <a href="{% url 'index' %}" class="logo">
                                 <img src="{% static "main_app/images/logo.png" %}" alt="" width="250">
                             </a>
                         </div>
@@ -401,7 +401,7 @@
     function myclick(i) {
       google.maps.event.trigger(markers[i], "click");
     }
-    function createMarker(position, name, info_html) {
+    function createMarker(position, name, city, state, dispensary, info_html) {
 
         var marker = new google.maps.Marker({
           position: position,
@@ -418,7 +418,7 @@
           });
 
         markers.push(marker);
-        side_bar_html += '<a href="javascript:myclick(' + (markers.length-1) + ')"><div class="map_sidebar_item"><div class="store_img_wrapper"></div><div class="map_sidebar_content1"><div class="p-wrapper" style="padding-top: 3px;width: 244px; height: 55px; line-height: 1.4; font-size: 18px; font-weight: 500;"><p>' + name + '</p></div><ul class="deal-meta list-inline color-mid" style="font-weight: 500"> <li><i class="ico fa fa-globe"></i> Ebay</li><li><i class="ico fa fa-map-marker"></i> Los-Angeles, CA</li><li><i class="ico fa fa-shopping-basket"></i> 75 Bought</li></ul></div></div></a>';
+        side_bar_html += '<a href="javascript:myclick(' + (markers.length-1) + ')"><div class="map_sidebar_item"><div class="store_img_wrapper"></div><div class="map_sidebar_content1"><div class="p-wrapper" style="padding-top: 3px;width: 244px; height: 55px; line-height: 1.4; font-size: 18px; font-weight: 500;"><p>' + name + '</p></div><ul class="deal-meta list-inline color-mid" style="font-weight: 500"> <li><i class="ico fa fa-globe"></i> '+ dispensary +'</li><li><i class="ico fa fa-map-marker"></i> '+ city +', '+ state +'</li><li><i class="ico fa fa-shopping-basket"></i> 75 Bought</li></ul></div></div></a>';
 
       }
 
@@ -435,6 +435,7 @@
       }
 
     function initMap() {
+
       var center = {lat: {{ center.lat }}, lng: {{ center.lng }} };
       console.log(deals);
       map = new google.maps.Map(document.getElementById('map'), {
@@ -450,7 +451,7 @@
           deals = data.deals;
 
           deals.forEach(function(deal, i, deals) {
-              createMarker({lat: deal.lat, lng: deal.lng}, deal.title, deal.description);
+              createMarker({lat: deal.lat, lng: deal.lng}, deal.title, deal.dispensary_city, deal.dispensary_state, deal.dispensary, '<div style="min-width:270px"><a target="_blank" href="' + deal.deal_url + '" style="width: 100%; height: 100%; display: inline-block" ><img src="'+ deal.image_url +'" alt="Logo" align="left" style="width: 80px; height: 80px"> <h3 style="display: inline-block; padding-left: 10px; vertical-align: top; padding-bottom: 8px" >'+ deal.title +'</h3><br><span style="text-transform: uppercase; padding-left: 10px; font-weight: 400;" >'+ deal.dispensary +'</span><br><div style="display: inline-block; padding-left: 10px; padding-top: 6px" class="demo mb-5"> <button class="like like-custom" disabled=""><i class="fa fa-thumbs-up"></i> Likes <span class="likes">'+ deal.likes +'</span> </button> <button class="dislike dislike-custom" disabled=""><i class="fa fa-thumbs-down"></i> Dislikes <span class="dislikes">'+ deal.dislikes +'</span> </button> </div> </a></div>');
           });
           /*
           createMarker({lat: -25.363, lng: 131.044}, 'Deal name 1', 'gogdeogo');

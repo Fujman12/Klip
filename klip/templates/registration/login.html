@@ -111,18 +111,19 @@
                     <div class="row">
                         <div class="col-sm-12 col-md-4 is-hidden-sm-down">
                             <ul class="nav-top nav-top-left list-inline t-left">
-                                <li><a href="about_us.html"><i class="fa fa-question-circle"></i>About</a>
+                                <li><a href="{% url 'about_us' %}"><i class="fa fa-question-circle"></i>About</a>
                                 </li>
-                                <li><a href="contact_us_01.html"><i class="fa fa-support"></i>Contact Us</a>
+                                <li><a href="{% url 'contact_us' %}"><i class="fa fa-support"></i>Contact Us</a>
                                 </li>
                             </ul>
                         </div>
                         <div class="col-sm-12 col-md-8">
                             <ul class="nav-top nav-top-right list-inline t-xs-center t-md-right">
-                                <li class="hidden">
-                                    <a href="#"><i class="fa fa-account"></i>Armen <i class="fa fa-caret-down"></i></a>
+                                {% if user.is_authenticated %}
+                                <li>
+                                    <a href="#"><i class="fa fa-account"></i>{{ user.first_name }} {{ user.last_name }} <i class="fa fa-caret-down"></i></a>
                                     <ul>
-                                        <li><a href="#">profile</a>
+                                        <li><a href="{% url 'users_app:profile' %}">profile</a>
                                         </li>
                                         <li><a href="#">setings</a>
                                         </li>
@@ -130,12 +131,16 @@
                                         </li>
                                         <li><a href="#">wallet</a>
                                         </li>
+                                        <li><a href="{% url 'logout' %}">Sign Out</a>
+                                        </li>
                                     </ul>
                                 </li>
+                                {% else %}
                                 <li><a href="{% url 'login' %}"><i class="fa fa-lock"></i>Sign In</a>
                                 </li>
                                 <li><a href="{% url 'register' %}"><i class="fa fa-user"></i>Sign Up</a>
                                 </li>
+                                {% endif %}
                             </ul>
                         </div>
                     </div>
@@ -244,7 +249,7 @@
                                         <label class="color-mid" for="remember_social">Keep me signed in on this computer.</label>
                                     </div>
                                     <div class="text-center color-mid">
-                                        Need an Account ? <a href="signup.html" class="color-green">Create Account</a>
+                                        Need an Account ? <a href="{% url 'register' %}" class="color-green">Create Account</a>
                                     </div>
                                 </div>
                             </div>

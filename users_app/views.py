@@ -7,8 +7,11 @@ from django.shortcuts import render_to_response, render
 from django.http import HttpResponseRedirect, JsonResponse
 from django.template import RequestContext
 
+from main_app.forms import SearchForm
+
 
 def register(request):
+    search_form = SearchForm()
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
@@ -23,7 +26,8 @@ def register(request):
     else:
         form = RegistrationForm()
     variables = {
-        'form': form
+        'form': form,
+        'search_form': search_form
     }
 
     return render(request, 'registration/signup.html', variables)
@@ -49,10 +53,12 @@ def home(request):
 
 
 def profile(request):
+
+    form = SearchForm()
     user = request.user
     print(user.social_auth)
 
-    data = {'user': user}
+    data = {'user': user, 'form': form}
     return render(request, 'users_app/profile.html', data)
 
 

@@ -17,8 +17,8 @@ from django.conf.urls import url, include
 from django.conf.urls.static import static
 from django.contrib import admin
 
-from main_app import views as main_views
-from users_app.views import *
+from main_app.views import e_handler404, e_handler500, index, contact_us, about_us
+from users_app.views import register, register_success
 from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.views.static import serve
@@ -26,7 +26,7 @@ from django.views.static import serve
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
-    url('^$', main_views.index, name = 'index'),
+    url('^$', index, name = 'index'),
     url(r'^login/$', auth_views.login, name='login'),
     url(r'^logout/$', auth_views.logout, name='logout'),
     url(r'^oauth/', include('social_django.urls', namespace='social')),  # <--
@@ -37,7 +37,12 @@ urlpatterns = [
     url(r'^profile/', include('users_app.urls')),
     url(r'^site/',include('main_app.urls')),
 
+    url(r'^contact_us/', contact_us, name='contact_us'),
+    url(r'^about_us/', about_us, name='about_us'),
 ]
+
+handler404 = e_handler404
+handler500 = e_handler500
 
 if settings.DEBUG:
     urlpatterns += [
