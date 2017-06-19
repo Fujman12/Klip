@@ -398,7 +398,29 @@
     <!-- ––––––––––––––––––––––––––––––––––––––––– -->
     <script type="text/javascript" src="{% static "main_app/js/main.js" %}"></script>
     <script>
-
+    $.ajaxSetup({
+                 beforeSend: function(xhr, settings) {
+                     function getCookie(name) {
+                         var cookieValue = null;
+                         if (document.cookie && document.cookie != '') {
+                             var cookies = document.cookie.split(';');
+                             for (var i = 0; i < cookies.length; i++) {
+                                 var cookie = jQuery.trim(cookies[i]);
+                                 // Does this cookie string begin with the name we want?
+                             if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                 break;
+                             }
+                         }
+                     }
+                     return cookieValue;
+                     }
+                     if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                         // Only send the token to relative URLs i.e. locally.
+                         xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                     }
+                 }
+               });
     </script>
 
     <script type="text/javascript">
@@ -409,7 +431,29 @@
     var map;
     var deals = [];
 
+    function offsetCenter(latlng, offsetx, offsety) {
 
+    // latlng is the apparent centre-point
+    // offsetx is the distance you want that point to move to the right, in pixels
+    // offsety is the distance you want that point to move upwards, in pixels
+    // offset can be negative
+    // offsetx and offsety are both optional
+
+    var scale = Math.pow(2, map.getZoom());
+
+    var worldCoordinateCenter = map.getProjection().fromLatLngToPoint(latlng);
+    var pixelOffset = new google.maps.Point((offsetx/scale) || 0,(offsety/scale) ||0);
+
+    var worldCoordinateNewCenter = new google.maps.Point(
+        worldCoordinateCenter.x - pixelOffset.x,
+        worldCoordinateCenter.y + pixelOffset.y
+    );
+
+    var newCenter = map.getProjection().fromPointToLatLng(worldCoordinateNewCenter);
+
+    map.setCenter(newCenter);
+
+    }
 
     function myclick(i) {
       google.maps.event.trigger(markers[i], "click");
@@ -425,46 +469,29 @@
           content: info_html
         });
 
+
         marker.addListener('click', function() {
             infowindow.open(map, marker);
             map.setCenter(marker.position);
+            offsetCenter(marker.position, 200, 50)
           });
 
         markers.push(marker);
-        side_bar_html += '<a href="javascript:myclick(' + (markers.length-1) + ')"><div class="map_sidebar_item"><div class="store_img_wrapper"></div><div class="map_sidebar_content1"><div class="p-wrapper" style="padding-top: 3px;width: 244px; height: 55px; line-height: 1.4; font-size: 18px; font-weight: 500;"><p>' + name + '</p></div><ul class="deal-meta list-inline color-mid" style="font-weight: 500"> <li><i class="ico fa fa-globe"></i> '+ dispensary +'</li><li><i class="ico fa fa-map-marker"></i> '+ city +', '+ state +'</li><li><i class="ico fa fa-shopping-basket"></i> 75 Bought</li></ul></div></div></a>';
-
+        side_bar_html += '<a href="javascript:myclick(' + (markers.length-1) + ')"><div class="map_sidebar_item"><div class="store_img_wrapper"></div><div class="map_sidebar_content1">' +
+            '<div class="p-wrapper" style="padding-top: 3px;width: 244px; height: 55px; line-height: 1.4; font-size: 18px; font-weight: 500;"><p>' + name + '</p></div>' +
+            '<ul class="deal-meta list-inline color-mid" style="font-weight: 500"> <li><i class="ico fa fa-globe"></i> '+ dispensary +'</li><li><i class="ico fa fa-map-marker"></i> '+ city +', '+ state +'</li>' +
+            '<li><i class="ico fa fa-shopping-basket"></i> 75 Bought</li></ul></div></div></a>';
       }
 
       function getDeals(callback){
-          $.ajaxSetup({
-             beforeSend: function(xhr, settings) {
-                 function getCookie(name) {
-                     var cookieValue = null;
-                     if (document.cookie && document.cookie != '') {
-                         var cookies = document.cookie.split(';');
-                         for (var i = 0; i < cookies.length; i++) {
-                             var cookie = jQuery.trim(cookies[i]);
-                             // Does this cookie string begin with the name we want?
-                         if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                             cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                             break;
-                         }
-                     }
-                 }
-                 return cookieValue;
-                 }
-                 if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
-                     // Only send the token to relative URLs i.e. locally.
-                     xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-                 }
-             }
-           });
+
           $.ajax({
             url: '{% url 'deals_around' %}',
             type: 'post',
             data: {location: '{{ location }}'},
             success: function(data){
                callback(data);
+
             }
 
           });
@@ -481,13 +508,13 @@
       });
 
 
-
       getDeals(function(data){
+
           console.log(data);
           deals = data.deals;
 
           deals.forEach(function(deal, i, deals) {
-              createMarker({lat: deal.lat, lng: deal.lng}, deal.title, deal.dispensary_city, deal.dispensary_state, deal.dispensary, '<div style="min-width:270px"><a target="_blank" href="' + deal.deal_url + '" style="width: 100%; height: 100%; display: inline-block" ><img src="'+ deal.image_url +'" alt="Logo" align="left" style="width: 80px; height: 80px"> <h3 style="display: inline-block; padding-left: 10px; vertical-align: top; padding-bottom: 8px" >'+ deal.title +'</h3><br><span style="text-transform: uppercase; padding-left: 10px; font-weight: 400;" >'+ deal.dispensary +'</span><br><div style="display: inline-block; padding-left: 10px; padding-top: 6px" class="demo mb-5"> <button class="like like-custom" disabled=""><i class="fa fa-thumbs-up"></i> Likes <span class="likes">'+ deal.likes +'</span> </button> <button class="dislike dislike-custom" disabled=""><i class="fa fa-thumbs-down"></i> Dislikes <span class="dislikes">'+ deal.dislikes +'</span> </button> </div> </a></div>');
+              createMarker({lat: deal.lat, lng: deal.lng}, deal.title, deal.dispensary_city, deal.dispensary_state, deal.dispensary, '<div style="min-width:270px"><a target="_blank" href="' + deal.deal_url + '" style="width: 100%; height: 100%; display: inline-block" ><img src="'+ deal.image_url +'" alt="Logo" align="left" style="width: 80px; height: 80px"> <div class="p-wrapper" style="text-overflow:ellipsis; overflow:hidden; white-space:nowrap; max-width: 500px; display: inline-block; padding-left: 13px; vertical-align: top; padding-bottom: 8px; font-size: 20px">'+ deal.title +'</div><br><span style="text-transform: uppercase; padding-left: 13px; font-weight: 400;" >'+ deal.dispensary +'</span><br><div style="display: inline-block; padding-left: 10px; padding-top: 6px" class="demo mb-5"> <button class="like like-custom" disabled=""><i class="fa fa-thumbs-up"></i> Likes <span class="likes">'+ deal.likes +'</span> </button> <button class="dislike dislike-custom" disabled=""><i class="fa fa-thumbs-down"></i> Dislikes <span class="dislikes">'+ deal.dislikes +'</span> </button> </div> </a></div>');
           });
           /*
           createMarker({lat: -25.363, lng: 131.044}, 'Deal name 1', 'gogdeogo');
@@ -498,18 +525,24 @@
           createMarker({lat: -90.363, lng: 150.044}, 'Deal name 6', 'Karssdfamb');
           */
           document.getElementById("side_bar").innerHTML = side_bar_html;
+          $(".p-wrapper").dotdotdot({
+                //	configuration goes her
+                ellipsis    : '...',
+                wrap		: 'word',
+          });
       });
+
+
 
     }
 
     </script>
     <script  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAW0b9tbcJ6Sj4D31PLx5zfJ7WXItdOfsQ&callback=initMap" type="text/javascript"></script>
     <script src="{% static "main_app/vendors/jQuery.dotdotdot-master/src/jquery.dotdotdot.min.js" %}" ></script>
-    <script>
-        $(".p-wrapper").dotdotdot({
-        ellipsis    : '...',
-        });
-    </script>
+
+<script>
+
+</script>
 </body>
 
 </html>
