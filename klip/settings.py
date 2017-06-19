@@ -37,7 +37,7 @@ SECRET_KEY = 'i4s$i##ucjhgq244v3x739o+ti$espl-urrk48t_8k&@6tgk7='
 DEBUG = False
 
 ALLOWED_HOSTS = ['fujman.pythonanywhere.com', 'localhost']
-
+CSRF_TRUSTED_ORIGINS = ['fujman.pythonanywhere.com', 'localhost']
 # Application definition
 SESSION_COOKIE_SECURE=False
 
