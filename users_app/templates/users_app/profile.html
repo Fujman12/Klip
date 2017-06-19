@@ -265,10 +265,10 @@
                                   <td>Your email address </td>
                                   <td><a id="email-address" data-title="Email address"  data-url="{% url 'users_app:change_email' %}" data-placeholder="email address" data-pk="1" data-type="text" href="#" class="editable editable-click editable-empty">{{ user.email }}</a></td>
                               </tr>
-                              <tr>
+                              <!--tr>
                                   <td>Your password</td>
                                   <td><a id="password" data-title="Password" data-placeholder="password" data-pk="1" data-type="text" href="#" data-highlight="blue" class="editable editable-click"></a></td>
-                              </tr>
+                              </tr-->
                               <tr>
                                   <td>Street address</td>
                                   <td><a id="street-address" data-url="{% url 'users_app:change_street_address' %}" data-placeholder="street address" data-pk="1" data-type="text" href="#" class="editable editable-click">{% if user.profile.street_address %}{{ user.profile.street_address }}{%  endif %}</a></td>
