@@ -38,6 +38,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['fujman.pythonanywhere.com', 'localhost']
 CSRF_TRUSTED_ORIGINS = ['fujman.pythonanywhere.com', 'localhost']
+CSRF_COOKIE_SECURE = True
 # Application definition
 SESSION_COOKIE_SECURE=False
 
