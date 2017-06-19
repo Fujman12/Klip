@@ -20,13 +20,13 @@ class Deal(models.Model):
     dispensary = models.ForeignKey('Dispensary', on_delete=models.CASCADE, related_name='deals')
 
     def __str__(self):
-        return "{} - {} provided by {}".format(self.title, self.description, self.dispensary.name)
+        return "{} - by {}".format(self.title, self.dispensary.name)
 
 
 class Dispensary(models.Model):
     name = models.CharField(max_length=50, blank=False, null=False)
     city = models.CharField(max_length=30, blank=False, null=False)
-    state = models.CharField(max_length=30, blank=False, null=False)
+    state = models.CharField('State abbreviation',max_length=30, blank=False, null=False)
     description = models.TextField(blank=False, null=False)
     lat = models.FloatField()
     lng = models.FloatField()
@@ -35,7 +35,7 @@ class Dispensary(models.Model):
         verbose_name_plural = "dispensaries"
 
     def __str__(self):
-        return "{} - {}".format(self.name, self.description)
+        return "{} - {}, {}".format(self.name, self.city, self.state)
 
 
 class Review(models.Model):
@@ -44,3 +44,6 @@ class Review(models.Model):
     deal = models.ForeignKey('Deal', related_name='reviews')
 
     date_created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return "Review for '{}' by {}".format(self.deal.title, self.user.username)
