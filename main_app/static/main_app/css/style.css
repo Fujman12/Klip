@@ -2399,3 +2399,7 @@ div.tab button.active {
     border-top: none;
 }
 
+.table-responsive {
+  margin-top: 36.5px;
+}
+
