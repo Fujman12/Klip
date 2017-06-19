@@ -61,7 +61,7 @@ def about_us(request):
     return render(request, 'main_app/about_us.html', context)
 
 
-
+@csrf_exempt
 def deals_around(request):
     location = request.POST['location']
     g = geocoder.google(location)
