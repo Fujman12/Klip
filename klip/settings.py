@@ -108,27 +108,27 @@ WSGI_APPLICATION = 'klip.wsgi.application'
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'OPTIONS': {
-                    'sql_mode': 'traditional',
-                },
-        'NAME': 'mydb',
-        'USER': 'Fujman',
-        'PASSWORD': '1q2w3e',
-        'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
-        'PORT': '8889',
-    }
     #'default': {
     #    'ENGINE': 'django.db.backends.mysql',
-    #    'NAME': 'Fujman$mydb',
-    #    'USER': 'Fujman',
-    #    'PASSWORD': '1q2w3e4r5t',
-    #    'HOST': 'Fujman.mysql.pythonanywhere-services.com',   # Or an IP Address that your DB is hosted on
     #    'OPTIONS': {
-    #                        'sql_mode': 'traditional',
-    #                    }
+    #                'sql_mode': 'traditional',
+    #            },
+    #    'NAME': 'mydb',
+    #    'USER': 'Fujman',
+    #    'PASSWORD': '1q2w3e',
+    #    'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
+    #    'PORT': '8889',
     #}
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'Fujman$mydb',
+        'USER': 'Fujman',
+        'PASSWORD': '1q2w3e4r5t',
+        'HOST': 'Fujman.mysql.pythonanywhere-services.com',   # Or an IP Address that your DB is hosted on
+        'OPTIONS': {
+                            'sql_mode': 'traditional',
+                        }
+    }
 }
 
 # Password validation
