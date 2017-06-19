@@ -43,6 +43,17 @@
     <!-- ––––––––––––––––––––––––––––––––––––––––– -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600"  rel="stylesheet">
 
+    <style>
+        @font-face {
+    font-family: "georgina";
+    src: url("{% static 'main_app/fonts/GeorginaDemo-Regular.eot' %}");
+    src: url("{% static 'main_app/fonts/GeorginaDemo-Regular.eot?#iefix' %}") format("embedded-opentype"),
+         url("{% static 'main_app/fonts/GeorginaDemo-Regular.wof' %}") format("woff"),
+         url("{% static 'main_app/fonts/GeorginaDemo-Regular.ttf'  %}") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+    }
+    </style>
     <!-- ––––––––––––––––––––––––––––––––––––––––– -->
     <!-- Include CSS Filess                        -->
     <!-- ––––––––––––––––––––––––––––––––––––––––– -->
@@ -107,9 +118,9 @@
 
              <!-- Top Bar -->
              <div class="top-bar bg-blue">
-                <div class="container">
+                <div class="container-fluid">
                     <div class="row">
-                        <div class="col-sm-12 col-md-4 is-hidden-sm-down">
+                        <div class="col-sm-12 col-md-offset-1 col-md-3 is-hidden-sm-down">
                             <ul class="nav-top nav-top-left list-inline t-left">
                                 <li><a href="{% url 'about_us' %}"><i class="fa fa-question-circle"></i>About</a>
                                 </li>
@@ -117,7 +128,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="col-sm-12 col-md-8">
+                        <div class="col-sm-12 col-md-7">
                             <ul class="nav-top nav-top-right list-inline t-xs-center t-md-right">
                                 {% if user.is_authenticated %}
                                 <li>
@@ -154,7 +165,7 @@
                     <div class="row row-rl-0 row-tb-20 row-md-cell">
                         <div class="brand col-md-3 t-xs-center t-md-left valign-middle">
                             <a href="{% url 'index' %}" class="logo">
-                                <img src="{% static "main_app/images/logo.png" %}" alt="" width="250">
+                                <span>Klip</span>
                             </a>
                         </div>
                         <div class="header-search col-md-9">
@@ -231,8 +242,7 @@
                     <div class="col-sm-12 col-md-7">
                         <div class="row row-tb-20">
                             <div class="footer-col col-sm-6">
-                                <div class="footer-about">
-                                    <img class="mb-40" src="{% static "main_app/images/logo_light.png" %}" width="250" alt="">
+                                <div class="footer-about">                                        <span>Klip</span>
                                     <p class="color-light">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam dolores quidem mollitia id ipsa nisi necessitatibus iure repudiandae aperiam, odit ipsam dolor fugiat corporis nesciunt illo nemo minus.</p>
                                 </div>
                             </div>
@@ -329,7 +339,7 @@
         <footer id="mainFooter" class="main-footer">
             <div class="container">
                 <div class="row">
-                    <p>Copyright &copy; 2016 . All rights reserved.</p>
+                    <p>Copyright &copy; 2017 . All rights reserved.</p>
                 </div>
             </div>
         </footer>

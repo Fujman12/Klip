@@ -45,6 +45,17 @@
     <!-- ––––––––––––––––––––––––––––––––––––––––– -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600" rel="stylesheet">
 
+    <style>
+        @font-face {
+    font-family: "georgina";
+    src: url("{% static 'main_app/fonts/GeorginaDemo-Regular.eot' %}");
+    src: url("{% static 'main_app/fonts/GeorginaDemo-Regular.eot?#iefix' %}") format("embedded-opentype"),
+         url("{% static 'main_app/fonts/GeorginaDemo-Regular.wof' %}") format("woff"),
+         url("{% static 'main_app/fonts/GeorginaDemo-Regular.ttf'  %}") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+    }
+    </style>
     <!-- ––––––––––––––––––––––––––––––––––––––––– -->
     <!-- Include CSS Filess                        -->
     <!-- ––––––––––––––––––––––––––––––––––––––––– -->
@@ -115,7 +126,7 @@
 
              <!-- Top Bar -->
              <div class="top-bar bg-blue">
-                <div class="container">
+                <div class="container-fluid">
                     <div class="row">
                         <div class="col-sm-12 col-md-4 is-hidden-sm-down">
                             <ul class="nav-top nav-top-left list-inline t-left">
@@ -162,7 +173,7 @@
                     <div class="row row-rl-0 row-tb-20 row-md-cell">
                         <div class="brand col-md-3 t-xs-center t-md-left valign-middle">
                             <a href="{% url 'index' %}" class="logo">
-                                <img src="{% static "main_app/images/logo.png" %}" alt="" width="250">
+                                <span>Klip</span>
                             </a>
                         </div>
                         <div class="header-search col-md-9">
@@ -223,7 +234,7 @@
                         <input type="file" accept="image/jpeg,image/png" class="custom-file-input mt-40"-->
                         <div class="fileinput fileinput-new" data-provides="fileinput">
                           <div class="fileinput-new thumbnail" style="max-width: 300px; max-height: 225px;">
-                            <img src="{%  get_media_prefix %}{{ user.profile.avatar }}" alt="avatar" style="max-height: 225px">
+                            <img src="{% if user.profile.avatar %}{{ user.profile.avatar.url }}{% else %} {% static 'main_app/images/avatars/avatar_01.jpg' %} {% endif %}" alt="avatar" style="max-height: 225px">
                           </div>
                           <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 300px; max-height: 225px;">
 
@@ -805,7 +816,7 @@
                             <div class="row row-tb-20">
                                 <div class="footer-col col-sm-6">
                                     <div class="footer-about">
-                                        <img src="{% static "main_app/images/logo_light.png" %}" alt="" width="250" style="height: 90px">
+                                     <span>Klip</span>
                                         <p class="color-light">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam dolores quidem mollitia id ipsa nisi necessitatibus iure repudiandae aperiam, odit ipsam dolor fugiat corporis nesciunt illo nemo minus.</p>
                                     </div>
                                 </div>
