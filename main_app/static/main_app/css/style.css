@@ -2292,7 +2292,7 @@ h6 + .demo button {
 }
 .map_sidebar{
   height: 100%;
-  width: 412px;
+  min-width: 412px;
   position: absolute;
   z-index: 2;
   overflow: auto;
@@ -2318,8 +2318,12 @@ h6 + .demo button {
   display: inline-block;
   vertical-align: top;
   padding-left: 12px;
-  padding-top: 11px;
+  padding-right: 12px;
+  padding-top: 8px;
   min-width: 266px
+}
+.map_sidebar #side_bar div{
+  margin-bottom: 6px;
 }
 .map_sidebar #side_bar .map_sidebar_content1 li {
   color: #fff;

@@ -118,9 +118,9 @@
 
              <!-- Top Bar -->
              <div class="top-bar bg-blue">
-                <div class="container">
+                <div class="container-fluid">
                     <div class="row">
-                        <div class="col-sm-12 col-md-4 is-hidden-sm-down">
+                        <div class="col-sm-12 col-md-offset-1 col-md-3 is-hidden-sm-down">
                             <ul class="nav-top nav-top-left list-inline t-left">
                                 <li><a href="{% url 'about_us' %}"><i class="fa fa-question-circle"></i>About</a>
                                 </li>
@@ -128,7 +128,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="col-sm-12 col-md-8">
+                        <div class="col-sm-12 col-md-7">
                             <ul class="nav-top nav-top-right list-inline t-xs-center t-md-right">
                                 {% if user.is_authenticated %}
                                 <li>
@@ -171,7 +171,7 @@
                         <div class="header-search col-md-9">
                             <div class="row row-tb-10 ">
                                 <div class="col-sm-8">
-                                                                        <form class="search-form" action="{% url 'map_view' %}" method="post" >
+                                    <form class="search-form" action="{% url 'map_view' %}" method="post" >
                                         {%  csrf_token %}
                                         <div class="input-group">
                                             {% render_field form.location class="form-control input-lg search-input" style="background-color: rgba(255,255,255, 0.9)" placeholder="Enter location ..." required="required " %}
@@ -335,7 +335,7 @@
                                         <div class="review-single pt-30">
                                             <div class="media">
                                                 <div class="media-left">
-                                                    <img class="media-object mr-10 radius-4" src="{{ review.user.profile.avatar.url }}" width="90" alt="">
+                                                    <img class="media-object mr-10 radius-4" src="{{ review.user.profile.avatar.url }}" width="100" height="100" alt="">
                                                 </div>
                                                 <div class="media-body">
                                                     <div class="review-wrapper clearfix">

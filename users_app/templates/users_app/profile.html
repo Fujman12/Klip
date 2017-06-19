@@ -128,7 +128,7 @@
              <div class="top-bar bg-blue">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-sm-12 col-md-4 is-hidden-sm-down">
+                        <div class="col-sm-12 col-md-offset-1 col-md-3 is-hidden-sm-down">
                             <ul class="nav-top nav-top-left list-inline t-left">
                                 <li><a href="{% url 'about_us' %}"><i class="fa fa-question-circle"></i>About</a>
                                 </li>
@@ -136,7 +136,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="col-sm-12 col-md-8">
+                        <div class="col-sm-12 col-md-7">
                             <ul class="nav-top nav-top-right list-inline t-xs-center t-md-right">
                                 {% if user.is_authenticated %}
                                 <li>
