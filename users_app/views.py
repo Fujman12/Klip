@@ -3,6 +3,7 @@ from .forms import *
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render_to_response, render
 from django.http import HttpResponseRedirect, JsonResponse
 from django.template import RequestContext
@@ -142,6 +143,7 @@ def change_phone_number(request):
     return JsonResponse({'value': 'OK'})
 
 
+@csrf_exempt
 def upload_image(request):
     user = request.user
     user.profile.avatar = request.FILES['file']
