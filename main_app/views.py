@@ -7,6 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from .models import Deal, Dispensary, Review
 from .forms import SearchForm, ReviewForm
 from django.contrib.staticfiles.templatetags.staticfiles import static
+from django.template import RequestContext
 
 import geocoder
 # Create your views here.
