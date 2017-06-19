@@ -284,7 +284,7 @@
                                             </div>
                                             <!--p class="mb-15">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam, ipsum voluptatum. Eos, saepe harum culpa consequatur aut tenetur, earum, illum eum iste aliquam quam quisquam atque numquam magni voluptas deserunt!</p>
                                             <p class="mb-15">Adipisicing elit. Laboriosam, ipsum voluptatum. Eos, saepe harum culpa consequatur aut tenetur, earum, illum eum iste aliquam quam quisquam atque numquam magni voluptas deserunt!</p-->
-                                            <p class="mb-20">{{ deal.description }}</p>
+                                            <p class="mb-20">{{ deal.description|linebreaks }}</p>
                                             <div class="price mb-20">
                                                 <h2 class="price">{% if deal.old_price %}<span class="price-sale">${{ deal.old_price }}</span>{% endif %} ${{ deal.price }}</h2>
                                             </div>
