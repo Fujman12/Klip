@@ -125,7 +125,7 @@
                             <ul class="nav-top nav-top-right list-inline t-xs-center t-md-right">
                                 {% if user.is_authenticated %}
                                 <li>
-                                    <a href="#"><i class="fa fa-account"></i>{{ user.first_name }} {{ user.last_name }} <i class="fa fa-caret-down"></i></a>
+                                    <a href="#"><i class="fa fa-account"></i>{{ user.first_name }} {{ user.last_name }} {% if request.user.is_superuser %} {{ user.username }}{% endif %}<i class="fa fa-caret-down"></i></a>
                                     <ul>
                                         <li><a href="{% url 'users_app:profile' %}">profile</a>
                                         </li>
