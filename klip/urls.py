@@ -44,9 +44,9 @@ urlpatterns = [
 handler404 = e_handler404
 handler500 = e_handler500
 
-if settings.DEBUG:
-    urlpatterns += [
-        url(r'^media/(?P<path>.*)$', serve, {
-            'document_root': settings.MEDIA_ROOT,
-        }),
-    ]
+#if settings.DEBUG:
+urlpatterns += [
+    url(r'^media/(?P<path>.*)$', serve, {
+        'document_root': settings.MEDIA_ROOT,
+    }),
+]
