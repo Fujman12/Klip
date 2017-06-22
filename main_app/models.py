@@ -6,8 +6,17 @@ import django
 
 
 class Deal(models.Model):
+    CATEGORY_CHOICES = (
+        ('in', 'Indica'),
+        ('sa', 'Sativa'),
+        ('hy', 'Hybrid'),
+        ('cbd', 'CBD'),
+        ('co', 'Concentrates'),
+        ('ed', 'Edibles')
+    )
     title = models.CharField(max_length=150, blank=False, null=False)
     description = models.TextField(blank=False, null=False)
+    category = models.CharField(max_length=3, choices=CATEGORY_CHOICES, default='in')
     price = models.DecimalField(blank=False, null=False, max_digits=10, decimal_places=2)
     old_price = models.DecimalField(blank=True, null=True, max_digits=10, decimal_places=2)
     likes = models.IntegerField(blank=False, null=False, default=0)

@@ -46,7 +46,7 @@
     font-family: "georgina";
     src: url("{% static 'main_app/fonts/GeorginaDemo-Regular.eot' %}");
     src: url("{% static 'main_app/fonts/GeorginaDemo-Regular.eot?#iefix' %}") format("embedded-opentype"),
-         url("{% static 'main_app/fonts/GeorginaDemo-Regular.wof' %}") format("woff"),
+         url("{% static 'main_app/fonts/GeorginaDemo-Regular.woff' %}") format("woff"),
          url("{% static 'main_app/fonts/GeorginaDemo-Regular.ttf'  %}") format("truetype");
     font-weight: normal;
     font-style: normal;
@@ -70,6 +70,7 @@
     <!-- Template Stylesheet -->
     <link href="{% static 'main_app/css/base.css' %}" rel="stylesheet">
     <link href="{% static 'main_app/css/style.css' %}" rel="stylesheet">
+
 
 </head>
 
@@ -167,7 +168,7 @@
                                     <form class="search-form" action="{% url 'map_view' %}" method="post" >
                                         {%  csrf_token %}
                                         <div class="input-group">
-                                            {% render_field form.location class="form-control input-lg search-input" style="background-color: rgba(255,255,255, 0.9)" placeholder="Enter location ..." required="required " %}
+                                            {% render_field form.location class="form-control input-lg search-input" id="searchTextField" style="background-color: rgba(255,255,255, 0.9)" placeholder="Enter location ..." required="required " %}
                                             <!--input type="text" class="form-control input-lg search-input" style="background-color: rgba(255,255,255, 0.9)" placeholder="Enter location ..." required="required"-->
                                             <div class="input-group-btn" style="background-color: rgba(255,255,255, 0.9)">
                                                 <div class="input-group">
@@ -403,6 +404,16 @@
 <!-- Custom Template JavaScript                   -->
 <!-- ––––––––––––––––––––––––––––––––––––––––– -->
 <script type="text/javascript" src="{% static 'main_app/js/main.js' %}"></script>
+<script>
+    function initialize() {
+
+    var input = document.getElementById('searchTextField');
+    var autocomplete = new google.maps.places.Autocomplete(input);
+    }
+
+    //google.maps.event.addDomListener(window, 'load', initialize);
+</script>
+<script  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAW0b9tbcJ6Sj4D31PLx5zfJ7WXItdOfsQ&libraries=places&callback=initialize" type="text/javascript"></script>
 
 </body>
 

@@ -50,7 +50,7 @@
     font-family: "georgina";
     src: url("{% static 'main_app/fonts/GeorginaDemo-Regular.eot' %}");
     src: url("{% static 'main_app/fonts/GeorginaDemo-Regular.eot?#iefix' %}") format("embedded-opentype"),
-         url("{% static 'main_app/fonts/GeorginaDemo-Regular.wof' %}") format("woff"),
+         url("{% static 'main_app/fonts/GeorginaDemo-Regular.woff' %}") format("woff"),
          url("{% static 'main_app/fonts/GeorginaDemo-Regular.ttf'  %}") format("truetype");
     font-weight: normal;
     font-style: normal;
@@ -86,6 +86,8 @@
 
     <link rel="stylesheet" type="text/css" href="{% static "main_app/vendors/x-editable/bootstrap3-editable/css/bootstrap-editable.css" %}"/>
     <link rel="stylesheet" type="text/css" href="{% static "main_app/css/jasny-bootstrap.min.css" %}"/>
+
+
 </head>
 
 <body id="body" class="wide-layout preloader-active">
@@ -182,7 +184,7 @@
                                     <form class="search-form" action="{% url 'map_view' %}" method="post" >
                                         {%  csrf_token %}
                                         <div class="input-group">
-                                            {% render_field form.location class="form-control input-lg search-input" style="background-color: rgba(255,255,255, 0.9)" placeholder="Enter location ..." required="required " %}
+                                            {% render_field form.location class="form-control input-lg search-input" id="searchTextField" style="background-color: rgba(255,255,255, 0.9)" placeholder="Enter location ..." required="required " %}
                                             <!--input type="text" class="form-control input-lg search-input" style="background-color: rgba(255,255,255, 0.9)" placeholder="Enter location ..." required="required"-->
                                             <div class="input-group-btn" style="background-color: rgba(255,255,255, 0.9)">
                                                 <div class="input-group">
@@ -269,7 +271,7 @@
                                   <td>Your password</td>
                                   <td><a id="password" data-title="Password" data-placeholder="password" data-pk="1" data-type="text" href="#" data-highlight="blue" class="editable editable-click"></a></td>
                               </tr-->
-                              <tr>
+                              <!--tr>
                                   <td>Street address</td>
                                   <td><a id="street-address" data-url="{% url 'users_app:change_street_address' %}" data-placeholder="street address" data-pk="1" data-type="text" href="#" class="editable editable-click">{% if user.profile.street_address %}{{ user.profile.street_address }}{%  endif %}</a></td>
                               </tr>
@@ -288,7 +290,7 @@
                               <tr>
                                   <td>Zip code</td>
                                   <td><a id="zip-code" data-url="{% url 'users_app:change_zipcode' %}" data-placeholder="zip-code" data-pk="1" data-type="text" href="#" class="editable editable-click">{% if user.profile.zipcode %}{{ user.profile.zipcode }}{% endif %}</a></td>
-                              </tr>
+                              </tr-->
                               <tr>
                                   <td>Phone number</td>
                                   <td><a id="phone-number" data-url="{% url 'users_app:change_phone_number' %}" data-placeholder="phone-number" data-pk="1" data-type="text" href="#" class="editable editable-empty">{% if user.profile.phone_number %}{{ user.profile.phone_number }}{% endif %}</a></td>
@@ -1035,6 +1037,18 @@
 
         });
     </script>
+
+    <script>
+        function initialize() {
+
+        var input = document.getElementById('searchTextField');
+        var autocomplete = new google.maps.places.Autocomplete(input);
+        }
+
+        //google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBSAyxn_ECVYJJXf-hJAeSaYe2pOxHquEQ&libraries=places&callback=initialize"  defer></script>
+
 </body>
 
 </html>
