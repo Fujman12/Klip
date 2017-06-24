@@ -92,7 +92,7 @@ def map_view(request):
 
         location = 'New York'
 
-    center = geocoder.google(location)
+    center = geocoder.mapbox(location, key= 'pk.eyJ1IjoiZnVqbWFuIiwiYSI6ImNqNGJoMmk3bDAwOXczMm5ocnBmODNrbjMifQ.AgmmqD2aeGOcUKdK1YP1UA')
     context['location'] = location
     context['center'] = center
 
