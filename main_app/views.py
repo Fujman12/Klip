@@ -92,7 +92,7 @@ def map_view(request):
 
         location = 'New York'
 
-    center = geocoder.google(location)
+    center = geocoder.geocodefarm(location)
     context['location'] = location
     context['center'] = center
 
