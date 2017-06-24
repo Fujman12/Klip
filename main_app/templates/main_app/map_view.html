@@ -498,7 +498,7 @@
 
     function initMap() {
 
-      var center = {lat: 37.001, lng: 122.01 };
+      var center = {lat: {{ center.lat }}, lng: {{ center.lng }} };
       console.log(deals);
       map = new google.maps.Map(document.getElementById('map'), {
         zoom: 10,
