@@ -5,9 +5,10 @@ from django.http import JsonResponse, HttpResponse
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from .models import Deal, Dispensary, Review
-from .forms import SearchForm, ReviewForm
+from .forms import SearchForm, ReviewForm, CreateDealForm
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.template import RequestContext
+from .decorators import is_dispensary
 
 import geocoder
 # Create your views here.
@@ -68,15 +69,16 @@ def deals_around(request):
     g = geocoder.google(location)
 
     deals = []
-    for dispensary in Dispensary.objects.raw("SELECT id, ( 3959 * acos( cos( radians({}) ) * cos( radians( lat ) ) * cos( radians( lng ) - radians({}) ) + sin( radians({}) ) * sin( radians( lat ) ) ) ) "
-                                             "AS distance FROM main_app_dispensary GROUP BY id HAVING distance < 25 ORDER BY distance LIMIT 0 , 20;".format(g.lat, g.lng, g.lat)):
+    for dispensary in Dispensary.objects.raw("SELECT main_app_dispensary.id, ( 3959 * acos( cos( radians({}) ) * cos( radians( lat ) ) * cos( radians( lng ) - radians({}) ) + sin( radians({}) ) * sin( radians( lat ) ) ) ) "
+                                             "AS distance FROM main_app_dispensary JOIN main_app_location ON main_app_dispensary.location_id=main_app_location.id GROUP BY id HAVING distance < 25 ORDER BY distance LIMIT 0 , 20;".format(g.lat, g.lng, g.lat)):
+        print(dispensary)
         for deal in dispensary.deals.all():
             deals.append({'title': deal.title, 'description': deal.description, 'price': deal.price,
-                          'expires': deal.date_expires, 'lat': deal.dispensary.lat, 'lng': deal.dispensary.lng,
+                          'expires': deal.date_expires, 'lat': deal.dispensary.location.lat, 'lng': deal.dispensary.location.lng,
                           'deal_url': reverse('deal', args=[deal.pk]), 'image_url': static('main_app/images/deals/thumb_02.jpg'),
                           'dispensary': deal.dispensary.name, 'likes': deal.likes, 'dislikes': deal.dislikes,
-                          'dispensary_city': deal.dispensary.city, 'dispensary_state': deal.dispensary.state})
-
+                          'dispensary_city': deal.dispensary.location.city, 'dispensary_state': deal.dispensary.location.state})
+    print(deals)
     return JsonResponse({'deals': deals})
 
 
@@ -112,10 +114,10 @@ def deal(request, pk):
 
     context = dict()
     context['deal'] = _deal
-    formated_date = _deal.date_expires.strftime('%Y/%m/%d')
+    formatted_date = _deal.date_expires.strftime('%Y/%m/%d')
     context['review_form'] = review_form
     context['form'] = form
-    context['expires'] = formated_date
+    context['expires'] = formatted_date
 
     return render(request, 'main_app/deal.html', context)
 
@@ -157,4 +159,16 @@ def post_review(request, pk):
             context['form_is_valid'] = False
 
     return JsonResponse(context)
+
+
+@is_dispensary
+def test(request):
+    return JsonResponse({'status': True})
+
+
+@is_dispensary
+def create_deal(request):
+    if request.method == 'POST':
+        form = CreateDealForm(request.POST)
+        pass
 

@@ -1,6 +1,7 @@
 from django import forms
 from .models import Review
 
+
 class SearchForm(forms.Form):
     location = forms.CharField(max_length=55)
 
@@ -12,4 +13,8 @@ class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
         fields = ['text',]
+
+
+class CreateDealForm(forms.Form):
+    title = forms.CharField(max_length=55)
 

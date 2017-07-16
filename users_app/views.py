@@ -7,8 +7,9 @@ from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render_to_response, render
 from django.http import HttpResponseRedirect, JsonResponse
 from django.template import RequestContext
-
+from main_app.models import Dispensary, Location
 from main_app.forms import SearchForm
+from users_app.models import Profile
 
 
 def register(request):
@@ -17,12 +18,14 @@ def register(request):
         form = RegistrationForm(request.POST)
         if form.is_valid():
             user = User.objects.create_user(
-                username=form.cleaned_data['email'],
+                username=form.cleaned_data['first_name'],
                 password=form.cleaned_data['password1'],
                 email=form.cleaned_data['email'],
                 first_name=form.cleaned_data['first_name'],
                 last_name=form.cleaned_data['last_name']
             )
+            user.profile.user_type = 0
+            user.save()
             return HttpResponseRedirect('/register/success/')
     else:
         form = RegistrationForm()
@@ -38,6 +41,41 @@ def register_success(request):
     return render_to_response(
         'registration/success.html',
     )
+
+
+def register_dispensary(request):
+    search_form = SearchForm()
+    if request.method == 'POST':
+        form = DispensaryRegistrationForm(request.POST)
+        if form.is_valid():
+            user = User.objects.create_user(
+                username=form.cleaned_data['first_name'],
+                password=form.cleaned_data['password1'],
+                email=form.cleaned_data['business_email'],
+                first_name=form.cleaned_data['first_name'],
+                last_name=form.cleaned_data['last_name']
+            )
+            user.profile.user_type = 1
+
+            user.save()
+            location = Location(city=form.cleaned_data['city'], state=form.cleaned_data['state'], street_address=form.cleaned_data['street_address'])
+            location.save()
+            dispensary = Dispensary(location=location, name=form.cleaned_data['dispensary_name'], description='blabla')
+            dispensary.save()
+            user.profile.dispensary = dispensary
+            user.save()
+            return HttpResponseRedirect('/register/success/')
+        else:
+            print('shit')
+    else:
+        form = DispensaryRegistrationForm()
+
+    variables = {
+        'form': form,
+        'search_form': search_form
+    }
+
+    return render(request, 'users_app/signup-dispensary.html', variables)
 
 
 def logout_page(request):
@@ -57,10 +95,12 @@ def profile(request):
 
     form = SearchForm()
     user = request.user
-    print(user.social_auth)
 
     data = {'user': user, 'form': form}
-    return render(request, 'users_app/profile.html', data)
+    if user.profile.user_type == Profile.PATIENT or user.profile.user_type is None:
+        return render(request, 'users_app/profile.html', data)
+    else:
+        return JsonResponse({'status': 'not yet'})
 
 
 def change_email(request):

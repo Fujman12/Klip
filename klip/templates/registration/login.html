@@ -172,11 +172,10 @@
                         <div class="header-search col-md-9">
                             <div class="row row-tb-10 ">
                                 <div class="col-sm-8">
-                                    <form class="search-form" action="{% url 'map_view' %}" method="post" >
+                                    <form class="search-form" action="#" >
                                         {%  csrf_token %}
                                         <div class="input-group">
-                                            {% render_field form.location class="form-control input-lg search-input" id="searchTextField" style="background-color: rgba(255,255,255, 0.9)" placeholder="Enter location ..." required="required " %}
-                                            <!--input type="text" class="form-control input-lg search-input" style="background-color: rgba(255,255,255, 0.9)" placeholder="Enter location ..." required="required"-->
+                                            <input type="text" class="form-control input-lg search-input" style="background-color: rgba(255,255,255, 0.9)" placeholder="Enter location ..." required="required">
                                             <div class="input-group-btn" style="background-color: rgba(255,255,255, 0.9)">
                                                 <div class="input-group">
                                                     <select class="form-control input-lg search-select">

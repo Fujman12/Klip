@@ -5,10 +5,8 @@
 <!--[if (gt IE 10)|!(IE)]><!-->
 <html lang="zxx" dir="ltr" class="no-js">
 <!--<![endif]-->
-
 {% load static %}
 {% load widget_tweaks %}
-
 <head>
 
     <!-- ––––––––––––––––––––––––––––––––––––––––– -->
@@ -24,7 +22,7 @@
     <!-- ––––––––––––––––––––––––––––––––––––––––– -->
     <!-- PAGE TITLE                                -->
     <!-- ––––––––––––––––––––––––––––––––––––––––– -->
-    <title>Klip | Coupons, Deals, Discounts </title>
+    <title>FRIDAY | Coupons, Deals, Discounts and Promo codes Template</title>
 
     <!-- ––––––––––––––––––––––––––––––––––––––––– -->
     <!-- SEO METAS                                 -->
@@ -44,18 +42,6 @@
     <!-- GOOGLE FONTS                              -->
     <!-- ––––––––––––––––––––––––––––––––––––––––– -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600" rel="stylesheet">
-
-    <style>
-        @font-face {
-    font-family: "georgina";
-    src: url("{% static 'main_app/fonts/GeorginaDemo-Regular.eot' %}");
-    src: url("{% static 'main_app/fonts/GeorginaDemo-Regular.eot?#iefix' %}") format("embedded-opentype"),
-         url("{% static 'main_app/fonts/GeorginaDemo-Regular.wof' %}") format("woff"),
-         url("{% static 'main_app/fonts/GeorginaDemo-Regular.ttf'  %}") format("truetype");
-    font-weight: normal;
-    font-style: normal;
-    }
-    </style>
 
     <!-- ––––––––––––––––––––––––––––––––––––––––– -->
     <!-- Include CSS Filess                        -->
@@ -80,6 +66,7 @@
     <!-- Template Stylesheet -->
     <link href="{% static "main_app/css/base.css" %}" rel="stylesheet">
     <link href="{% static "main_app/css/style.css" %}" rel="stylesheet">
+
 </head>
 
 <body id="body" class="wide-layout preloader-active">
@@ -124,19 +111,18 @@
                     <div class="row">
                         <div class="col-sm-12 col-md-4 is-hidden-sm-down">
                             <ul class="nav-top nav-top-left list-inline t-left">
-                                <li><a href="{% url 'about_us' %}"><i class="fa fa-question-circle"></i>About</a>
+                                <li><a href="about_us.html"><i class="fa fa-question-circle"></i>About</a>
                                 </li>
-                                <li><a href="{% url 'contact_us' %}"><i class="fa fa-support"></i>Contact Us</a>
+                                <li><a href="contact_us_01.html"><i class="fa fa-support"></i>Contact Us</a>
                                 </li>
                             </ul>
                         </div>
                         <div class="col-sm-12 col-md-8">
                             <ul class="nav-top nav-top-right list-inline t-xs-center t-md-right">
-                                {% if user.is_authenticated %}
-                                <li>
-                                    <a href="#"><i class="fa fa-account"></i>{{ user.first_name }} {{ user.last_name }} <i class="fa fa-caret-down"></i></a>
+                                <li class="hidden">
+                                    <a href="#"><i class="fa fa-account"></i>Armen <i class="fa fa-caret-down"></i></a>
                                     <ul>
-                                        <li><a href="{% url 'users_app:profile' %}">profile</a>
+                                        <li><a href="#">profile</a>
                                         </li>
                                         <li><a href="#">setings</a>
                                         </li>
@@ -144,16 +130,12 @@
                                         </li>
                                         <li><a href="#">wallet</a>
                                         </li>
-                                        <li><a href="{% url 'logout' %}">Sign Out</a>
-                                        </li>
                                     </ul>
                                 </li>
-                                {% else %}
                                 <li><a href="{% url 'login' %}"><i class="fa fa-lock"></i>Sign In</a>
                                 </li>
                                 <li><a href="{% url 'register' %}"><i class="fa fa-user"></i>Sign Up</a>
                                 </li>
-                                {% endif %}
                             </ul>
                         </div>
                     </div>
@@ -166,19 +148,17 @@
                 <div class="container">
                     <div class="row row-rl-0 row-tb-20 row-md-cell">
                         <div class="brand col-md-3 t-xs-center t-md-left valign-middle">
-                            <a href="{% url 'index' %}" class="logo">
-                                <span>Klip</span>
+                            <a href="#" class="logo">
+                                <img src="{% static "main_app/images/logo.png" %}" alt="" width="250">
                             </a>
                         </div>
                         <div class="header-search col-md-9">
                             <div class="row row-tb-10 ">
                                 <div class="col-sm-8">
-                                    <form class="search-form" action="{% url 'map_view' %}" method="post" >
-                                        {%  csrf_token %}
+                                    <form class="search-form">
                                         <div class="input-group">
-                                            {% render_field search_form.location class="form-control input-lg search-input" id="searchTextField" style="background-color: rgba(255,255,255, 0.9)" placeholder="Enter location ..." required="required " %}
-                                            <!--input type="text" class="form-control input-lg search-input" style="background-color: rgba(255,255,255, 0.9)" placeholder="Enter location ..." required="required"-->
-                                            <div class="input-group-btn" style="background-color: rgba(255,255,255, 0.9)">
+                                            <input type="text" class="form-control input-lg search-input" placeholder="Enter location ..." required="required">
+                                            <div class="input-group-btn">
                                                 <div class="input-group">
                                                     <select class="form-control input-lg search-select">
                                                         <option>Select Type</option>
@@ -190,7 +170,7 @@
                                                         <option>Edibles</option>
                                                     </select>
                                                     <div class="input-group-btn">
-                                                        <button type="submit" class="btn btn-lg btn-search btn-block" style="margin-left: 0;">
+                                                        <button type="submit" class="btn btn-lg btn-search btn-block">
                                                             <i class="fa fa-search font-16"></i>
                                                         </button>
                                                     </div>
@@ -223,11 +203,10 @@
             <div class="page-container ptb-60">
                 <div class="container">
                     <section class="sign-area panel p-40">
-                        <h3 class="sign-title">Sign Up <small>Or <a href="{% url 'login' %}" class="color-green">Sign In</a></small></h3>
+                        <h3 class="sign-title t-center">Sign Up <small>Or <a href="signin.html" class="color-green">Sign In</a></small></h3>
                         <div class="row row-rl-0">
-                            <div class="col-sm-6 col-md-7 col-left">
-                                <form class="p-40" action="." method="post">
-                                    {% csrf_token %}
+                            <form class="p-xs-40" action="{% url 'register_dispensary' %}" method="post">
+                                {% csrf_token %}
                                     {% if form.errors %}
                                         {% for field in form %}
                                             {% for error in field.errors %}
@@ -242,59 +221,73 @@
                                             </div>
                                         {% endfor %}
                                     {% endif %}
-                                    <div class="form-group">
-                                        <label class="sr-only">First Name</label>
-                                        <!--input type="text" class="form-control input-lg" placeholder="Full Name"-->
-                                        {% render_field form.first_name  class="form-control input-lg" placeholder="First Name" %}
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="sr-only">Last Name</label>
-                                        <!--input type="text" class="form-control input-lg" placeholder="Full Name"-->
-                                        {% render_field form.last_name  class="form-control input-lg" placeholder="Last Name" %}
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="sr-only">Email</label>
-                                        <!--input type="password" class="form-control input-lg" placeholder="Email"-->
-                                        {% render_field form.email  class="form-control input-lg" placeholder="E-mail" type="text" %}
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="sr-only">Password</label>
-                                        <!--input type="password" class="form-control input-lg" placeholder="Password"-->
-                                        {% render_field form.password1  class="form-control input-lg" placeholder="Password" %}
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="sr-only">Confirm Password</label>
-                                        <!--input type="password" class="form-control input-lg" placeholder="Confirm Password"-->
-                                        {% render_field form.password2  class="form-control input-lg" placeholder="Confirm Password" %}
-                                    </div>
-                                    <div class="custom-checkbox mb-20">
-                                        <input type="checkbox" id="agree_terms">
-                                        <label class="color-mid" for="agree_terms">I agree to the <a href="terms_conditions.html" class="color-green">Terms of Use</a> and <a href="terms_conditions.html" class="color-green">Privacy Statement</a>.</label>
-                                    </div>
-                                    <button type="submit" class="btn btn-block btn-lg">Sign Up</button>
-                                </form>
-                                <span class="or">Or</span>
-                            </div>
-                            <div class="col-sm-6 col-md-5 col-right">
-                                <div class="social-login p-40">
-                                    <div class="mb-20">
-                                        <form action="{% url 'social:begin' 'facebook' %}"><button class="btn btn-lg btn-block btn-social btn-facebook"><i class="fa fa-facebook-square"></i>Sign In with Facebook</button></form>
-                                    </div>
-                                    <div class="mb-20">
-                                        <form action="{% url 'social:begin' 'twitter' %}"><button class="btn btn-lg btn-block btn-social btn-twitter"><i class="fa fa-twitter"></i>Sign In with Twitter</button></form>
-                                    </div>
-                                    <div class="mb-20">
-                                        <form action="{% url 'social:begin' 'google-oauth2' %}"><button class="btn btn-lg btn-block btn-social btn-google-plus"><i class="fa fa-google-plus"></i>Sign In with Google</button></form>
-                                    </div>
-                                    <div class="custom-checkbox mb-20">
-                                        <input type="checkbox" id="remember_social" checked>
-                                        <label class="color-mid" for="remember_social">Keep me signed in on this computer.</label>
-                                    </div>
-                                    <div class="text-center color-mid">
-                                        Already have an Account ? <a href="{% url 'login' %}" class="color-green">Login</a>
-                                    </div>
+                            <div class="col-xs-12 col-sm-offset-2 col-sm-8 col-sm-offset-0 col-md-offset-1 col-md-6">
+                                <div class="form-group">
+                                    <label class="sr-only">Dispensary Name</label>
+                                    <!--input type="text" class="form-control input-lg" placeholder="Dispensary Name"-->
+                                    {% render_field form.dispensary_name class="form-control input-lg" placeholder="Dispensary Name" %}
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only">First Name</label>
+                                    <!--input type="text" class="form-control input-lg" placeholder="First Name"-->
+                                    {% render_field form.first_name class="form-control input-lg" placeholder="First Name" %}
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only">Last Name</label>
+                                    <!--input type="text" class="form-control input-lg" placeholder="Last Name"-->
+                                    {% render_field form.last_name class="form-control input-lg" placeholder="Last Name" %}
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only">Business Phone(optional)</label>
+                                    <!--input type="number" class="form-control input-lg" placeholder="Business Phone(optional)"-->
+                                    {% render_field form.business_phone class="form-control input-lg" placeholder="Business Phone(optional)" %}
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only">Business E-mail</label>
+                                    <!--input type="email" class="form-control input-lg" placeholder="Business E-mail"-->
+                                    {% render_field form.business_email class="form-control input-lg" placeholder="Business Email" %}
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only">Address</label>
+                                    <!--input type="text" class="form-control input-lg" placeholder="Address"-->
+                                    {% render_field form.street_address class="form-control input-lg" placeholder="Street Address" %}
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only">City</label>
+                                    <!--input type="text" class="form-control input-lg" placeholder="City"-->
+                                    {% render_field form.city class="form-control input-lg" placeholder="City" %}
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only">State</label>
+                                    <!--input type="text" class="form-control input-lg" placeholder="State"-->
+                                    {% render_field form.state class="form-control input-lg" placeholder="State" %}
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only">Website</label>
+                                    <!--input type="text" class="form-control input-lg" placeholder="Website"-->
+                                    {% render_field form.website class="form-control input-lg" placeholder="Website" %}
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only">Password</label>
+                                    <!--input type="password" class="form-control input-lg" placeholder="Password"-->
+                                    {% render_field form.password1  class="form-control input-lg" placeholder="Password" %}
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only">Confirm Password</label>
+                                    <!--input type="password" class="form-control input-lg" placeholder="Confirm Password"-->
+                                    {% render_field form.password2  class="form-control input-lg" placeholder="Confirm Password" %}
+                                </div>
+                                <div class="custom-checkbox mb-40">
+                                    <input type="checkbox" id="agree_terms">
+                                    <label class="color-mid" for="agree_terms">I agree to the <a href="terms_conditions.html" class="color-green">Terms of Use</a> and <a href="terms_conditions.html" class="color-green">Privacy Statement</a>.</label>
                                 </div>
                             </div>
+                            <div class="col-xs-12 col-sm-offset-2 col-sm-8 col-sm-offset-0 col-md-4">
+                                <div class="photo-wrap mt-30"><img src="{% static "main_app/images/avatars/avatar_01.jpg" %}" alt="avatar" style="width: 100%"></div>
+                                <input type="file" accept="image/jpeg,image/png,image/svg" class="custom-file-input mt-40">
+                            </div>
+                            <button type="submit" class="btn btn-block btn-lg mt-30" style="margin: 0 auto; width: 50%">Sign Up</button>
+                            </form>
                         </div>
                     </section>
                 </div>
@@ -309,7 +302,8 @@
                     <div class="col-sm-12 col-md-7">
                         <div class="row row-tb-20">
                             <div class="footer-col col-sm-6">
-                                <div class="footer-about">                                        <span>Klip</span>
+                                <div class="footer-about">
+                                    <img class="mb-40" src="{% static "main_app/images/logo_light.png" %}" width="250" alt="">
                                     <p class="color-light">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam dolores quidem mollitia id ipsa nisi necessitatibus iure repudiandae aperiam, odit ipsam dolor fugiat corporis nesciunt illo nemo minus.</p>
                                 </div>
                             </div>
@@ -406,10 +400,9 @@
         <footer id="mainFooter" class="main-footer">
             <div class="container">
                 <div class="row">
-                    <p>Copyright &copy; 2017 . All rights reserved.</p>
+                    <p>Copyright &copy; 2016 . All rights reserved.</p>
                 </div>
             </div>
-            
         </footer>
         <!-- –––––––––––––––[ END FOOTER ]––––––––––––––– -->
 
@@ -463,17 +456,6 @@
     <!-- Custom Template JavaScript                   -->
     <!-- ––––––––––––––––––––––––––––––––––––––––– -->
     <script type="text/javascript" src="{% static "main_app/js/main.js" %}"></script>
-    <script>
-        function initialize() {
-
-        var input = document.getElementById('searchTextField');
-        var autocomplete = new google.maps.places.Autocomplete(input);
-        }
-
-        //google.maps.event.addDomListener(window, 'load', initialize);
-    </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBSAyxn_ECVYJJXf-hJAeSaYe2pOxHquEQ&libraries=places&callback=initialize" async defer></script>
-
 </body>
 
 </html>

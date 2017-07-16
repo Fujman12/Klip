@@ -17,8 +17,8 @@ from django.conf.urls import url, include
 from django.conf.urls.static import static
 from django.contrib import admin
 
-from main_app.views import e_handler404, e_handler500, index, contact_us, about_us
-from users_app.views import register, register_success
+from main_app.views import e_handler404, e_handler500, index, contact_us, about_us, test
+from users_app.views import register, register_success, register_dispensary
 from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.views.static import serve
@@ -31,7 +31,8 @@ urlpatterns = [
     url(r'^logout/$', auth_views.logout, name='logout'),
     url(r'^oauth/', include('social_django.urls', namespace='social')),  # <--
 
-    url(r'^register/$', register, name = 'register'),
+    url(r'^register/$', register, name='register'),
+    url(r'^register_dispensary', register_dispensary, name='register_dispensary'),
     url(r'^register/success/$', register_success, name = 'register_success'),
 
     url(r'^profile/', include('users_app.urls')),
@@ -39,6 +40,7 @@ urlpatterns = [
 
     url(r'^contact_us/', contact_us, name='contact_us'),
     url(r'^about_us/', about_us, name='about_us'),
+    url(r'^test/', test, name='test')
 ]
 
 handler404 = e_handler404

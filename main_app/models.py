@@ -2,6 +2,7 @@ from django.db import models
 from datetime import timedelta, datetime
 from django.contrib.auth.models import User
 import django
+import geocoder
 # Create your models here.
 
 
@@ -34,17 +35,14 @@ class Deal(models.Model):
 
 class Dispensary(models.Model):
     name = models.CharField(max_length=50, blank=False, null=False)
-    city = models.CharField(max_length=30, blank=False, null=False)
-    state = models.CharField('State abbreviation',max_length=30, blank=False, null=False)
     description = models.TextField(blank=False, null=False)
-    lat = models.FloatField()
-    lng = models.FloatField()
+    location = models.OneToOneField('Location', null=True)
 
     class Meta:
         verbose_name_plural = "dispensaries"
 
     def __str__(self):
-        return "{} - {}, {}".format(self.name, self.city, self.state)
+        return "{} - {}, {}".format(self.name, self.location.city, self.location.state)
 
 
 class Review(models.Model):
@@ -56,3 +54,27 @@ class Review(models.Model):
 
     def __str__(self):
         return "Review for '{}' by {}".format(self.deal.title, self.user.username)
+
+
+class Location(models.Model):
+    city = models.CharField(max_length=30, blank=False, null=False)
+    state = models.CharField('State abbreviation', max_length=30, blank=False, null=False)
+    street_address = models.CharField(max_length=90, blank=False, null=True)
+
+    lat = models.FloatField()
+    lng = models.FloatField()
+
+    def save(self, *args, **kwargs):
+        if self.pk is None:
+            location_string = "{} {} {}".format(self.city, self.state, self.street_address)
+            g = geocoder.google(location_string)
+
+            self.lat = g.lat
+            self.lng = g.lng
+
+        super(Location, self).save(*args, **kwargs)
+
+    def __str__(self):
+        location_string = "{}, {}, {}".format(self.street_address, self.city, self.state, )
+        return location_string
+
