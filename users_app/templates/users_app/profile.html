@@ -146,10 +146,6 @@
                                     <ul>
                                         <li><a href="{% url 'users_app:profile' %}">profile</a>
                                         </li>
-                                        <li><a href="#">setings</a>
-                                        </li>
-                                        <li><a href="#">rewards</a>
-                                        </li>
                                         <li><a href="#">wallet</a>
                                         </li>
                                         <li><a href="{% url 'logout' %}">Sign Out</a>
@@ -267,30 +263,7 @@
                                   <td>Your email address </td>
                                   <td><a id="email-address" data-title="Email address"  data-url="{% url 'users_app:change_email' %}" data-placeholder="email address" data-pk="1" data-type="text" href="#" class="editable editable-click editable-empty">{{ user.email }}</a></td>
                               </tr>
-                              <!--tr>
-                                  <td>Your password</td>
-                                  <td><a id="password" data-title="Password" data-placeholder="password" data-pk="1" data-type="text" href="#" data-highlight="blue" class="editable editable-click"></a></td>
-                              </tr-->
-                              <!--tr>
-                                  <td>Street address</td>
-                                  <td><a id="street-address" data-url="{% url 'users_app:change_street_address' %}" data-placeholder="street address" data-pk="1" data-type="text" href="#" class="editable editable-click">{% if user.profile.street_address %}{{ user.profile.street_address }}{%  endif %}</a></td>
-                              </tr>
-                              <tr>
-                                  <td>Apt/Unit No</td>
-                                  <td><a id="apt-unit-no" data-url="{% url 'users_app:change_apt_unit' %}" data-placeholder="apt/unit No" data-pk="1" data-type="text" href="#" class="editable editable-click">{% if user.profile.street_apt_unit %}{{ user.profile.apt_unit }}{% endif %}</a></td>
-                              </tr>
-                              <tr>
-                                  <td>City</td>
-                                  <td><a id="city" data-url="{% url 'users_app:change_city' %}" data-placeholder="city" data-pk="1" data-type="text" href="#" class="editable editable-click">{% if user.profile.city %}{{ user.profile.city }}{% endif %}</a></td>
-                              </tr>
-                              <tr>
-                                  <td>State</td>
-                                  <td><a id="state" data-url="{% url 'users_app:change_state' %}" data-placeholder="state" data-pk="1" data-type="text" href="#" class="editable editable-click">{% if user.profile.state %}{{ user.profile.state }}{% endif %}</a></td>
-                              </tr>
-                              <tr>
-                                  <td>Zip code</td>
-                                  <td><a id="zip-code" data-url="{% url 'users_app:change_zipcode' %}" data-placeholder="zip-code" data-pk="1" data-type="text" href="#" class="editable editable-click">{% if user.profile.zipcode %}{{ user.profile.zipcode }}{% endif %}</a></td>
-                              </tr-->
+
                               <tr>
                                   <td>Phone number</td>
                                   <td><a id="phone-number" data-url="{% url 'users_app:change_phone_number' %}" data-placeholder="phone-number" data-pk="1" data-type="text" href="#" class="editable editable-empty">{% if user.profile.phone_number %}{{ user.profile.phone_number }}{% endif %}</a></td>
@@ -304,8 +277,8 @@
       </div>
       <div class="col-xs-12 col-md-12 col-lg-offset-1 col-lg-10 mb-20 mt-40">
           <div class="tab">
-              <button class="tablinks" onclick="openCity(event, 'Cart')">My Deals</button>
-              <button class="tablinks" onclick="openCity(event, 'Deals')">Expired Deals</button>
+              <button class="tablinks" onclick="openCity(event, 'Cart')">My Coupons</button>
+              <button class="tablinks" onclick="openCity(event, 'Deals')">Used Coupons</button>
               <button class="tablinks" onclick="openCity(event, 'Tokyo')">Points</button>
           </div>
 
@@ -314,6 +287,34 @@
                 <div class="wishlist-wrapper">
                     <table id="cart_list" class="wishlist">
                         <tbody>
+                            {% for coupon in user.coupons.all %}
+                            <tr class="panel alert">
+                                <td class="col-sm-8 col-md-9">
+                                    <div class="media-left is-hidden-sm-down" style="background-image: url({{ coupon.deal.images.first.image.url }}); background-size: cover;">
+                                        <figure class="product-thumb">
+                                            <!--img src="{{ coupon.deal.images.first.image.url }}" alt="product"-->
+                                        </figure>
+                                    </div>
+                                    <div class="media-body valign-middle">
+                                        <h5 class="title mb-5 t-uppercase"><a href="{% url 'coupon_details' pk=coupon.pk %}">{{ coupon.deal.title }}</a></h5>
+                                        <div class="demo mb-10">
+                                            <button class="like like-custom" disabled><i class="fa fa-thumbs-up"></i> Like
+                                                <span class="likes">{{ coupon.deal.likes }}</span>
+                                            </button>
+                                            <button class="dislike dislike-custom" disabled><i class="fa fa-thumbs-down"></i> Dislike
+                                                <span class="dislikes">{{ coupon.deal.dislikes }}</span>
+                                            </button>
+                                        </div>
+                                        <h4 class="price color-green"><span class="price-sale">${{ coupon.deal.old_price }}</span>${{ coupon.deal.price }}</h4>
+                                    </div>
+                                </td>
+                                <td class="col-sm-1">
+                                    <button type="button" class="close pr-xs-0 pr-sm-10" data-dismiss="alert" aria-hidden="true">
+                                        <i class="fa fa-trash-o"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            {% endfor %}
                             <tr class="panel alert">
                                 <td class="col-sm-8 col-md-9">
                                     <div class="media-left is-hidden-sm-down">
@@ -991,7 +992,7 @@
                 likes.text(parseInt(likes.text()) + l);
                 dislikes.text(parseInt(dislikes.text()) + d);
             }
-        });
+            });
     </script>
     <script src="{% static 'main_app/js/jasny-bootstrap.min.js' %}"></script>
     <script>

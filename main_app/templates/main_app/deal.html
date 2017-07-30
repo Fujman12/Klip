@@ -7,6 +7,7 @@
 <!--<![endif]-->
 {% load static %}
 {% load widget_tweaks %}
+
 <head>
 
     <!-- ––––––––––––––––––––––––––––––––––––––––– -->
@@ -135,10 +136,6 @@
                                     <ul>
                                         <li><a href="{% url 'users_app:profile' %}">profile</a>
                                         </li>
-                                        <li><a href="#">setings</a>
-                                        </li>
-                                        <li><a href="#">rewards</a>
-                                        </li>
                                         <li><a href="#">wallet</a>
                                         </li>
                                         <li><a href="{% url 'logout' %}">Sign Out</a>
@@ -228,6 +225,11 @@
                                         <div class="deal-slider">
                                             <div id="product_slider" class="flexslider">
                                                 <ul class="slides">
+                                                {% for image in deal.images.all %}
+                                                    <li>
+                                                        <img alt="" src="{{ image.image.url}}">
+                                                    </li>
+                                                {% endfor %}
                                                     <li>
                                                         <img alt="" src="{% static "main_app/images/products/product_01.jpg" %}">
                                                     </li>
@@ -250,6 +252,11 @@
                                             </div>
                                             <div id="product_slider_nav" class="flexslider flexslider-nav">
                                                 <ul class="slides">
+                                                {% for image in deal.images.all %}
+                                                    <li>
+                                                        <img alt="" src="{{ image.image.url }}">
+                                                    </li>
+                                                {% endfor %}
                                                     <li>
                                                         <img alt="" src="{% static "main_app/images/products/thumb_01.jpg" %}">
                                                     </li>
@@ -290,11 +297,11 @@
                                             <ul class="deal-meta list-inline mb-20 color-mid">
                                                 <li><i class="ico fa fa-globe mr-10"></i><a href="store_single_02.html" class="color-mid">{{ deal.dispensary.name }}</a>
                                                 </li>
-                                                <li><i class="ico fa fa-map-marker mr-10"></i>{{ deal.dispensary.city }}, {{ deal.dispensary.state }}</li>
-                                                <li><i class="ico fa fa-shopping-basket mr-10"></i>75 Bought</li>
+                                                <li><i class="ico fa fa-map-marker mr-10"></i>{{ deal.dispensary.location.city }}, {{ deal.dispensary.location.state }}</li>
+                                                <li><i class="ico fa fa-shopping-basket mr-10"></i>{{ deal.coupons.all.count }} Bought</li>
                                             </ul>
                                             <div class="buy-now mb-40">
-                                                <a href="#" target="_blank" class="btn btn-block btn-lg">
+                                                <a href="{% url 'create_coupon' pk=deal.pk %}" target="_blank" class="btn btn-block btn-lg">
                                                     <i class="fa fa-shopping-cart font-16 mr-10"></i> Claim
                                                 </a>
                                             </div>
@@ -849,7 +856,7 @@
     <script type="text/javascript" src="{% static "main_app/js/main.js" %}"></script>
     <script type="text/javascript">
       function initMap() {
-      var center = {lat: {{ deal.dispensary.lat }}, lng: {{ deal.dispensary.lng}} };
+      var center = {lat: {{ deal.dispensary.location.lat }}, lng: {{ deal.dispensary.location.lng}} };
       var map = new google.maps.Map(document.getElementById('map'), {
         zoom: 12,
         center: center,

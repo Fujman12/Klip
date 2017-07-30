@@ -35,7 +35,7 @@ class PatientProfile:
         abstract = True
 
 
-class DispensaryProfile:
+class DispensaryProfile(models.Model):
     dispensary = models.OneToOneField(Dispensary, on_delete=models.CASCADE, null=True)
 
     class Meta:

@@ -1,0 +1,57 @@
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/dropzone.css">
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<body>
+<div class="modal-header">
+  <h5 style="display: inline-block; text-transform: uppercase;" class="modal-title" id="exampleModalLabel">Add images to your deal</h5>
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<form action="{% url 'upload_deal_image' pk=deal.pk %}" class="dropzone" id="DropZoneFiddle">
+</form>
+
+
+<!-- File Upload -->
+
+<button type="button" class="btn btn-default js-close-modal" id="btnclose" data-dismiss="modal" style="align: right">Close</button>
+
+<script>
+    var mydrop = new Dropzone('form#DropZoneFiddle', {addRemoveLinks: true, uploadMultiple: true, maxFilesize: 10});
+  /*  Dropzone.options.DropZoneFiddle = {
+
+
+    }
+*/  var list_of_files = [];
+    mydrop.on("success", function(file, response) {
+    /* Maybe display some more file information on your page */
+        list_of_files.push({'id': response.id, 'filename': file.name});
+
+
+    });
+
+    mydrop.on("removedfile", function (file) {
+        var id = 0;
+        function find_id(element, index, array){
+            if(element.filename==file.name){
+                id = element.id
+            };
+        };
+        list_of_files.forEach(find_id)
+
+        $.post('{% url 'deal_image_remove' %}',{
+          'id': id
+        })
+    })
+
+    $('.js-close-modal').click(function () {
+        $('body').removeClass('modal-open');
+        $('.modal-backdrop').remove();
+    })
+
+</script>
+</body>

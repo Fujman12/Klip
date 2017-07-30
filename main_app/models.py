@@ -3,6 +3,9 @@ from datetime import timedelta, datetime
 from django.contrib.auth.models import User
 import django
 import geocoder
+import qrcode
+import random
+import string
 # Create your models here.
 
 
@@ -15,6 +18,16 @@ class Deal(models.Model):
         ('co', 'Concentrates'),
         ('ed', 'Edibles')
     )
+    INACTIVE = '0'
+    ACTIVE = '1'
+    PENDING = '2'
+
+    STATUS_CHOICES = (
+        (ACTIVE, 'Active'),
+        (PENDING, 'Pending'),
+        (INACTIVE, 'Inactive')
+    )
+
     title = models.CharField(max_length=150, blank=False, null=False)
     description = models.TextField(blank=False, null=False)
     category = models.CharField(max_length=3, choices=CATEGORY_CHOICES, default='in')
@@ -29,20 +42,43 @@ class Deal(models.Model):
 
     dispensary = models.ForeignKey('Dispensary', on_delete=models.CASCADE, related_name='deals')
 
+    status = models.CharField(max_length=1, null=False, default=PENDING, choices=STATUS_CHOICES)
+
     def __str__(self):
         return "{} - by {}".format(self.title, self.dispensary.name)
+
+
+def get_deal_upload_path(instance, filename):
+
+    return 'deal_{0}/{1}'.format(instance.deal.id, filename)
+
+
+class DealImage(models.Model):
+    image = models.ImageField(upload_to=get_deal_upload_path, null=True)
+    deal = models.ForeignKey('Deal', on_delete=models.CASCADE, related_name='images')
+
+    def __str__(self):
+        return "Image for '{}' ".format(self.deal.title)
 
 
 class Dispensary(models.Model):
     name = models.CharField(max_length=50, blank=False, null=False)
     description = models.TextField(blank=False, null=False)
+    website = models.CharField(max_length=100, null=True)
     location = models.OneToOneField('Location', null=True)
+    secret = models.CharField(max_length=10, null=True)
 
     class Meta:
         verbose_name_plural = "dispensaries"
 
     def __str__(self):
         return "{} - {}, {}".format(self.name, self.location.city, self.location.state)
+
+    def save(self, *args, **kwargs):
+        if self.pk is None:
+            self.secret = ''.join(random.choice(string.ascii_lowercase) for i in range(10))
+
+        super(Dispensary, self).save(*args, **kwargs)
 
 
 class Review(models.Model):
@@ -78,3 +114,42 @@ class Location(models.Model):
         location_string = "{}, {}, {}".format(self.street_address, self.city, self.state, )
         return location_string
 
+
+def get_coupon_upload_path(instance, filename):
+    return 'coupon_{0}/{1}'.format(instance.id, filename)
+
+
+class Coupon(models.Model):
+    USED = '0'
+    ACTIVE = '1'
+
+    STATUS_CHOICES = (
+        (ACTIVE, 'Active'),
+        (USED, 'Used'),
+    )
+
+    deal = models.ForeignKey(Deal, related_name='coupons')
+    user = models.ForeignKey(User, related_name='coupons')
+    date_created = models.DateTimeField(auto_now_add=True)
+    qr_image = models.ImageField(null=True, upload_to=get_coupon_upload_path)
+    status = models.CharField(choices=STATUS_CHOICES, max_length=3, default=ACTIVE)
+
+    def activation_auth(self, secret):
+        if secret == self.deal.dispensary.secret:
+            return True
+        else:
+            return False
+
+    def __str__(self):
+        string = "{}, {} - {}; {}".format(self.user.first_name, self.user.last_name, self.deal.title, self.date_created)
+        return string
+
+    #def save(self, *args, **kwargs):
+    #    if self.pk is None:
+    #        from django.urls import reverse
+    #        url = reverse('coupon_details', args=[str(1)])
+    #
+    #        img = qrcode.make(url)
+    #        self.qr_image = img
+
+    #    super(Coupon, self).save(*args, **kwargs)

@@ -130,10 +130,6 @@
                                     <ul>
                                         <li><a href="{% url 'users_app:profile' %}">profile</a>
                                         </li>
-                                        <li><a href="#">setings</a>
-                                        </li>
-                                        <li><a href="#">rewards</a>
-                                        </li>
                                         <li><a href="#">wallet</a>
                                         </li>
                                         <li><a href="{% url 'logout' %}">Sign Out</a>
@@ -265,7 +261,7 @@
                     <section class="section dispensary-area pb-60 pt-30 t-center">
                         <div class="newsletter-form">
                             <h4 class="mb-40">Are you a dispensary <br>that want to sell deals?</h4>
-                                <a class="btn btn-big" href="#" type="submit">Learn How</a>
+                                <a class="btn btn-big" href="{% url 'register_dispensary' %}" type="submit">Learn How</a>
                             </div>
                         </section>
                     </div>

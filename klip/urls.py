@@ -40,7 +40,8 @@ urlpatterns = [
 
     url(r'^contact_us/', contact_us, name='contact_us'),
     url(r'^about_us/', about_us, name='about_us'),
-    url(r'^test/', test, name='test')
+    url(r'^test/', test, name='test'),
+
 ]
 
 handler404 = e_handler404

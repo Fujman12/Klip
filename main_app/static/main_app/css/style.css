@@ -1,17 +1,14 @@
 /*/*@charset "utf-8";
-
 /*
 ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
   FRIDAY - Coupons, Deals, Discounts and Promo Codes Template
 –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-
     - File           : style.css
     - Desc           : Template - Stylesheet
     - Version        : 1.1
     - Date           : 2017-03-01
     - Author         : CODASTROID
     - Author URI     : https://themeforest.net/user/codastroid
-
 ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 */
 
@@ -26,6 +23,9 @@
 /* ––––––––––––––––––––––––––––––––––––––––––––– */
 /* ––––––––––––––>>> Components  <<<–––––––––––– */
 /* ––––––––––––––––––––––––––––––––––––––––––––– */
+.pending-span{
+  font-size: 19px;
+}
 .fileinput {
   margin-top: 40px;
 }
@@ -78,12 +78,12 @@
 }
 @media only screen and (max-width: 991px) {
   .photo-wrap + input[type="file"]::before {
-    width: 40%  
+    width: 40%
   }
 }
 @media only screen and (max-width: 479px) {
   .photo-wrap + input[type="file"]::before {
-    width: 50%  
+    width: 50%
   }
 }
 .custom-file-input {
@@ -1072,7 +1072,7 @@ h6 + .demo button {
   bottom: 0;
   top: 0;
   right: 0;
-  background-color: #000; 
+  background-color: #000;
   z-index: -1;
   opacity: 0.20;
 }
@@ -1291,24 +1291,6 @@ h6 + .demo button {
   text-decoration: line-through;
   margin-right: 1em;
 }
-.deal-thumbnail:before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  right: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 1;
-  background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiP…B3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyYWQpIiAvPjwvc3ZnPiA=);
-  background-size: 100%;
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, rgba(0, 0, 0, 0.2)), color-stop(30%, rgba(0, 0, 0, 0.3)), color-stop(65%, rgba(0, 0, 0, 0.5)), color-stop(100%, rgba(0, 0, 0, 0.95)));
-  background-image: -moz-linear-gradient(top, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.3) 30%, rgba(0, 0, 0, 0.5) 65%, rgba(0, 0, 0, 0.95) 100%);
-  background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.3) 30%, rgba(0, 0, 0, 0.5) 65%, rgba(0, 0, 0, 0.95) 100%);
-  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.3) 30%, rgba(0, 0, 0, 0.5) 65%, rgba(0, 0, 0, 0.95) 100%);
-  z-index: 0;
-  opacity: 0.5;
-}
 .deals-header-area .deal-single {
   -webkit-box-shadow: none;
   box-shadow: none;
@@ -1422,6 +1404,8 @@ h6 + .demo button {
 }
 .deal-single p {
   font-size: 13px;
+  height: 119px;
+  overflow: hidden;
   margin-bottom: 10px;
 }
 /* ––––––––––––––––––––––––––––––––––––––––––––– */
@@ -1918,6 +1902,7 @@ h6 + .demo button {
 .wishlist .product-thumb {
   width: 120px;
   margin-right: 10px;
+  height: 120px;
 }
 .wishlist .media-body .type span {
   color: #222;
@@ -2312,7 +2297,7 @@ h6 + .demo button {
   height: 98px;
   display: inline-block;
   padding: 40px;
-  background-image: url(../images/deals/thumb_02.jpg);
+  background-size: cover;
 }
 .map_sidebar #side_bar .map_sidebar_content1 {
   display: inline-block;
@@ -2402,4 +2387,3 @@ div.tab button.active {
 .table-responsive {
   margin-top: 92px;
 }
-

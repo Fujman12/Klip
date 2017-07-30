@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h3> Coupon has been activated successfully! </h3>
+    Patient: {{ coupon.user.first_name }} {{ coupon.user.last_name }}, id: {{ coupon.user.id }}
+    E-mail: {{ coupon.user.email }}
+    {% if coupon.user.profile.phone_number %}{{ coupon.user.profile.phone_number }}{% endif %}
+</body>
+</html>

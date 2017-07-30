@@ -509,6 +509,35 @@ label {
 .p-40 {
   padding: 30px !important;
 }
+@media (max-width: 420px) {
+  .plr-xs-0-down {
+    padding-left: 0!important;
+    padding-right: 0!important;
+  }
+}
+@media (min-width: 420px) {
+  .p-xs-0 {
+    padding: 0 !important;
+  }
+  .p-xs-5 {
+    padding: 5px !important;
+  }
+  .p-xs-10 {
+    padding: 10px !important;
+  }
+  .p-xs-15 {
+    padding: 15px !important;
+  }
+  .p-xs-20 {
+    padding: 20px !important;
+  }
+  .p-xs-30 {
+    padding: 25px !important;
+  }
+  .p-xs-40 {
+    padding: 30px !important;
+  }
+}
 @media (min-width: 768px) {
   .p-sm-0 {
     padding: 0 !important;
@@ -778,6 +807,11 @@ label {
 }
 .pb-100 {
   padding-bottom: 100px !important;
+}
+@media (max-width: 768px) {
+  .pt-sm-10-down {
+    padding-top: 10px !important;
+  }
 }
 @media (min-width: 768px) {
   .pb-sm-0 {
@@ -1449,6 +1483,10 @@ label {
 .prl-40 {
   padding-right: 40px !important;
   padding-left: 40px !important;
+}
+.prl-60 {
+  padding-right: 60px !important;
+  padding-left: 60px !important;
 }
 @media (min-width: 768px) {
   .prl-sm-0 {
@@ -2528,6 +2566,17 @@ label {
     text-align: center !important;
   }
 }
+@media (max-width: 768px) {
+  .t-sm-left-down {
+    text-align: left !important;
+  }
+  .t-sm-right-down {
+    text-align: right !important;
+  }
+  .t-sm-center-down {
+    text-align: center !important;
+  }
+}
 @media (min-width: 992px) {
   .t-md-left {
     text-align: left !important;
@@ -3053,6 +3102,11 @@ label {
   -webkit-transform: translateX(-50%);
   transform: translateX(-50%);
 }
+@media (max-width: 420px) {
+  .pos-xs-r-down {
+    position: absolute !important;
+  }
+}
 @media (min-width: 768px) {
   .pos-sm-a {
     position: relative !important;
@@ -3147,6 +3201,11 @@ label {
   }
   .is-table-row-sm {
     display: table-row !important;
+  }
+}
+@media (max-width: 768px) {
+  .is-block-sm-down {
+    display: block!important;
   }
 }
 @media (min-width: 992px) {
@@ -4337,6 +4396,11 @@ fieldset[disabled] .btn {
 .boxed-layout .page-wrapper {
   max-width: 1200px;
   margin: 0 auto;
+}
+@media (max-width: 768px) {
+  .m-auto {
+    margin: 0 auto!important;
+  }
 }
 .preloader {
   position: fixed;

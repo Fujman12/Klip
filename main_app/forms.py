@@ -1,6 +1,6 @@
 from django import forms
-from .models import Review
-
+from .models import Review, DealImage
+from datetime import datetime
 
 class SearchForm(forms.Form):
     location = forms.CharField(max_length=55)
@@ -15,6 +15,29 @@ class ReviewForm(forms.ModelForm):
         fields = ['text',]
 
 
-class CreateDealForm(forms.Form):
-    title = forms.CharField(max_length=55)
 
+CATEGORY_CHOICES = (
+    ('in', 'Indica'),
+    ('sa', 'Sativa'),
+    ('hy', 'Hybrid'),
+    ('cbd', 'CBD'),
+    ('co', 'Concentrates'),
+    ('ed', 'Edibles')
+)
+
+
+class CreateDealForm(forms.Form):
+    title = forms.CharField(max_length=55, required=True)
+    description = forms.CharField(widget=forms.Textarea, required=True)
+    status = forms.ChoiceField(choices=CATEGORY_CHOICES, label="", initial='', widget=forms.Select(), required=True)
+    price = forms.DecimalField(max_digits=10, decimal_places=2)
+    old_price = forms.DecimalField(max_digits=10, decimal_places=2)
+    date_start = forms.DateField(initial=datetime.today)
+    date_end = forms.DateField()
+
+
+class ImageUploadForm(forms.ModelForm):
+
+    class Meta:
+        model = DealImage
+        fields = ['image']

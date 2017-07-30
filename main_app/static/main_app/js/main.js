@@ -392,6 +392,7 @@
     /*-------------------------------------
      Delete Item From Cart
     -------------------------------------*/
+    /*
     var cart_delete_item = function(){
         var close = $("#cart_list").find(".close[data-dismiss='alert']");
         close.on('click', function(){
@@ -400,7 +401,7 @@
             }
         });
     };
-
+    */
     /* ================================
        When document is ready, do
     ================================= */
@@ -423,7 +424,7 @@
             data_rating();
             do_rating();
             countdown();
-            cart_delete_item();
+           // cart_delete_item();
         });
         
     /* ================================

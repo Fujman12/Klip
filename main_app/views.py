@@ -1,16 +1,20 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, HttpResponse
 from django.urls import reverse
+from django.core.files import File
 from django.views.decorators.csrf import csrf_exempt
-from .models import Deal, Dispensary, Review
-from .forms import SearchForm, ReviewForm, CreateDealForm
+from .models import Deal, Dispensary, Review, DealImage, Coupon
+from .forms import SearchForm, ReviewForm, CreateDealForm, ImageUploadForm
 from django.contrib.staticfiles.templatetags.staticfiles import static
-from django.template import RequestContext
+from django.core.files.uploadedfile import InMemoryUploadedFile
 from .decorators import is_dispensary
-
+from django.contrib.staticfiles.templatetags.staticfiles import static
+from django.conf.global_settings import MEDIA_ROOT
+from io import StringIO, BytesIO
 import geocoder
+import qrcode
 # Create your views here.
 
 
@@ -73,11 +77,19 @@ def deals_around(request):
                                              "AS distance FROM main_app_dispensary JOIN main_app_location ON main_app_dispensary.location_id=main_app_location.id GROUP BY id HAVING distance < 25 ORDER BY distance LIMIT 0 , 20;".format(g.lat, g.lng, g.lat)):
         print(dispensary)
         for deal in dispensary.deals.all():
-            deals.append({'title': deal.title, 'description': deal.description, 'price': deal.price,
-                          'expires': deal.date_expires, 'lat': deal.dispensary.location.lat, 'lng': deal.dispensary.location.lng,
-                          'deal_url': reverse('deal', args=[deal.pk]), 'image_url': static('main_app/images/deals/thumb_02.jpg'),
-                          'dispensary': deal.dispensary.name, 'likes': deal.likes, 'dislikes': deal.dislikes,
-                          'dispensary_city': deal.dispensary.location.city, 'dispensary_state': deal.dispensary.location.state})
+            if deal.status == deal.ACTIVE:
+
+                if deal.images.first() is not None:
+                    image_url = deal.images.first().image.url
+                else:
+                    image_url = static('main_app/images/deals/thumb_02.jpg')
+
+                deals.append({'title': deal.title, 'description': deal.description, 'price': deal.price,
+                              'expires': deal.date_expires, 'lat': deal.dispensary.location.lat, 'lng': deal.dispensary.location.lng,
+                              'deal_url': reverse('deal', args=[deal.pk]), 'image_url': static('main_app/images/deals/thumb_02.jpg'),
+                              'dispensary': deal.dispensary.name, 'likes': deal.likes, 'dislikes': deal.dislikes,
+                              'dispensary_city': deal.dispensary.location.city, 'dispensary_state': deal.dispensary.location.state,
+                              'bought': deal.coupons.all().count(), 'image_url': image_url})
     print(deals)
     return JsonResponse({'deals': deals})
 
@@ -168,7 +180,122 @@ def test(request):
 
 @is_dispensary
 def create_deal(request):
+    user = request.user
     if request.method == 'POST':
         form = CreateDealForm(request.POST)
-        pass
+        if form.is_valid():
+            data = {'form_is_valid': True}
+            deal = Deal(title=form.cleaned_data['title'], description=form.cleaned_data['description'], category=form.cleaned_data['status'],
+                        price=form.cleaned_data['price'], old_price=form.cleaned_data['old_price'], date_starts=form.cleaned_data['date_start'],
+                        date_expires=form.cleaned_data['date_end'], dispensary=user.profile.dispensary)
+            deal.save()
+            data['pk'] = deal.pk
 
+            data['image_upload_form'] = render_to_string('main_app/partial/image_upload_form.html', {'deal': deal})
+            return JsonResponse(data)
+    return JsonResponse({'status': 'BAD request'})
+
+
+@is_dispensary
+def upload_deal_image(request, pk):
+    _deal = get_object_or_404(Deal, pk=pk)
+    if request.method == 'POST':
+
+        print(request.FILES['file[0]'])
+        file = request.FILES['file[0]']
+        new_image = DealImage(image=file, deal=_deal)
+        new_image.save()
+
+        return JsonResponse({'status': True, 'id': new_image.id},)
+
+    else:
+
+        return JsonResponse({'status': False})
+
+
+@is_dispensary
+def deal_image_remove(request):
+    if request.method == 'POST':
+        id = request.POST['id']
+        image = get_object_or_404(DealImage, pk=id)
+        image.delete()
+        print(id)
+        return JsonResponse({'status': 'OK'})
+
+
+@is_dispensary
+def change_deal_status(request, pk):
+    _deal = get_object_or_404(Deal, pk=pk)
+    print('bla')
+    if _deal.status != _deal.PENDING:
+        if request.POST['checked'] == '1':
+            _deal.status = Deal.ACTIVE
+        elif request.POST['checked'] == '0':
+            _deal.status = Deal.INACTIVE
+        _deal.save()
+        return JsonResponse({'status': 'OK'})
+    return JsonResponse({'status': 'BAD request'})
+
+
+def remove_deal(request, pk):
+    _deal = get_object_or_404(Deal, pk=pk)
+    _deal.delete()
+    return JsonResponse({'status': 'OK'})
+
+
+@login_required
+def create_coupon(request, pk):
+    user = request.user
+    if user.profile.user_type != user.profile.DISPENSARY:
+
+        _deal = get_object_or_404(Deal, pk=pk)
+        coupon = Coupon(deal=_deal, user=user)
+        coupon.save()
+
+        url = request.build_absolute_uri(reverse(activation_attempt, args=[str(coupon.id)]))
+        img = qrcode.make(url)
+
+        buffer = BytesIO()
+        img.save(buffer)
+        filename = 'coupon-%s.png' % coupon.id
+        filebuffer = InMemoryUploadedFile(buffer, None, filename, 'image/png', buffer, None)
+        coupon.qr_image.save(filename, filebuffer)
+
+        #coupon.qr_image = img
+        #coupon.save()
+
+    return JsonResponse({'status': 'OK'})
+
+
+def coupon_details(request, pk):
+    coupon = get_object_or_404(Coupon, pk=pk)
+
+    return render(request, 'main_app/coupon_details.html', {'coupon': coupon})
+
+
+def patient_view(request, pk):
+    if request.session.get('access', False):
+
+        coupon = get_object_or_404(Coupon, pk=pk)
+        if coupon.status == coupon.ACTIVE:
+            coupon.status = coupon.USED
+            coupon.save()
+            return render(request, 'main_app/patient_view.html', {'coupon': coupon})
+        else:
+            return JsonResponse({'message': 'Sorry! Coupon is expired'})
+
+    else:
+        return redirect(reverse('activation_attempt', args=[str(pk)]))
+
+
+def activation_attempt(request, pk):
+    coupon = get_object_or_404(Coupon, pk=pk)
+
+    if request.method == 'POST':
+        secret = request.POST['secret']
+        response = coupon.activation_auth(secret)
+        if response:
+            request.session['access'] = True
+            return redirect(reverse('patient_view', args=[str(coupon.pk)]))
+
+    return render(request, 'main_app/activation_attempt.html', {'pk': pk})
