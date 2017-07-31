@@ -6,8 +6,10 @@
 </head>
 <body>
 <h3> Coupon has been activated successfully! </h3>
-    Patient: {{ coupon.user.first_name }} {{ coupon.user.last_name }}, id: {{ coupon.user.id }}
-    E-mail: {{ coupon.user.email }}
-    {% if coupon.user.profile.phone_number %}{{ coupon.user.profile.phone_number }}{% endif %}
+    Patient: {{ coupon.user.first_name }} {{ coupon.user.last_name }}<br>
+    Patient id: {{ coupon.user.id }}<br>
+    E-mail: {{ coupon.user.email }}<br>
+    {% if coupon.user.profile.phone_number %}Phone number:{{ coupon.user.profile.phone_number }}{% endif %}<br>
+    About:
 </body>
 </html>
