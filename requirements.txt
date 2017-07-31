@@ -4,6 +4,7 @@ click==6.7
 decorator==4.0.11
 defusedxml==0.5.0
 Django==1.11.2
+django-appconf==1.0.2
 django-widget-tweaks==1.4.1
 geocoder==1.22.6
 idna==2.5
@@ -14,6 +15,7 @@ PyJWT==1.5.0
 PyMySQL==0.7.11
 python3-openid==3.1.0
 pytz==2017.2
+qrcode==5.3
 ratelim==0.1.6
 requests==2.17.3
 requests-oauthlib==0.8.0
