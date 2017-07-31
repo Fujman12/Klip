@@ -25,9 +25,6 @@ class BaseProfile(models.Model):
     class Meta:
         abstract = True
 
-    def __str__(self):
-        return self.user.first_name
-
 
 class PatientProfile:
 
@@ -43,7 +40,10 @@ class DispensaryProfile(models.Model):
 
 
 class Profile(BaseProfile, PatientProfile, DispensaryProfile):
-    pass
+
+    def __str__(self):
+
+        return self.user.first_name
 
 #
 #class Profile(models.Model):

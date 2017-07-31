@@ -79,8 +79,8 @@ def deals_around(request):
         for deal in dispensary.deals.all():
             if deal.status == deal.ACTIVE:
 
-                if deal.images.first() is not None:
-                    image_url = deal.images.first().image.url
+                if deal.dispensary.profile.avatar is not None:
+                    image_url = deal.dispensary.profile.avatar.url
                 else:
                     image_url = static('main_app/images/deals/thumb_02.jpg')
 
@@ -264,7 +264,7 @@ def create_coupon(request, pk):
         #coupon.qr_image = img
         #coupon.save()
 
-    return JsonResponse({'status': 'OK'})
+    return render(request, 'main_app/claim_success.html')
 
 
 def coupon_details(request, pk):
@@ -299,3 +299,12 @@ def activation_attempt(request, pk):
             return redirect(reverse('patient_view', args=[str(coupon.pk)]))
 
     return render(request, 'main_app/activation_attempt.html', {'pk': pk})
+
+
+def remove_coupon(request, pk):
+
+    coupon = get_object_or_404(Coupon, pk=pk)
+    if request.user == coupon.user:
+        coupon.delete()
+
+    return JsonResponse({'status': 'OK'})

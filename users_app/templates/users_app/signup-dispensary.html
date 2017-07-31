@@ -66,7 +66,17 @@
     <!-- Template Stylesheet -->
     <link href="{% static "main_app/css/base.css" %}" rel="stylesheet">
     <link href="{% static "main_app/css/style.css" %}" rel="stylesheet">
-
+    <style>
+        @font-face {
+    font-family: "georgina";
+    src: url("{% static 'main_app/fonts/GeorginaDemo-Regular.eot' %}");
+    src: url("{% static 'main_app/fonts/GeorginaDemo-Regular.eot?#iefix' %}") format("embedded-opentype"),
+         url("{% static 'main_app/fonts/GeorginaDemo-Regular.woff' %}") format("woff"),
+         url("{% static 'main_app/fonts/GeorginaDemo-Regular.ttf'  %}") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+    }
+    </style>
 </head>
 
 <body id="body" class="wide-layout preloader-active">
@@ -148,8 +158,8 @@
                 <div class="container">
                     <div class="row row-rl-0 row-tb-20 row-md-cell">
                         <div class="brand col-md-3 t-xs-center t-md-left valign-middle">
-                            <a href="#" class="logo">
-                                <img src="{% static "main_app/images/logo.png" %}" alt="" width="250">
+                            <a href="{% url 'index' %}" class="logo">
+                                <span>Klip</span>
                             </a>
                         </div>
                         <div class="header-search col-md-9">
@@ -203,7 +213,7 @@
             <div class="page-container ptb-60">
                 <div class="container">
                     <section class="sign-area panel p-40">
-                        <h3 class="sign-title t-center">Sign Up <small>Or <a href="signin.html" class="color-green">Sign In</a></small></h3>
+                        <h3 class="sign-title t-center">Sign Up <small>Or <a href="{% url 'login' %}" class="color-green">Sign In</a></small></h3>
                         <div class="row row-rl-0">
                             <form class="p-xs-40" action="{% url 'register_dispensary' %}" method="post">
                                 {% csrf_token %}
@@ -221,7 +231,7 @@
                                             </div>
                                         {% endfor %}
                                     {% endif %}
-                            <div class="col-xs-12 col-sm-offset-2 col-sm-8 col-sm-offset-0 col-md-offset-1 col-md-6">
+                            <div class="col-sm-offset-3 col-sm-6 col-xs-12">
                                 <div class="form-group">
                                     <label class="sr-only">Dispensary Name</label>
                                     <!--input type="text" class="form-control input-lg" placeholder="Dispensary Name"-->
@@ -281,10 +291,6 @@
                                     <input type="checkbox" id="agree_terms">
                                     <label class="color-mid" for="agree_terms">I agree to the <a href="terms_conditions.html" class="color-green">Terms of Use</a> and <a href="terms_conditions.html" class="color-green">Privacy Statement</a>.</label>
                                 </div>
-                            </div>
-                            <div class="col-xs-12 col-sm-offset-2 col-sm-8 col-sm-offset-0 col-md-4">
-                                <div class="photo-wrap mt-30"><img src="{% static "main_app/images/avatars/avatar_01.jpg" %}" alt="avatar" style="width: 100%"></div>
-                                <input type="file" accept="image/jpeg,image/png,image/svg" class="custom-file-input mt-40">
                             </div>
                             <button type="submit" class="btn btn-block btn-lg mt-30" style="margin: 0 auto; width: 50%">Sign Up</button>
                             </form>

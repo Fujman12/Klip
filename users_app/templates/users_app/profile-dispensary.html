@@ -80,7 +80,17 @@
     <link rel="stylesheet" href="{% static "main_app/vendors/fileuploader/src/jquery.fileuploader.css" %}" type="text/javascript"></link>
     <link rel="stylesheet" type="text/css" href="{% static "main_app/css/jasny-bootstrap.min.css" %}"/>
 
-
+    <style>
+        @font-face {
+    font-family: "georgina";
+    src: url("{% static 'main_app/fonts/GeorginaDemo-Regular.eot' %}");
+    src: url("{% static 'main_app/fonts/GeorginaDemo-Regular.eot?#iefix' %}") format("embedded-opentype"),
+         url("{% static 'main_app/fonts/GeorginaDemo-Regular.woff' %}") format("woff"),
+         url("{% static 'main_app/fonts/GeorginaDemo-Regular.ttf'  %}") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+    }
+    </style>
 </head>
 
 <body id="body" class="wide-layout preloader-active">
@@ -117,7 +127,7 @@
         <!-- ––––––––––––––––––––––––––––––––––––––––– -->
         <!-- WRAPPER                                   -->
         <!-- ––––––––––––––––––––––––––––––––––––––––– -->
-        <!--div id="pageWrapper" class="page-wrapper"-->
+        <div id="pageWrapper" class="page-wrapper">
           <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
@@ -216,7 +226,7 @@
                                     <ul>
                                         <li><a href="{% url 'users_app:profile' %}">profile</a>
                                         </li>
-                                        <li><a href="#">wallet</a>
+                                        <li><a href="{% url 'users_app:profile' %}">Cabinet</a>
                                         </li>
                                         <li><a href="{% url 'logout' %}">Sign Out</a>
                                         </li>
@@ -240,8 +250,8 @@
                 <div class="container">
                     <div class="row row-rl-0 row-tb-20 row-md-cell">
                         <div class="brand col-md-3 t-xs-center t-md-left valign-middle">
-                            <a href="{% url 'index' %}" class="logo">
-                                <img src="{% static "main_app/images/logo.png" %}" alt="" width="250">
+                            <a href="/site/" class="logo">
+                                <span>Klip</span>
                             </a>
                         </div>
                         <div class="header-search col-md-9">
@@ -275,10 +285,17 @@
                                 </div>
                                 <div class="col-sm-4 t-xs-center t-md-right">
                                     <div class="header-cart">
-                                        <a href="wallet.html">
+                                        {% if user.profile.user_type == 1 %}
+                                        <a href="{% url 'users_app:profile' %}">
+                                            <span class="icon lnr lnr-cart"></span>
+                                            <span class="title">Cabinet</span>
+                                        </a>
+                                        {% else %}
+                                            <a href="{% url 'users_app:profile' %}#wallet">
                                             <span class="icon lnr lnr-cart"></span>
                                             <span class="title">Wallet</span>
-                                        </a>
+                                            </a>
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>
@@ -308,7 +325,7 @@
 
                           </div>
                           <div>
-                            <span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span><input type="file" id="js-upload-image" name="file"></span>
+                            <span class="btn btn-default btn-file"><span class="fileinput-new">Select Logo</span><span class="fileinput-exists">Change</span><input type="file" id="js-upload-image" name="file"></span>
                             <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
                           </div>
                         </div>
@@ -355,6 +372,9 @@
                                   <td>Website</i></td>
                                   <td><a id="website" data-placeholder="Website" data-url="{% url 'users_app:change_website' %}" data-pk="1" data-type="text" href="#" class="editable editable-click">{% if user.profile.dispensary.website %}{{ user.profile.dispensary.website }}{% endif %}</a></td>
                               </tr>
+                              <tr>
+                                  <td colspan="2" style="text-align: center; font-size: 21px; opacity: 0.8;">Activation code: {{ user.profile.dispensary.secret }}</td>
+                              </tr>
                           </tbody>
                       </table>
                   </div>
@@ -381,8 +401,8 @@
                             {% if deal.status != deal.PENDING %}
                             <tr class="panel alert">
                                 <td class="col-sm-8 col-md-9">
-                                    <div class="media-left is-hidden-sm-down" style="background-image: url({{ deal.images.first.image.url }}); background-size: cover;">
-                                        <figure class="product-thumb" >
+                                    <div class="media-left is-hidden-sm-down" >
+                                        <figure class="product-thumb" style="background-image: url({{ deal.images.first.image.url }}); background-size: cover;">
                                             <!--img src="{{ deal.images.first.image.url }}" alt="product"-->
                                         </figure>
                                     </div>
@@ -411,186 +431,7 @@
                             </tr>
                             {% endif %}
                         {% endfor %}
-                            <tr class="panel alert">
-                                <td class="col-sm-8 col-md-9">
-                                    <div class="media-left is-hidden-sm-down">
-                                        <figure class="product-thumb" >
-                                            <img src="{% static "main_app/images/cart/product_11.jpg" %}" alt="product">
-                                        </figure>
-                                    </div>
-                                    <div class="media-body valign-middle">
-                                        <h5 class="title mb-5 t-uppercase"><a href="#">Diamond engagement ring</a></h5>
-                                        <div class="demo mb-10">
-                                            <button class="like like-custom" disabled><i class="fa fa-thumbs-up"></i> Like
-                                                <span class="likes">0</span>
-                                            </button>
-                                            <button class="dislike dislike-custom" disabled><i class="fa fa-thumbs-down"></i> Dislike
-                                                <span class="dislikes">0</span>
-                                            </button>
-                                        </div>
-                                        <h4 class="price color-green"><span class="price-sale">$380.00</span>$340.00</h4>
-                                    </div>
-                                </td>
-                                <td class="col-xs-4 col-sm-2">
-                                    <div class="switch-button switch-button-sm pos-xs-r-down">
-                                                <input type="checkbox" checked="" name="swt3" id="swt3"><span>
-                                                <label for="swt3"></label></span>
-                                    </div>
-                                    <button type="button" class="close pr-xs-0 pr-sm-10" data-dismiss="alert" aria-hidden="true">
-                                        <i class="fa fa-trash-o"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr class="panel alert">
-                                <td class="col-sm-8 col-md-9">
-                                    <div class="media-left is-hidden-sm-down">
-                                        <figure class="product-thumb">
-                                            <img src="{% static "main_app/images/cart/product_12.jpg" %}" alt="product">
-                                        </figure>
-                                    </div>
-                                    <div class="media-body valign-middle">
-                                        <h5 class="title mb-5 t-uppercase"><a href="#">Diamond engagement ring</a></h5>
-                                        <div class="demo mb-10">
-                                            <button class="like like-custom" disabled><i class="fa fa-thumbs-up"></i> Like
-                                                <span class="likes">0</span>
-                                            </button>
-                                            <button class="dislike dislike-custom" disabled><i class="fa fa-thumbs-down"></i> Dislike
-                                                <span class="dislikes">0</span>
-                                            </button>
-                                        </div>
-                                        <h4 class="price color-green"><span class="price-sale">$380.00</span>$340.00</h4>
-                                    </div>
-                                </td>
-                                <td class="col-xs-4 col-sm-2">
-                                    <div class="switch-button switch-button-sm pos-xs-r-down">
-                                                <input type="checkbox" checked="" name="swt3" id="swt4"><span>
-                                                <label for="swt4"></label></span>
-                                    </div>
-                                    <button type="button" class="close pr-xs-0 pr-sm-10" data-dismiss="alert" aria-hidden="true">
-                                        <i class="fa fa-trash-o"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr class="panel alert">
-                                <td class="col-sm-8 col-md-9">
-                                    <div class="media-left is-hidden-sm-down">
-                                        <figure class="product-thumb">
-                                            <img src="{% static "main_app/images/cart/product_13.jpg" %}" alt="product">
-                                        </figure>
-                                    </div>
-                                    <div class="media-body valign-middle">
-                                        <h5 class="title mb-5 t-uppercase"><a href="#">Diamond engagement ring</a></h5>
-                                        <div class="demo mb-10">
-                                            <button class="like like-custom" disabled><i class="fa fa-thumbs-up"></i> Like
-                                                <span class="likes">0</span>
-                                            </button>
-                                            <button class="dislike dislike-custom" disabled><i class="fa fa-thumbs-down"></i> Dislike
-                                                <span class="dislikes">0</span>
-                                            </button>
-                                        </div>
-                                        <h4 class="price color-green"><span class="price-sale">$380.00</span>$340.00</h4>
-                                    </div>
-                                </td>
-                                <td class="col-xs-4 col-sm-2">
-                                    <div class="switch-button switch-button-sm pos-xs-r-down">
-                                                <input type="checkbox" checked="" name="swt3" id="swt5"><span>
-                                                <label for="swt5"></label></span>
-                                    </div>
-                                    <button type="button" class="close pr-xs-0 pr-sm-10" data-dismiss="alert" aria-hidden="true">
-                                        <i class="fa fa-trash-o"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr class="panel alert">
-                                <td class="col-sm-8 col-md-9">
-                                    <div class="media-left is-hidden-sm-down">
-                                        <figure class="product-thumb">
-                                            <img src="{% static "main_app/images/cart/product_14.jpg" %}" alt="product">
-                                        </figure>
-                                    </div>
-                                    <div class="media-body valign-middle">
-                                        <h5 class="title mb-5 t-uppercase"><a href="#">Diamond engagement ring</a></h5>
-                                        <div class="demo mb-10">
-                                            <button class="like like-custom" disabled><i class="fa fa-thumbs-up"></i> Like
-                                                <span class="likes">0</span>
-                                            </button>
-                                            <button class="dislike dislike-custom" disabled><i class="fa fa-thumbs-down"></i> Dislike
-                                                <span class="dislikes">0</span>
-                                            </button>
-                                        </div>
-                                        <h4 class="price color-green"><span class="price-sale">$380.00</span>$340.00</h4>
-                                    </div>
-                                </td>
-                                <td class="col-xs-4 col-sm-2">
-                                    <div class="switch-button switch-button-sm pos-xs-r-down">
-                                                <input type="checkbox" checked="" name="swt3" id="swt6"><span>
-                                                <label for="swt6"></label></span>
-                                    </div>
-                                    <button type="button" class="close pr-xs-0 pr-sm-10" data-dismiss="alert" aria-hidden="true">
-                                        <i class="fa fa-trash-o"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr class="panel alert">
-                                <td class="col-sm-8 col-md-9">
-                                    <div class="media-left is-hidden-sm-down">
-                                        <figure class="product-thumb">
-                                            <img src="{% static "main_app/images/cart/product_15.jpg" %}" alt="product">
-                                        </figure>
-                                    </div>
-                                    <div class="media-body valign-middle">
-                                        <h5 class="title mb-5 t-uppercase"><a href="#">Diamond engagement ring</a></h5>
-                                        <div class="demo mb-10">
-                                            <button class="like like-custom" disabled><i class="fa fa-thumbs-up"></i> Like
-                                                <span class="likes">0</span>
-                                            </button>
-                                            <button class="dislike dislike-custom" disabled><i class="fa fa-thumbs-down"></i> Dislike
-                                                <span class="dislikes">0</span>
-                                            </button>
-                                        </div>
-                                        <h4 class="price color-green"><span class="price-sale">$380.00</span>$340.00</h4>
-                                    </div>
-                                </td>
-                                <td class="col-xs-4 col-sm-2">
-                                    <div class="switch-button switch-button-sm pos-xs-r-down">
-                                                <input type="checkbox" checked="" name="swt3" id="swt7"><span>
-                                                <label for="swt7"></label></span>
-                                    </div>
-                                    <button type="button" class="close pr-xs-0 pr-sm-10" data-dismiss="alert" aria-hidden="true">
-                                        <i class="fa fa-trash-o"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr class="panel alert">
-                                <td class="col-sm-8 col-md-9">
-                                    <div class="media-left is-hidden-sm-down">
-                                        <figure class="product-thumb">
-                                            <img src="{% static "main_app/images/cart/product_16.jpg" %}" alt="product">
-                                        </figure>
-                                    </div>
-                                    <div class="media-body valign-middle">
-                                        <h5 class="title mb-5 t-uppercase"><a href="#">Diamond engagement ring</a></h5>
-                                        <div class="demo mb-10">
-                                            <button class="like like-custom" disabled><i class="fa fa-thumbs-up"></i> Like
-                                                <span class="likes">0</span>
-                                            </button>
-                                            <button class="dislike dislike-custom" disabled><i class="fa fa-thumbs-down"></i> Dislike
-                                                <span class="dislikes">0</span>
-                                            </button>
-                                        </div>
-                                        <h4 class="price color-green"><span class="price-sale">$380.00</span>$340.00</h4>
-                                    </div>
-                                </td>
-                                <td class="col-xs-4 col-sm-2">
-                                    <div class="switch-button switch-button-sm pos-xs-r-down">
-                                                <input type="checkbox" checked="" name="swt3" id="swt8"><span>
-                                                <label for="swt8"></label></span>
-                                    </div>
-                                    <button type="button" class="close pr-xs-0 pr-sm-10" data-dismiss="alert" aria-hidden="true">
-                                        <i class="fa fa-trash-o"></i>
-                                    </button>
-                                </td>
-                            </tr>
+
                         </tbody>
                     </table>
                 </div>
@@ -606,8 +447,8 @@
                             {% if deal.status == deal.PENDING %}
                             <tr class="panel alert">
                                 <td class="col-sm-8 col-md-9">
-                                    <div class="media-left is-hidden-sm-down" style="background-image: url({{ deal.images.first.image.url }}); background-size: cover;">
-                                        <figure class="product-thumb" >
+                                    <div class="media-left is-hidden-sm-down" >
+                                        <figure class="product-thumb" style="background-image: url({{ deal.images.first.image.url }}); background-size: cover;">
                                             <!--img src="{{ deal.images.first.image.url }}" alt="product"-->
                                         </figure>
                                     </div>
@@ -633,162 +474,7 @@
                             </tr>
                             {% endif %}
                         {% endfor %}
-                            <tr class="panel alert">
-                                <td class="col-sm-8 col-md-9">
-                                    <div class="media-left is-hidden-sm-down">
-                                        <figure class="product-thumb">
-                                            <img src="{% static "main_app/images/cart/product_11.jpg" %}" alt="product">
-                                        </figure>
-                                    </div>
-                                    <div class="media-body valign-middle">
-                                        <h5 class="title mb-5 t-uppercase"><a href="#">Diamond engagement ring</a></h5>
-                                        <div class="demo mb-10">
-                                            <button class="like like-custom" disabled><i class="fa fa-thumbs-up"></i> Like
-                                                <span class="likes">0</span>
-                                            </button>
-                                            <button class="dislike dislike-custom" disabled><i class="fa fa-thumbs-down"></i> Dislike
-                                                <span class="dislikes">0</span>
-                                            </button>
-                                        </div>
-                                        <h4 class="price color-green"><span class="price-sale">$380.00</span>$340.00</h4>
-                                    </div>
-                                </td>
-                                <td class="col-sm-1">
-                                    <button type="button" class="close pr-xs-0 pr-sm-10" data-dismiss="alert" aria-hidden="true">
-                                        <i class="fa fa-trash-o"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr class="panel alert">
-                                <td class="col-sm-8 col-md-9">
-                                    <div class="media-left is-hidden-sm-down">
-                                        <figure class="product-thumb">
-                                            <img src="{% static "main_app/images/cart/product_12.jpg" %}" alt="product">
-                                        </figure>
-                                    </div>
-                                    <div class="media-body valign-middle">
-                                        <h5 class="title mb-5 t-uppercase"><a href="#">Diamond engagement ring</a></h5>
-                                        <div class="demo mb-10">
-                                            <button class="like like-custom" disabled><i class="fa fa-thumbs-up"></i> Like
-                                                <span class="likes">0</span>
-                                            </button>
-                                            <button class="dislike dislike-custom" disabled><i class="fa fa-thumbs-down"></i> Dislike
-                                                <span class="dislikes">0</span>
-                                            </button>
-                                        </div>
-                                        <h4 class="price color-green"><span class="price-sale">$380.00</span>$340.00</h4>
-                                    </div>
-                                </td>
-                                <td class="col-sm-1">
-                                    <button type="button" class="close pr-xs-0 pr-sm-10" data-dismiss="alert" aria-hidden="true">
-                                        <i class="fa fa-trash-o"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr class="panel alert">
-                                <td class="col-sm-8 col-md-9">
-                                    <div class="media-left is-hidden-sm-down">
-                                        <figure class="product-thumb">
-                                            <img src="{% static "main_app/images/cart/product_13.jpg" %}" alt="product">
-                                        </figure>
-                                    </div>
-                                    <div class="media-body valign-middle">
-                                        <h5 class="title mb-5 t-uppercase"><a href="#">Diamond engagement ring</a></h5>
-                                        <div class="demo mb-10">
-                                            <button class="like like-custom" disabled><i class="fa fa-thumbs-up"></i> Like
-                                                <span class="likes">0</span>
-                                            </button>
-                                            <button class="dislike dislike-custom" disabled><i class="fa fa-thumbs-down"></i> Dislike
-                                                <span class="dislikes">0</span>
-                                            </button>
-                                        </div>
-                                        <h4 class="price color-green"><span class="price-sale">$380.00</span>$340.00</h4>
-                                    </div>
-                                </td>
-                                <td class="col-sm-1">
-                                    <button type="button" class="close pr-xs-0 pr-sm-10" data-dismiss="alert" aria-hidden="true">
-                                        <i class="fa fa-trash-o"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr class="panel alert">
-                                <td class="col-sm-8 col-md-9">
-                                    <div class="media-left is-hidden-sm-down">
-                                        <figure class="product-thumb">
-                                            <img src="{% static "main_app/images/cart/product_14.jpg" %}" alt="product">
-                                        </figure>
-                                    </div>
-                                    <div class="media-body valign-middle">
-                                        <h5 class="title mb-5 t-uppercase"><a href="#">Diamond engagement ring</a></h5>
-                                        <div class="demo mb-10">
-                                            <button class="like like-custom" disabled><i class="fa fa-thumbs-up"></i> Like
-                                                <span class="likes">0</span>
-                                            </button>
-                                            <button class="dislike dislike-custom" disabled><i class="fa fa-thumbs-down"></i> Dislike
-                                                <span class="dislikes">0</span>
-                                            </button>
-                                        </div>
-                                        <h4 class="price color-green"><span class="price-sale">$380.00</span>$340.00</h4>
-                                    </div>
-                                </td>
-                                <td class="col-sm-1">
-                                    <button type="button" class="close pr-xs-0 pr-sm-10" data-dismiss="alert" aria-hidden="true">
-                                        <i class="fa fa-trash-o"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr class="panel alert">
-                                <td class="col-sm-8 col-md-9">
-                                    <div class="media-left is-hidden-sm-down">
-                                        <figure class="product-thumb">
-                                            <img src="{% static "main_app/images/cart/product_15.jpg" %}" alt="product">
-                                        </figure>
-                                    </div>
-                                    <div class="media-body valign-middle">
-                                        <h5 class="title mb-5 t-uppercase"><a href="#">Diamond engagement ring</a></h5>
-                                        <div class="demo mb-10">
-                                            <button class="like like-custom" disabled><i class="fa fa-thumbs-up"></i> Like
-                                                <span class="likes">0</span>
-                                            </button>
-                                            <button class="dislike dislike-custom" disabled><i class="fa fa-thumbs-down"></i> Dislike
-                                                <span class="dislikes">0</span>
-                                            </button>
-                                        </div>
-                                        <h4 class="price color-green"><span class="price-sale">$380.00</span>$340.00</h4>
-                                    </div>
-                                </td>
-                                <td class="col-sm-1">
-                                    <button type="button" class="close pr-xs-0 pr-sm-10" data-dismiss="alert" aria-hidden="true">
-                                        <i class="fa fa-trash-o"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr class="panel alert">
-                                <td class="col-sm-8 col-md-9">
-                                    <div class="media-left is-hidden-sm-down">
-                                        <figure class="product-thumb">
-                                            <img src="{% static "main_app/images/cart/product_16.jpg" %}" alt="product">
-                                        </figure>
-                                    </div>
-                                    <div class="media-body valign-middle">
-                                        <h5 class="title mb-5 t-uppercase"><a href="#">Diamond engagement ring</a></h5>
-                                        <div class="demo mb-10">
-                                            <button class="like like-custom" disabled><i class="fa fa-thumbs-up"></i> Like
-                                                <span class="likes">0</span>
-                                            </button>
-                                            <button class="dislike dislike-custom" disabled><i class="fa fa-thumbs-down"></i> Dislike
-                                                <span class="dislikes">0</span>
-                                            </button>
-                                        </div>
-                                        <h4 class="price color-green"><span class="price-sale">$380.00</span>$340.00</h4>
-                                    </div>
-                                </td>
-                                <td class="col-sm-1">
-                                    <button type="button" class="close pr-xs-0 pr-sm-10" data-dismiss="alert" aria-hidden="true">
-                                        <i class="fa fa-trash-o"></i>
-                                    </button>
-                                </td>
-                            </tr>
+
                         </tbody>
                     </table>
                 </div>

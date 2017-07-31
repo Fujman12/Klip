@@ -1,1 +1,8 @@
-<h4>Done!</h4>
+<h4>You've been registered successfully! Redirecting to Login page ...</h4>
+
+
+<script>
+    setTimeout(function() {
+      window.location.href = "{% url 'login' %}";
+    }, 2000);
+</script>

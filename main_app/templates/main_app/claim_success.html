@@ -1,0 +1,8 @@
+<h4>You've claimed the deal. Coupon's been created! Redirecting to your Wallet ...</h4>
+
+
+<script>
+    setTimeout(function() {
+      window.location.href = "{% url 'users_app:profile' %}#wallet";
+    }, 2000);
+</script>
