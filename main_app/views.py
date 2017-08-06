@@ -308,3 +308,11 @@ def remove_coupon(request, pk):
         coupon.delete()
 
     return JsonResponse({'status': 'OK'})
+
+
+def webhook(request):
+    challenge = request.GET["hub_challenge"]
+    verify_token = request.GET["hub_verify_token"]
+    if verify_token == 'abc123':
+        return HttpResponse(challenge)
+

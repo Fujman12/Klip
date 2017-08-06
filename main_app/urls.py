@@ -21,4 +21,5 @@ urlpatterns = [
     url(r'patient_view/(?P<pk>[0-9]+)', views.patient_view, name="patient_view"),
     url(r'coupon_details/(?P<pk>[0-9]+)', views.coupon_details, name="coupon_details"),
     url(r'remove_coupon/(?P<pk>[0-9]+)', views.remove_coupon, name="remove_coupon"),
+    url(r'webhook', views.webhook, name='webhook')
 ]
