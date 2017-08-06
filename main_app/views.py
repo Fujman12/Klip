@@ -15,6 +15,7 @@ from django.conf.global_settings import MEDIA_ROOT
 from io import StringIO, BytesIO
 import geocoder
 import qrcode
+import sys
 # Create your views here.
 
 
@@ -314,5 +315,6 @@ def webhook(request):
     challenge = request.GET["hub.challenge"]
     verify_token = request.GET["hub.verify_token"]
     if verify_token == 'abc123':
+        print >> sys.stderr, 'Goodbye, cruel world!'
         return HttpResponse(challenge)
 
