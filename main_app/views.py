@@ -22,7 +22,7 @@ import urllib
 from urllib.parse import urlparse, parse_qs, urlencode
 import subprocess
 import warnings
-from json import json
+import json
 # Create your views here.
 
 
