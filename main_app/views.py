@@ -20,6 +20,7 @@ import sys
 import facebook
 import urllib
 from urllib.parse import urlparse, parse_qs, urlencode
+import urllib
 import subprocess
 import warnings
 import json
@@ -327,33 +328,8 @@ def webhook(request):
             return HttpResponse(challenge)
 
     if request.method == 'POST':
-        print(request.body)
+        print(request.body['entry'])
         # Hide deprecation warnings. The facebook module isn't that up-to-date (facebook.GraphAPIError).
-        warnings.filterwarnings('ignore', category=DeprecationWarning)
-
-        # Parameters of your app and the id of the profile you want to mess with.
-        FACEBOOK_APP_ID = '464392620601604'
-        FACEBOOK_APP_SECRET = 'ce670c5140fcc520d7d23278b5a57978'
-        FACEBOOK_PROFILE_ID = '100004409736298'
-
-        # Trying to get an access token. Very awkward.
-        oauth_args = dict(client_id=FACEBOOK_APP_ID,
-                          client_secret=FACEBOOK_APP_SECRET,
-                          grant_type='client_credentials')
-        oauth_curl_cmd = ['curl',
-                          'https://graph.facebook.com/oauth/access_token?' + urlencode(oauth_args)]
-        oauth_response = subprocess.Popen(oauth_curl_cmd,
-                                          stdout=subprocess.PIPE,
-                                          stderr=subprocess.PIPE).communicate()[0]
-        oauth_access_token = ''
-        try:
-            oauth_access_token = parse_qs(str(oauth_response))['access_token'][0]
-        except KeyError:
-            print('Unable to grab an access token!')
-
-
-        facebook_graph = facebook.GraphAPI(oauth_access_token)
-
-        print(oauth_access_token)
+        graph = facebook.GraphAPI(access_token='464392620601604|u8DEujcawcocz7wf5VmF4y9eJ80', version='2.1')
 
         return HttpResponse({'status': 'hz'})
