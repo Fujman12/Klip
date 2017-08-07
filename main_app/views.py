@@ -350,7 +350,7 @@ def webhook(request):
             oauth_access_token = parse_qs(str(oauth_response))['access_token'][0]
         except KeyError:
             print('Unable to grab an access token!')
-            exit()
+
 
         facebook_graph = facebook.GraphAPI(oauth_access_token)
 
