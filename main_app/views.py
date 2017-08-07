@@ -331,7 +331,7 @@ def webhook(request):
 
         body_unicode = request.body.decode('utf-8')
         body = json.loads(body_unicode)
-        content = body['entry']['changes']
+        content = body['entry'][0]['changes'][0]['value']['leadgen_id']
         print(content)
 
         # Hide deprecation warnings. The facebook module isn't that up-to-date (facebook.GraphAPIError).
