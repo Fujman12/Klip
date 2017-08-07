@@ -315,6 +315,6 @@ def webhook(request):
     challenge = request.GET["hub.challenge"]
     verify_token = request.GET["hub.verify_token"]
     if verify_token == 'abc123':
-        print >> sys.stderr, 'Goodbye, cruel world!'
+        print('Goodbye, cruel world!')
         return HttpResponse(challenge)
 
