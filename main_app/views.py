@@ -328,9 +328,12 @@ def webhook(request):
             return HttpResponse(challenge)
 
     if request.method == 'POST':
-        a = json.load(request.body)
-        print(a)
-        print(a['entry'])
+
+        body_unicode = request.body.decode('utf-8')
+        body = json.loads(body_unicode)
+        content = body['entry']
+        print(content)
+
         # Hide deprecation warnings. The facebook module isn't that up-to-date (facebook.GraphAPIError).
         graph = facebook.GraphAPI(access_token='464392620601604|u8DEujcawcocz7wf5VmF4y9eJ80', version='2.1')
 
