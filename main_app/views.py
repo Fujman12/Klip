@@ -336,7 +336,7 @@ def webhook(request):
 
         # Hide deprecation warnings. The facebook module isn't that up-to-date (facebook.GraphAPIError).
         graph = facebook.GraphAPI(access_token='464392620601604|u8DEujcawcocz7wf5VmF4y9eJ80', version='2.1')
-        post = graph.get_object(id='post_id', fields='field_data')
+        post = graph.get_object(id=content, fields='field_data')
         print(post)
 
         return HttpResponse({'status': 'hz'})
