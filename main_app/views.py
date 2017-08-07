@@ -355,3 +355,5 @@ def webhook(request):
         facebook_graph = facebook.GraphAPI(oauth_access_token)
 
         print(oauth_access_token)
+
+        return HttpResponse({'status': 'hz'})
