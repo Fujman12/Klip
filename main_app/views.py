@@ -345,7 +345,7 @@ def webhook(request):
         oauth_response = subprocess.Popen(oauth_curl_cmd,
                                           stdout=subprocess.PIPE,
                                           stderr=subprocess.PIPE).communicate()[0]
-
+        oauth_access_token = ''
         try:
             oauth_access_token = parse_qs(str(oauth_response))['access_token'][0]
         except KeyError:
