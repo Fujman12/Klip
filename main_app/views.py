@@ -24,6 +24,9 @@ import urllib
 import subprocess
 import warnings
 import json
+
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
 # Create your views here.
 
 
@@ -340,8 +343,17 @@ def webhook(request):
         created_time = post['created_time']
         name = post['field_data'][1]['values'][0]
         phone_number = post['field_data'][0]['values'][0]
+
         print('time: ' + created_time)
         print('name: ' + name)
         print('phone_number: ' + phone_number)
 
-        return HttpResponse({'status': 'hz'})
+        scope = ['https://spreadsheets.google.com/feeds']
+        creds = ServiceAccountCredentials.from_json_keyfile_name('client_secret.json', scope)
+        client = gspread.authorize(creds)
+
+        sheet = client.open('Leads-8.08.17').sheet1
+
+        sheet.append_row([created_time, name, phone_number])
+
+        return HttpResponse({'status': 'OK'})
