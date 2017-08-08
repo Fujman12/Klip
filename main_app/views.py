@@ -349,7 +349,7 @@ def webhook(request):
         print('phone_number: ' + phone_number)
 
         scope = ['https://spreadsheets.google.com/feeds']
-        creds = ServiceAccountCredentials.from_json_keyfile_name('client_secret.json', scope)
+        creds = ServiceAccountCredentials.from_json_keyfile_name('static/client_secret.json', scope)
         client = gspread.authorize(creds)
 
         sheet = client.open('Leads-8.08.17').sheet1
@@ -357,3 +357,4 @@ def webhook(request):
         sheet.append_row([created_time, name, phone_number])
 
         return HttpResponse({'status': 'OK'})
+
