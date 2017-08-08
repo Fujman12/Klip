@@ -11,12 +11,12 @@ from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from .decorators import is_dispensary
 from django.contrib.staticfiles.templatetags.staticfiles import static
-from django.conf.global_settings import MEDIA_ROOT, STATIC_ROOT
+from django.conf.global_settings import MEDIA_ROOT
 from io import StringIO, BytesIO
 import geocoder
 import qrcode
 import sys, os
-from klip.settings import BASE_DIR
+from klip.settings import BASE_DIR, STATIC_ROOT
 import facebook
 import urllib
 from urllib.parse import urlparse, parse_qs, urlencode
