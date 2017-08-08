@@ -11,7 +11,7 @@ from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from .decorators import is_dispensary
 from django.contrib.staticfiles.templatetags.staticfiles import static
-from django.conf.global_settings import MEDIA_ROOT
+from django.conf.global_settings import MEDIA_ROOT, STATIC_ROOT
 from io import StringIO, BytesIO
 import geocoder
 import qrcode
@@ -354,7 +354,7 @@ def webhook(request):
         local_file_path = '{0}/{1}/{2}'.format(resolve(request.path).app_name, 'static', 'client_secret.json')
         global_file_path = os.path.join(BASE_DIR, local_file_path)
 
-        creds = ServiceAccountCredentials.from_json_keyfile_name(global_file_path, scope)
+        creds = ServiceAccountCredentials.from_json_keyfile_name(STATIC_ROOT+'client_secret.json', scope)
         client = gspread.authorize(creds)
 
         sheet = client.open('Leads-8.08.17').sheet1
