@@ -15,8 +15,8 @@ from django.conf.global_settings import MEDIA_ROOT
 from io import StringIO, BytesIO
 import geocoder
 import qrcode
-import sys
-
+import sys, os
+from klip.settings import BASE_DIR
 import facebook
 import urllib
 from urllib.parse import urlparse, parse_qs, urlencode
@@ -24,6 +24,7 @@ import urllib
 import subprocess
 import warnings
 import json
+from django.core.urlresolvers import resolve
 
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
@@ -349,7 +350,11 @@ def webhook(request):
         print('phone_number: ' + phone_number)
 
         scope = ['https://spreadsheets.google.com/feeds']
-        creds = ServiceAccountCredentials.from_json_keyfile_name('static/client_secret.json', scope)
+
+        local_file_path = '{0}/{1}/{2}'.format(resolve(request.path).app_name, 'static', 'client_secret.json')
+        global_file_path = os.path.join(BASE_DIR, local_file_path)
+
+        creds = ServiceAccountCredentials.from_json_keyfile_name(global_file_path, scope)
         client = gspread.authorize(creds)
 
         sheet = client.open('Leads-8.08.17').sheet1
