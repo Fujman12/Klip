@@ -354,7 +354,7 @@ def webhook(request):
         local_file_path = '{0}/{1}/{2}'.format(resolve(request.path).app_name, 'static', 'client_secret.json')
         global_file_path = os.path.join(BASE_DIR, local_file_path)
 
-        creds = ServiceAccountCredentials.from_json_keyfile_name(STATIC_ROOT+'client_secret.json', scope)
+        creds = ServiceAccountCredentials.from_json_keyfile_name(STATIC_ROOT+'/client_secret.json', scope)
         client = gspread.authorize(creds)
 
         sheet = client.open('Leads-8.08.17').sheet1
