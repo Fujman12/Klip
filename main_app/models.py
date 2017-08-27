@@ -67,6 +67,7 @@ class Dispensary(models.Model):
     website = models.CharField(max_length=100, null=True)
     location = models.OneToOneField('Location', null=True)
     secret = models.CharField(max_length=10, null=True)
+    points = models.IntegerField(blank=False, null=False, default=1)
 
     class Meta:
         verbose_name_plural = "dispensaries"

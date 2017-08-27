@@ -7,11 +7,11 @@ from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render_to_response, render
 from django.http import HttpResponseRedirect, JsonResponse
 from django.template import RequestContext
-from main_app.models import Dispensary, Location
+from main_app.models import Dispensary, Location, Coupon
 from main_app.forms import SearchForm, CreateDealForm
 from users_app.models import Profile
 from main_app.decorators import is_dispensary
-
+from collections import defaultdict
 
 def register(request):
     search_form = SearchForm()
@@ -101,7 +101,13 @@ def profile(request):
     print(user.profile.dispensary)
 
     if user.profile.user_type == Profile.PATIENT or user.profile.user_type is None:
-        data = {'user': user, 'form': form}
+
+        groups = defaultdict(int)
+        for coupon in user.coupons.all():
+            groups[coupon.deal.dispensary] += 1 * coupon.deal.dispensary.points
+
+        points = dict(groups)
+        data = {'user': user, 'form': form, 'points': points}
         return render(request, 'users_app/profile.html', data)
     else:
         data = {'user': user, 'form': form, 'deal_form': deal_form}

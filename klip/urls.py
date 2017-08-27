@@ -41,6 +41,7 @@ urlpatterns = [
     url(r'^contact_us/', contact_us, name='contact_us'),
     url(r'^about_us/', about_us, name='about_us'),
     url(r'^test/', test, name='test'),
+    url(r'^paypal/', include('paypal.standard.ipn.urls'))
 
 ]
 
