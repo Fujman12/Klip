@@ -17,6 +17,7 @@ urlpatterns = [
     url(r'^change_website', views.change_website, name='change_website'),
     url(r'^change_dispensary_name', views.change_dispensary_name, name='change_dispensary_name'),
     url(r'^change_phone_number', views.change_phone_number, name='change_phone_number'),
+    url(r'^change_about', views.change_about, name='change_about'),
     url(r'^upload_image', views.upload_image, name='upload_image'),
     #url(r'^wallet', views.wallet, name='wallet')
 

@@ -278,7 +278,7 @@
                               </tr>
                               <tr>
                           <td>About</td>
-                          <td><a id="comments" data-title="Enter comments" data-placeholder="Your comments here..." data-pk="1" data-type="textarea" href="#" class="editable editable-pre-wrapped editable-click editable-unsaved" data-original-title="" style="font-weight: normal" title=""></a></td>
+                          <td><a id="comments" data-url="{% url 'users_app:change_about' %}" data-title="Enter comments" data-placeholder="Your comments here..." data-pk="1" data-type="textarea" href="#" class="editable editable-pre-wrapped editable-click editable-unsaved" data-original-title="" style="font-weight: normal" title="">{% if user.profile.about %}{{ user.profile.about }}{% endif %}</a></td>
                         </tr>
                           </tbody>
                       </table>

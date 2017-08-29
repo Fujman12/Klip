@@ -213,3 +213,9 @@ def upload_image(request):
     return JsonResponse({'value': 'OK'})
 
 
+def change_about(request):
+    user = request.user
+    user.profile.about = request.POST["value"]
+    user.profile.save()
+
+    return JsonResponse({'value': 'OK'})
