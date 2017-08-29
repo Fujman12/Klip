@@ -5,7 +5,7 @@ from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.core.files import File
 from django.views.decorators.csrf import csrf_exempt
-from .models import Deal, Dispensary, Review, DealImage, Coupon, Order
+from .models import Deal, Dispensary, Review, DealImage, Coupon, Order, Charge
 from django.contrib.auth.models import User
 from .forms import SearchForm, ReviewForm, CreateDealForm, ImageUploadForm, SelectAmountForm
 from django.contrib.staticfiles.templatetags.staticfiles import static
@@ -61,6 +61,11 @@ def e_handler500(request):
 
 
 def index(request):
+    charge = Charge.objects.first()
+
+    if charge is None:
+        charge = Charge()
+        charge.save()
 
     form = SearchForm()
     context = dict()
