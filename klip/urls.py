@@ -18,6 +18,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 
 from main_app.views import e_handler404, e_handler500, index, contact_us, about_us, test
+from main_app.models import Charge
 from users_app.views import register, register_success, register_dispensary
 from django.contrib.auth import views as auth_views
 from django.conf import settings
@@ -54,3 +55,5 @@ urlpatterns += [
         'document_root': settings.MEDIA_ROOT,
     }),
 ]
+
+charge = Charge()

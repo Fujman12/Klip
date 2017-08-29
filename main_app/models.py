@@ -173,3 +173,10 @@ class Order(models.Model):
 #        self.qr_image = img
 
 #    super(Coupon, self).save(*args, **kwargs)
+
+class Charge(models.Model):
+    cost_per_click = models.DecimalField(null=False, blank=False, max_digits=10, decimal_places=2, default=0.05)
+
+    def __str__(self):
+        _string = "Current cost per click = {} USD".format(self.cost_per_click)
+        return _string

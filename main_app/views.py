@@ -12,6 +12,7 @@ from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from .decorators import is_dispensary
 from django.contrib.staticfiles.templatetags.staticfiles import static
+from datetime import date
 from django.conf.global_settings import MEDIA_ROOT
 from io import StringIO, BytesIO
 import geocoder
@@ -141,16 +142,21 @@ def deal(request, pk):
 
     _deal = get_object_or_404(Deal, pk=pk)
 
-    review_form = ReviewForm()
+    if date.today() <= _deal.date_expires:
+        review_form = ReviewForm()
 
-    context = dict()
-    context['deal'] = _deal
-    formatted_date = _deal.date_expires.strftime('%Y/%m/%d')
-    context['review_form'] = review_form
-    context['form'] = form
-    context['expires'] = formatted_date
+        context = dict()
+        context['deal'] = _deal
+        formatted_date = _deal.date_expires.strftime('%Y/%m/%d')
+        context['review_form'] = review_form
+        context['form'] = form
+        context['expires'] = formatted_date
 
-    return render(request, 'main_app/deal.html', context)
+        return render(request, 'main_app/deal.html', context)
+
+    else:
+        _deal.status = _deal.INACTIVE
+        return HttpResponseRedirect(reverse('index'))
 
 
 # updates deal's likes/dislikes
