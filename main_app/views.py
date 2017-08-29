@@ -105,7 +105,7 @@ def deals_around(request):
         for deal in dispensary.deals.all():
             if deal.status == deal.ACTIVE:
 
-                if deal.dispensary.profile is not None and deal.dispensary.profile.avatar is not None:
+                if deal.dispensary.profile is not None and deal.dispensary.profile.avatar.url is not None:
                     image_url = deal.dispensary.profile.avatar.url
                 else:
                     image_url = static('main_app/images/deals/thumb_02.jpg')
