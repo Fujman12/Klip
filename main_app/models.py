@@ -38,7 +38,7 @@ class Deal(models.Model):
 
     date_created = models.DateTimeField(auto_now_add=True)
     date_starts = models.DateField(default=django.utils.timezone.now)
-    date_expires = models.DateField(default=django.utils.timezone.now + timedelta(days=30))
+    date_expires = models.DateField(default=datetime.now() + timedelta(days=30))
 
     dispensary = models.ForeignKey('Dispensary', on_delete=models.CASCADE, related_name='deals')
 
