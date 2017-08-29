@@ -18,7 +18,7 @@ class BaseProfile(models.Model):
         (DISPENSARY, 'Dispensary'),
     )
     phone_number = models.CharField('Phone number', max_length=35, blank=True, null=True)
-    avatar = models.ImageField(upload_to=get_upload_path, null=True)
+    avatar = models.ImageField(upload_to=get_upload_path, null=True, blank=True)
     user = models.OneToOneField(User, primary_key=True)
     user_type = models.IntegerField(null=True, choices=USER_TYPES)
 
