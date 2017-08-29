@@ -385,7 +385,7 @@
                 $(this).html(e.strftime(format));
             });
         }).on('finish.countdown', function(e){
-            $(this).html('This offer ha expired!').addClass('disabled');
+            $(this).html('This offer has expired!').addClass('disabled');
         });
     };
 
