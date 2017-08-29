@@ -425,7 +425,7 @@ def show_me_the_money(sender, **kwargs):
         # Check that the receiver email is the same we previously
         # set on the `business` field. (The user could tamper with
         # that fields on the payment form before it goes to PayPal)
-        if ipn_obj.receiver_email != "nanlicawork@gmail.com":
+        if ipn_obj.receiver_email != "nanlicawork-facilitator@gmail.com":
             # Not a valid payment
             return
 
