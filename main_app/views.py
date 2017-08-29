@@ -435,7 +435,7 @@ def show_me_the_money(sender, **kwargs):
 
         # Undertake some action depending upon `ipn_obj`.
         user = User.objects.filter(id=ipn_obj.custom).first()
-        user.profile.balance += ipn_obj.mc_gross
+        user.profile.balance += float(ipn_obj.mc_gross)
         user.save()
         print('GOGOGO!')
     else:
