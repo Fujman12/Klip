@@ -179,5 +179,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 
-PAYPAL_RECEIVER_EMAIL = 'nanlicawork@gmail.com'
+PAYPAL_RECEIVER_EMAIL = 'nanlicawork-facilitator@gmail.com'
 PAYPAL_TEST = True
