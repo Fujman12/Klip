@@ -33,7 +33,7 @@ class PatientProfile:
 
 
 class DispensaryProfile(models.Model):
-    balance = models.DecimalField(null=True, max_digits=10, decimal_places=2)
+    balance = models.DecimalField(null=False, max_digits=10, decimal_places=2, default=0)
     dispensary = models.OneToOneField(Dispensary, on_delete=models.CASCADE, null=True)
 
     class Meta:
