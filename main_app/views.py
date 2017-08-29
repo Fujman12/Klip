@@ -151,7 +151,9 @@ def deal(request, pk):
     _deal = get_object_or_404(Deal, pk=pk)
 
     charge = Charge.objects.first()
-    if date.today() <= _deal.date_expires and _deal.dispensary.profile.balance - charge.cost_per_click >= 0:
+    if date.today() >= _deal.date_starts and \
+                    date.today() <= _deal.date_expires and \
+                            _deal.dispensary.profile.balance - charge.cost_per_click >= 0:
 
         if user.profile.user_type == Profile.PATIENT or user.profile.user_type is None:
             _deal.dispensary.profile.balance -= charge.cost_per_click
