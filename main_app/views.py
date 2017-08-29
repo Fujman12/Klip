@@ -167,6 +167,7 @@ def deal(request, pk):
 
     else:
         _deal.status = _deal.INACTIVE
+        _deal.save()
         return HttpResponseRedirect(reverse('index'))
 
 
