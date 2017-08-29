@@ -27,7 +27,7 @@ class BaseProfile(models.Model):
 
 
 class PatientProfile(models.Model):
-    about = models.TextField(blank=False, null=False)
+    about = models.TextField(blank=True, null=True)
 
     class Meta:
         abstract = True
