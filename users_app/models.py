@@ -43,8 +43,11 @@ class DispensaryProfile(models.Model):
 class Profile(BaseProfile, PatientProfile, DispensaryProfile):
 
     def __str__(self):
-
-        return self.user.first_name
+        if self.dispensary is not None:
+            string = "{} - {}".format(self.user.first_name, self.dispensary.name)
+            return string
+        else:
+            return self.user.first_name
 
 #
 #class Profile(models.Model):
