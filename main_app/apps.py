@@ -7,3 +7,4 @@ class MainAppConfig(AppConfig):
 
     def ready(self):
         charge = Charge()
+        charge.save()
