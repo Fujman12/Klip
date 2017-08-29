@@ -6,6 +6,7 @@ from django.urls import reverse
 from django.core.files import File
 from django.views.decorators.csrf import csrf_exempt
 from .models import Deal, Dispensary, Review, DealImage, Coupon, Order, Charge
+from users_app.models import Profile
 from django.contrib.auth.models import User
 from .forms import SearchForm, ReviewForm, CreateDealForm, ImageUploadForm, SelectAmountForm
 from django.contrib.staticfiles.templatetags.staticfiles import static
@@ -142,13 +143,18 @@ def map_view(request):
 
 
 def deal(request, pk):
-
+    user = request.user
     form = SearchForm()
+    review_form = ReviewForm()
 
     _deal = get_object_or_404(Deal, pk=pk)
 
-    if date.today() <= _deal.date_expires:
-        review_form = ReviewForm()
+    charge = Charge.objects.first()
+    if date.today() <= _deal.date_expires and _deal.dispensary.profile.balance - charge.cost_per_click >= 0:
+
+        if user.profile.user_type == Profile.PATIENT or user.profile.user_type is None:
+            _deal.dispensary.profile.balance -= charge.cost_per_click
+            _deal.dispensary.profile.save()
 
         context = dict()
         context['deal'] = _deal
