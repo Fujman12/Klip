@@ -12,6 +12,7 @@ from main_app.forms import SearchForm, CreateDealForm
 from users_app.models import Profile
 from main_app.decorators import is_dispensary
 from collections import defaultdict
+from time import strptime
 
 def register(request):
     search_form = SearchForm()
@@ -61,7 +62,8 @@ def register_dispensary(request):
             user.save()
             location = Location(city=form.cleaned_data['city'], state=form.cleaned_data['state'], street_address=form.cleaned_data['street_address'])
             location.save()
-            dispensary = Dispensary(location=location, name=form.cleaned_data['dispensary_name'], description='blabla', website=form.cleaned_data['website'])
+            dispensary = Dispensary(location=location, name=form.cleaned_data['dispensary_name'], description='blabla', website=form.cleaned_data['website'],
+                                    working_from=strptime(form.cleaned_data['working_from'], "%H:%M"), working_to=strptime(form.cleaned_data['working_to'], "%H:%M"))
             dispensary.save()
             user.profile.dispensary = dispensary
             user.save()

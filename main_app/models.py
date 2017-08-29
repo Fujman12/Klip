@@ -38,7 +38,7 @@ class Deal(models.Model):
 
     date_created = models.DateTimeField(auto_now_add=True)
     date_starts = models.DateField(default=django.utils.timezone.now)
-    date_expires = models.DateField(default=datetime.now() + timedelta(days=30))
+    date_expires = models.DateField(default=django.utils.timezone.now + timedelta(days=30))
 
     dispensary = models.ForeignKey('Dispensary', on_delete=models.CASCADE, related_name='deals')
 
@@ -69,8 +69,8 @@ class Dispensary(models.Model):
     secret = models.CharField(max_length=10, null=True)
     points = models.IntegerField(blank=False, null=False, default=1)
 
-    working_from = models.TimeField()
-    working_to = models.TimeField()
+    working_from = models.TimeField(null=True)
+    working_to = models.TimeField(null=True)
 
     class Meta:
         verbose_name_plural = "dispensaries"

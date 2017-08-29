@@ -162,9 +162,13 @@ def deal(request, pk):
         context = dict()
         context['deal'] = _deal
         formatted_date = _deal.date_expires.strftime('%Y/%m/%d')
+        working_from = _deal.dispensary.working_from.strftime('%H:%M')
+        working_to = _deal.dispensary.working_to.strftime('%H:%M')
         context['review_form'] = review_form
         context['form'] = form
         context['expires'] = formatted_date
+        context['working_from'] = working_from
+        context['working_to'] = working_to
 
         return render(request, 'main_app/deal.html', context)
 
