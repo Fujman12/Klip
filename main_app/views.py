@@ -152,7 +152,7 @@ def deal(request, pk):
     charge = Charge.objects.first()
     if date.today() <= _deal.date_expires and _deal.dispensary.profile.balance - charge.cost_per_click >= 0:
 
-        if user.profile.user_type == Profile.PATIENT or user.profile.user_type is None:
+        if user.profile is None or user.profile.user_type == Profile.PATIENT or user.profile.user_type is None:
             _deal.dispensary.profile.balance -= charge.cost_per_click
             _deal.dispensary.profile.save()
 
