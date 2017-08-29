@@ -69,6 +69,9 @@ class Dispensary(models.Model):
     secret = models.CharField(max_length=10, null=True)
     points = models.IntegerField(blank=False, null=False, default=1)
 
+    working_from = models.TimeField()
+    working_to = models.TimeField()
+
     class Meta:
         verbose_name_plural = "dispensaries"
 
