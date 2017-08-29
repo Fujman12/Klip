@@ -21,5 +21,10 @@ urlpatterns = [
     url(r'patient_view/(?P<pk>[0-9]+)', views.patient_view, name="patient_view"),
     url(r'coupon_details/(?P<pk>[0-9]+)', views.coupon_details, name="coupon_details"),
     url(r'remove_coupon/(?P<pk>[0-9]+)', views.remove_coupon, name="remove_coupon"),
-    url(r'webhook', views.webhook, name='webhook')
+    url(r'webhook', views.webhook, name='webhook'),
+    url(r'select_amount', views.select_amount_view, name='select_amount'),
+    url(r'payment_view/(?P<pk>[0-9]+)', views.payment_view, name='payment_view'),
+    url(r'payment_success', views.payment_success, name='payment_success'),
+    url(r'payment_cancel', views.payment_cancel, name='payment_cancel'),
+
 ]

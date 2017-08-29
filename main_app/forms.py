@@ -15,7 +15,6 @@ class ReviewForm(forms.ModelForm):
         fields = ['text',]
 
 
-
 CATEGORY_CHOICES = (
     ('in', 'Indica'),
     ('sa', 'Sativa'),
@@ -41,3 +40,16 @@ class ImageUploadForm(forms.ModelForm):
     class Meta:
         model = DealImage
         fields = ['image']
+
+
+class SelectAmountForm(forms.Form):
+    AMOUNT_CHOICES = (
+        ('50', '50'),
+        ('100', '100'),
+        ('200', '200'),
+        ('500', '500'),
+        ('1000', '1000'),
+    )
+
+    amount = forms.ChoiceField(choices=AMOUNT_CHOICES, label="", initial='', widget=forms.Select(), required=True)
+

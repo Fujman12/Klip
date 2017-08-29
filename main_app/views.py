@@ -1,12 +1,13 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.core.files import File
 from django.views.decorators.csrf import csrf_exempt
-from .models import Deal, Dispensary, Review, DealImage, Coupon
-from .forms import SearchForm, ReviewForm, CreateDealForm, ImageUploadForm
+from .models import Deal, Dispensary, Review, DealImage, Coupon, Order
+from django.contrib.auth.models import User
+from .forms import SearchForm, ReviewForm, CreateDealForm, ImageUploadForm, SelectAmountForm
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from .decorators import is_dispensary
@@ -28,6 +29,11 @@ from django.core.urlresolvers import resolve
 
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
+
+from paypal.standard.forms import PayPalPaymentsForm
+
+from paypal.standard.models import ST_PP_COMPLETED
+from paypal.standard.ipn.signals import valid_ipn_received
 # Create your views here.
 
 
@@ -363,3 +369,73 @@ def webhook(request):
 
         return HttpResponse({'status': 'OK'})
 
+
+def payment_success(request):
+    return render(request, 'main_app/payment_success.html')
+
+
+def payment_cancel(request):
+    return render(request, 'main_app/payment_cancel.html')
+
+
+@is_dispensary
+def select_amount_view(request):
+    user = request.user
+    if request.method == 'POST':
+        form = SelectAmountForm(request.POST)
+        if form.is_valid():
+            order = Order(dispensary=user.profile.dispensary, amount=form.cleaned_data['amount'])
+            order.save()
+            return HttpResponseRedirect(reverse('payment_view', args=[str(order.id)]))
+        else:
+            return JsonResponse({'status': 'Ooops! Something went wrong...'})
+    else:
+        form = SelectAmountForm()
+        return render(request, 'main_app/select_amount.html', {'form': form})
+
+
+@is_dispensary
+def payment_view(request, pk):
+
+    order = get_object_or_404(Order, pk=pk)
+    # What you want the button to do.
+    paypal_dict = {
+        "business": "nanlicawork@gmail.com",
+        "amount": order.amount,
+        "item_name": 'Dispensary balance',
+        "invoice": order.id,
+        "notify_url": request.build_absolute_uri(reverse('paypal-ipn')),
+        "return_url": request.build_absolute_uri(reverse('payment_success')),
+        "cancel_return": request.build_absolute_uri(reverse('payment_cancel')),
+        "custom": request.user.id,  # Custom command to correlate to some function later (optional)
+    }
+
+    # Create the instance.
+    form = PayPalPaymentsForm(initial=paypal_dict)
+    context = {"form": form}
+    return render(request, "main_app/payment.html", context)
+
+
+def show_me_the_money(sender, **kwargs):
+    ipn_obj = sender
+    if ipn_obj.payment_status == ST_PP_COMPLETED:
+        # WARNING !
+        # Check that the receiver email is the same we previously
+        # set on the `business` field. (The user could tamper with
+        # that fields on the payment form before it goes to PayPal)
+        if ipn_obj.receiver_email != "nanlicawork@gmail.com":
+            # Not a valid payment
+            return
+
+        # ALSO: for the same reason, you need to check the amount
+        # received, `custom` etc. are all what you expect or what
+        # is allowed.
+
+        # Undertake some action depending upon `ipn_obj`.
+        user = User.objects.filter(id=ipn_obj.custom).first()
+        user.profile.balance += ipn_obj.mc_gross
+        user.save()
+    else:
+        return
+
+valid_ipn_received.connect(show_me_the_money)

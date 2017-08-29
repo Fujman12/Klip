@@ -145,12 +145,31 @@ class Coupon(models.Model):
         string = "{}, {} - {}; {}".format(self.user.first_name, self.user.last_name, self.deal.title, self.date_created)
         return string
 
-    #def save(self, *args, **kwargs):
-    #    if self.pk is None:
-    #        from django.urls import reverse
-    #        url = reverse('coupon_details', args=[str(1)])
-    #
-    #        img = qrcode.make(url)
-    #        self.qr_image = img
 
-    #    super(Coupon, self).save(*args, **kwargs)
+class Order(models.Model):
+    NEW = '0'
+    PAID = '1'
+
+    STATUS_CHOICES = (
+        (NEW, 'New'),
+        (PAID, 'Paid'),
+    )
+
+    dispensary = models.ForeignKey(Dispensary, related_name='orders', null=True)
+    amount = models.DecimalField(blank=False, null=False, max_digits=10, decimal_places=2)
+    status = models.CharField(choices=STATUS_CHOICES, max_length=3, default=NEW)
+
+    def __str__(self):
+        string = "{} USD - {}".format(self.amount, self.dispensary.name)
+        return string
+
+
+#def save(self, *args, **kwargs):
+#    if self.pk is None:
+#        from django.urls import reverse
+#        url = reverse('coupon_details', args=[str(1)])
+#
+#        img = qrcode.make(url)
+#        self.qr_image = img
+
+#    super(Coupon, self).save(*args, **kwargs)

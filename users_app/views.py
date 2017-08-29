@@ -211,3 +211,5 @@ def upload_image(request):
     user.save()
 
     return JsonResponse({'value': 'OK'})
+
+
