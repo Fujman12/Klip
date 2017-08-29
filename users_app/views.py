@@ -68,7 +68,7 @@ def register_dispensary(request):
             working_to = strptime(form.cleaned_data['working_to'], "%H:%M")
             print(working_from)
             dispensary = Dispensary(location=location, name=form.cleaned_data['dispensary_name'], description='blabla', website=form.cleaned_data['website'],
-                                    working_from=working_from, working_to=working_to)
+                                    working_from=form.cleaned_data['working_from'], working_to=form.cleaned_data['working_to'])
             dispensary.save()
             user.profile.dispensary = dispensary
             user.save()
