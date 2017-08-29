@@ -418,7 +418,9 @@ def payment_view(request, pk):
 
 def show_me_the_money(sender, **kwargs):
     ipn_obj = sender
+    print("GO!")
     if ipn_obj.payment_status == ST_PP_COMPLETED:
+        print('GOGO!')
         # WARNING !
         # Check that the receiver email is the same we previously
         # set on the `business` field. (The user could tamper with
@@ -435,6 +437,7 @@ def show_me_the_money(sender, **kwargs):
         user = User.objects.filter(id=ipn_obj.custom).first()
         user.profile.balance += ipn_obj.mc_gross
         user.save()
+        print('GOGOGO!')
     else:
         return
 
