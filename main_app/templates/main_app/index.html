@@ -415,7 +415,7 @@
 <script  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAW0b9tbcJ6Sj4D31PLx5zfJ7WXItdOfsQ&libraries=places&callback=initialize" type="text/javascript"></script>
 <script>
     $("#current").on('click', function(){
-    var x = $('location');
+    var x = $('#searchTextField');
 
     function getLocation() {
         if (navigator.geolocation) {
@@ -426,7 +426,7 @@
     }
 
     function showPosition(position) {
-        alert(position.coords.latitude + " ; " + position.coords.longitude);
+        x.val(position.coords.latitude + " ; " + position.coords.longitude);
     }
 
     getLocation();
