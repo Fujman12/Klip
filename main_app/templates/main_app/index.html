@@ -181,6 +181,9 @@
                                                         <button type="submit" class="btn btn-lg btn-search btn-block" style="margin-left: 0;">
                                                             <i class="fa fa-search font-16"></i>
                                                         </button>
+                                                        <button id="current" class="btn btn-lg btn-search btn-block" style="margin-left: 0;">
+                                                            O
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -410,7 +413,26 @@
     //google.maps.event.addDomListener(window, 'load', initialize);
 </script>
 <script  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAW0b9tbcJ6Sj4D31PLx5zfJ7WXItdOfsQ&libraries=places&callback=initialize" type="text/javascript"></script>
+<script>
+    $("#current").on('click', function(){
+    var x = $('location');
 
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            x.val("Geolocation is not supported by this browser.");
+        }
+    }
+
+    function showPosition(position) {
+        x.val(position.coords.latitude + " ; " + position.coords.longitude);
+    }
+
+    getLocation();
+    })
+
+</script>
 </body>
 
 </html>
