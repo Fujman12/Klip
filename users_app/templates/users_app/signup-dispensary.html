@@ -288,7 +288,8 @@
                                     {% render_field form.password2  class="form-control input-lg" placeholder="Confirm Password" %}
                                 </div>
                                 <div class="form-group">
-                                    <label>Working time</label>
+
+                                    <label>Working from:</label>
                                     {% render_field form.working_from class="form-control mb-20" name="from" id="" %}
                                     <!--select class="form-control mb-20" name="from" id="">
                                         <option value="" style="display: none">From</option>
@@ -317,6 +318,7 @@
                                         <option value="">06:00</option>
 
                                     </select-->
+                                    <label>To:</label>
                                     {% render_field form.working_to  class="form-control mb-20" name="to" id="" %}
                                     <!--select class="form-control mb-20" name="from" id="">
                                         <option value="" style="display: none">To</option>
