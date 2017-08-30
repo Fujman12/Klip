@@ -1455,7 +1455,7 @@ h6 + .demo button {
 }
 .deal-single p {
   font-size: 13px;
-  height: 119px;
+  height: 60px;
   overflow: hidden;
   margin-bottom: 10px;
 }
@@ -2462,6 +2462,7 @@ div.tab button.active {
     display: none!important;
   }
   #js-list-view {
+    display: block!important;
     display: block!important;
   }
 
