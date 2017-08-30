@@ -176,7 +176,12 @@
                                     <form class="search-form" action="{% url 'map_view' %}" method="post" >
                                         {%  csrf_token %}
                                         <div class="input-group">
-                                            {% render_field search_form.location class="form-control input-lg search-input" id="searchTextField" style="background-color: rgba(255,255,255, 0.9)" placeholder="Enter location ..." required="required " %}
+                                            <div class="search-input-wrapper">
+                                                {% render_field form.location class="form-control input-lg search-input" id="searchTextField" style="background-color: rgba(255,255,255, 0.9)" placeholder="Enter location ..." required="required " %}
+                                                <button id="current" class="btn btn-lg btn-search" tittle="Your location">
+                                                        <i class="fa fa-map-marker font-16"></i>
+                                                </button>
+                                            </div>
                                             <!--input type="text" class="form-control input-lg search-input" style="background-color: rgba(255,255,255, 0.9)" placeholder="Enter location ..." required="required"-->
                                             <div class="input-group-btn" style="background-color: rgba(255,255,255, 0.9)">
                                                 <div class="input-group">
@@ -473,7 +478,26 @@
         //google.maps.event.addDomListener(window, 'load', initialize);
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBSAyxn_ECVYJJXf-hJAeSaYe2pOxHquEQ&libraries=places&callback=initialize" async defer></script>
+    <script>
+        $("#current").on('click', function(){
+        var x = $('#searchTextField');
 
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+                x.val("Geolocation is not supported by this browser.");
+            }
+        }
+
+        function showPosition(position) {
+            x.val(position.coords.latitude + "  " + position.coords.longitude);
+        }
+
+        getLocation();
+        })
+
+    </script>
 </body>
 
 </html>

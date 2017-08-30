@@ -44,11 +44,11 @@ class ImageUploadForm(forms.ModelForm):
 
 class SelectAmountForm(forms.Form):
     AMOUNT_CHOICES = (
-        ('50', '50'),
-        ('100', '100'),
-        ('200', '200'),
-        ('500', '500'),
-        ('1000', '1000'),
+        ('50', '50 USD'),
+        ('100', '100 USD'),
+        ('200', '200 USD'),
+        ('500', '500 USD'),
+        ('1000', '1000 USD'),
     )
 
     amount = forms.ChoiceField(choices=AMOUNT_CHOICES, label="", initial='', widget=forms.Select(), required=True)

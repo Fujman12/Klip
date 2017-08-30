@@ -2461,5 +2461,8 @@ div.tab button.active {
   .category-map-content, div[class="right-10 is-inline-block mt-20"] {
     display: none!important;
   }
+  #js-list-view {
+    display: block!important;
+  }
 
 }

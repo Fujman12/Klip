@@ -260,8 +260,12 @@
                                      <form class="search-form" action="{% url 'map_view' %}" method="post" >
                                         {%  csrf_token %}
                                         <div class="input-group">
-                                            {% render_field form.location class="form-control input-lg search-input" id="searchTextField" style="background-color: rgba(255,255,255, 0.9)" placeholder="Enter location ..." required="required " %}
-                                            <!--input type="text" class="form-control input-lg search-input" style="background-color: rgba(255,255,255, 0.9)" placeholder="Enter location ..." required="required"-->
+                                            <div class="search-input-wrapper">
+                                                {% render_field form.location class="form-control input-lg search-input" id="searchTextField" style="background-color: rgba(255,255,255, 0.9)" placeholder="Enter location ..." required="required " %}
+                                                <button id="current" class="btn btn-lg btn-search" tittle="Your location">
+                                                        <i class="fa fa-map-marker font-16"></i>
+                                                </button>
+                                            </div>                                            <!--input type="text" class="form-control input-lg search-input" style="background-color: rgba(255,255,255, 0.9)" placeholder="Enter location ..." required="required"-->
                                             <div class="input-group-btn" style="background-color: rgba(255,255,255, 0.9)">
                                                 <div class="input-group">
                                                     <select class="form-control input-lg search-select">
@@ -333,7 +337,9 @@
                     <div class="col-xs-12 col-md-8 col-sm-offset-1 col-sm-10 col-md-offset-0 mb-20 t-center">
                       <div class="panel panel-default panel-border-color panel-border-color-primary">
                         <div class="panel-body mt-30">
-                          <h3 class="mb-10 font-20" style="text-shadow: 1px 1px 1px #314555;">Balance :</h3>
+                            <div class="balance-wrapper" style="text-align: right">
+                                <h3 class="mb-10 font-20" style="text-shadow: 1px 1px 1px #314555; display: inline-block; margin-right: 20px;">Balance : <a href="{% url 'select_amount' %}"> {{ user.profile.balance }} </a></h3>
+                            </div>
                           <div class="table-responsive">
                             <table id="user" style="clear: both" class="table table-striped table-borderless">
                               <tbody>
@@ -892,7 +898,26 @@
 
         });
     </script>
+    <script>
+        $("#current").on('click', function(){
+        var x = $('#searchTextField');
 
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+                x.val("Geolocation is not supported by this browser.");
+            }
+        }
+
+        function showPosition(position) {
+            x.val(position.coords.latitude + "  " + position.coords.longitude);
+        }
+
+        getLocation();
+        })
+
+    </script>
 </body>
 
 </html>

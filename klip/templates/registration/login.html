@@ -444,6 +444,26 @@
 
         google.maps.event.addDomListener(window, 'load', initialize);
     </script>
+    <script>
+        $("#current").on('click', function(){
+        var x = $('#searchTextField');
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+                x.val("Geolocation is not supported by this browser.");
+            }
+        }
+
+        function showPosition(position) {
+            x.val(position.coords.latitude + "  " + position.coords.longitude);
+        }
+
+        getLocation();
+        })
+
+    </script>
 </body>
 
 </html>
