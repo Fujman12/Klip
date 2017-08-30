@@ -167,8 +167,8 @@ def deal(request, pk):
         context['review_form'] = review_form
         context['form'] = form
         context['expires'] = formatted_date
-        context['working_from'] = _deal.dispensary.working_from
-        context['working_to'] = _deal.dispensary.working_to
+        context['working_from'] = _deal.dispensary.working_from.strftime('%H:%M')
+        context['working_to'] = _deal.dispensary.working_to.strftime('%H:%M')
 
         return render(request, 'main_app/deal.html', context)
 
