@@ -391,7 +391,7 @@
                             <tr class="panel alert">
                                 <td class="col-sm-8 col-md-9">
                                     <div class="media-left is-hidden-sm-down" >
-                                        <figure class="product-thumb" style="background-image: url({{ disp.profile.avatar.url }}); background-size: cover;">
+                                        <figure class="product-thumb" style="background-image: url({% if disp.profile.avatar %}{{ disp.profile.avatar.url }}{% else %} {% static 'main_app/images/avatars/avatar_01.jpg' %} {% endif %}); background-size: cover;">
                                             <!--img src="{{ coupon.deal.images.first.image.url }}" alt="product"-->
                                         </figure>
                                     </div>
