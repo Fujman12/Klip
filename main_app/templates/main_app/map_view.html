@@ -512,7 +512,7 @@
     function myclick(i) {
       google.maps.event.trigger(markers[i], "click");
     }
-    function createMarker(position, name, city, state, dispensary, bought, image_url, likes, dislikes, deal_url, info_html) {
+    function createMarker(position, name, city, state, dispensary, bought, image_url, likes, dislikes, deal_url, price, old_price, info_html) {
 
         var marker = new google.maps.Marker({
           position: position,
@@ -565,7 +565,9 @@
                                ' </ul> '+
                                ' <p class="text-muted mb-20">' + name + '</p> '+
                             '</div> '+
-
+                            '<div class="deal-price pos-r mb-15"> '+
+                               ' <h3 class="price ptb-5 text-right"><span class="price-sale">$'+ old_price +'</span>$'+ price +'</h3> '+
+                            '</div> ' +
                         '</div> '+
                    ' </div>'+
                 '</div>'
@@ -603,7 +605,7 @@
           deals = data.deals;
 
           deals.forEach(function(deal, i, deals) {
-              createMarker({lat: deal.lat, lng: deal.lng}, deal.title, deal.dispensary_city, deal.dispensary_state, deal.dispensary, deal.bought, deal.image_url, deal.likes, deal.dislikes, deal.deal_url, '<div style="min-width:270px"><a target="_blank" href="' + deal.deal_url + '" style="width: 100%; height: 100%; display: inline-block" ><img src="'+ deal.image_url +'" alt="Logo" align="left" style="width: 80px; height: 80px"> <div class="p-wrapper" style="text-overflow:ellipsis; overflow:hidden; white-space:nowrap; max-width: 500px; display: inline-block; padding-left: 13px; vertical-align: top; padding-bottom: 8px; font-size: 20px">'+ deal.title +'</div><br><span style="text-transform: uppercase; padding-left: 13px; font-weight: 400;" >'+ deal.dispensary +'</span><br><div style="display: inline-block; padding-left: 10px; padding-top: 6px" class="demo mb-5"> <button class="like like-custom" disabled=""><i class="fa fa-thumbs-up"></i> Likes <span class="likes">'+ deal.likes +'</span> </button> <button class="dislike dislike-custom" disabled=""><i class="fa fa-thumbs-down"></i> Dislikes <span class="dislikes">'+ deal.dislikes +'</span> </button> </div> </a></div>');
+              createMarker({lat: deal.lat, lng: deal.lng}, deal.title, deal.dispensary_city, deal.dispensary_state, deal.dispensary, deal.bought, deal.image_url, deal.likes, deal.dislikes, deal.deal_url, deal.price, deal.old_price, '<div style="min-width:270px"><a target="_blank" href="' + deal.deal_url + '" style="width: 100%; height: 100%; display: inline-block" ><img src="'+ deal.image_url +'" alt="Logo" align="left" style="width: 80px; height: 80px"> <div class="p-wrapper" style="text-overflow:ellipsis; overflow:hidden; white-space:nowrap; max-width: 500px; display: inline-block; padding-left: 13px; vertical-align: top; padding-bottom: 8px; font-size: 20px">'+ deal.title +'</div><br><span style="text-transform: uppercase; padding-left: 13px; font-weight: 400;" >'+ deal.dispensary +'</span><br><div style="display: inline-block; padding-left: 10px; padding-top: 6px" class="demo mb-5"> <button class="like like-custom" disabled=""><i class="fa fa-thumbs-up"></i> Likes <span class="likes">'+ deal.likes +'</span> </button> <button class="dislike dislike-custom" disabled=""><i class="fa fa-thumbs-down"></i> Dislikes <span class="dislikes">'+ deal.dislikes +'</span> </button> </div> </a></div>');
           });
           /*
           createMarker({lat: -25.363, lng: 131.044}, 'Deal name 1', 'gogdeogo');

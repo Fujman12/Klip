@@ -110,7 +110,7 @@ def deals_around(request):
                 else:
                     image_url = static('main_app/images/deals/thumb_02.jpg')
 
-                deals.append({'title': deal.title, 'description': deal.description, 'price': deal.price,
+                deals.append({'title': deal.title, 'description': deal.description, 'price': deal.price, 'old_price': deal.old_price,
                               'expires': deal.date_expires, 'lat': deal.dispensary.location.lat, 'lng': deal.dispensary.location.lng,
                               'deal_url': reverse('deal', args=[deal.pk]), 'image_url': static('main_app/images/deals/thumb_02.jpg'),
                               'dispensary': deal.dispensary.name, 'likes': deal.likes, 'dislikes': deal.dislikes,
