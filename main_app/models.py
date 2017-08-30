@@ -105,12 +105,12 @@ class Location(models.Model):
     lng = models.FloatField()
 
     def save(self, *args, **kwargs):
-        if self.pk is None:
-            location_string = "{} {} {}".format(self.city, self.state, self.street_address)
-            g = geocoder.google(location_string)
 
-            self.lat = g.lat
-            self.lng = g.lng
+        location_string = "{} {} {}".format(self.city, self.state, self.street_address)
+        g = geocoder.google(location_string)
+
+        self.lat = g.lat
+        self.lng = g.lng
 
         super(Location, self).save(*args, **kwargs)
 
