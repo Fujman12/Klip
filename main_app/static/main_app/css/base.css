@@ -4426,3 +4426,8 @@ fieldset[disabled] .btn {
   background-position: center;
   background-repeat: no-repeat;
 }
+@media only screen and (min-width: 993px) {
+  .grid-view {
+    display: none;
+  }
+}

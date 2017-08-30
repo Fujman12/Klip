@@ -23,6 +23,18 @@
 /* ––––––––––––––––––––––––––––––––––––––––––––– */
 /* ––––––––––––––>>> Components  <<<–––––––––––– */
 /* ––––––––––––––––––––––––––––––––––––––––––––– */
+.payment-box, .select-amount-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -98px;
+  margin-top: -54px;
+  text-align: center;
+}
+
+.payment-box h3{
+  border-bottom: 1px dashed black;
+}
 .pending-span{
   font-size: 19px;
 }
@@ -2307,6 +2319,24 @@ h6 + .demo button {
 .checkout-widget .table tr + tr > td {
   border-top: 1px solid #eee;
 }
+/* ––––––––––––––––––––––––––––––––––––––––––––– */
+/* –––––––––––>>> Deals page <<<––––––––––––––– */
+/* ––––––––––––––––––––––––––––––––––––––––––––– */
+
+.search-input-wrapper{
+  position: relative;
+  z-index: 1;
+}
+.search-input-wrapper .search-input {
+  z-index: 0!important;
+}
+.search-input-wrapper button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2;
+}
+
 */*/
 /* ––––––––––––––––––––––––––––––––––––––––––––– */
 /* –––––––––––>>> Map Sidebar <<<––––––––––––––– */
@@ -2423,8 +2453,13 @@ div.tab button.active {
     border-top: none;
 }
 
+
 @media only screen and (max-width: 992px) {
   .table-responsive {
     margin-top: 92px!important;
   }
+  .category-map-content, div[class="right-10 is-inline-block mt-20"] {
+    display: none!important;
+  }
+
 }

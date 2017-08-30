@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+{% load static %}
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link href="{% static 'main_app/css/base.css' %}" rel="stylesheet">
+    <link href="{% static 'main_app/css/style.css' %}" rel="stylesheet">
 </head>
 <body>
-    <h1>Show me the money!</h1>
+    <div class="payment-box">
+    <h3>Recharge the balance</h3><br>
     <!-- writes out the form tag automatically -->
     {{ form.render }}
+    </div>
 </body>
 </html>
