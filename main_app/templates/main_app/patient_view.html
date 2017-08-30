@@ -10,6 +10,6 @@
     Patient id: {{ coupon.user.id }}<br>
     E-mail: {{ coupon.user.email }}<br>
     {% if coupon.user.profile.phone_number %}Phone number:{{ coupon.user.profile.phone_number }}{% endif %}<br>
-    About:
+    {% if coupon.user.profile.about %}About:{{ coupon.user.profile.about }}{% endif %}
 </body>
 </html>

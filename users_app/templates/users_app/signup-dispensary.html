@@ -165,7 +165,7 @@
                         <div class="header-search col-md-9">
                             <div class="row row-tb-10 ">
                                 <div class="col-sm-8">
-                                    <form class="search-form">
+                                    <form class="search-form" action="{% url 'map_view' %}" method="post">
                                         <div class="input-group">
                                             <div class="search-input-wrapper">
                                                 {% render_field search_form.location class="form-control input-lg search-input" id="searchTextField" style="background-color: rgba(255,255,255, 0.9)" placeholder="Enter location ..." required="required " %}
@@ -195,10 +195,17 @@
                                 </div>
                                 <div class="col-sm-4 t-xs-center t-md-right">
                                     <div class="header-cart">
-                                        <a href="wallet.html">
+                                        {% if user.profile.user_type == 1 %}
+                                        <a href="{% url 'users_app:profile' %}">
+                                            <span class="icon lnr lnr-cart"></span>
+                                            <span class="title">Cabinet</span>
+                                        </a>
+                                        {% else %}
+                                            <a href="{% url 'users_app:profile' %}#wallet">
                                             <span class="icon lnr lnr-cart"></span>
                                             <span class="title">Wallet</span>
-                                        </a>
+                                            </a>
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>
