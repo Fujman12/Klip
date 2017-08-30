@@ -480,6 +480,7 @@
     //<![CDATA[
 
     var side_bar_html = "";
+    var list_view_html = "";
     var markers = [];
     var map;
     var deals = [];
@@ -511,7 +512,7 @@
     function myclick(i) {
       google.maps.event.trigger(markers[i], "click");
     }
-    function createMarker(position, name, city, state, dispensary, bought, image_url, info_html) {
+    function createMarker(position, name, city, state, dispensary, bought, image_url, likes, dislikes info_html) {
 
         var marker = new google.maps.Marker({
           position: position,
@@ -534,6 +535,45 @@
             '<div class="p-wrapper" style="padding-top: 3px;width: 296px; height: 55px; line-height: 1.4; font-size: 17px; font-weight: 500;"><p>' + name + '</p></div>' +
             '<ul class="deal-meta list-inline color-mid" style="font-weight: 500"> <li><i class="ico fa fa-globe"></i> '+ dispensary +'</li><li><i class="ico fa fa-map-marker"></i> '+ city +', '+ state +'</li>' +
             '<li><i class="ico fa fa-shopping-basket"></i>' + bought + ' Bought</li></ul></div></div></a>';
+
+
+        list_view_html += '<div class="col-xs-offset-1 col-xs-10 col-sm-offset-0 col-sm-6 col-md-4 col-lg-4"> <div class="deal-single panel">' +
+                        '<figure class="deal-thumbnail embed-responsive embed-responsive-16by9" data-bg-img="'+ image_url +' " style="background-image: url('+ image_url +');">' +
+                            '<div class="time-left bottom-15 right-20 font-md-14">' +
+                               ' <span> ' +
+                        '<i class="ico fa fa-clock-o mr-10"></i> ' +
+                        '<span class="t-uppercase" data-countdown="2019/09/01 01:30:00">104 Weeks 03 Days 22 : 07 : 04</span> ' +
+                    '</span>' +
+                            '</div>' +
+                            '<div class="deal-store-logo">' +
+                               ' <img src="'+ image_url +'" alt=""> ' +
+                            '</div>' +
+                        '</figure> ' +
+                        '<div class="bg-white pt-20 pl-20 pr-15"> ' +
+                           ' <div class="pr-md-10"> ' +
+                              '  <div class="demo mb-15 t-center"> '+
+                                   ' <button class="like like-custom" disabled=""><i class="fa fa-thumbs-up is-inline-block"></i> Likes '+
+                                      '  <span class="likes">'+ likes +'</span> '+
+                                    '</button>'+
+                                    '<button class="dislike dislike-custom" disabled=""><i class="fa fa-thumbs-down is-inline-block"></i> Dislikes '+
+                                        '<span class="dislikes">'+ dislikes +'</span> '+
+                                    '</button> '+
+                               ' </div> '+
+                               ' <h3 class="deal-title mb-10"> '+
+                       ' <a href="deal_single.html">+'+ name +'+</a> '+
+                    '</h3> '+
+                              '  <ul class="deal-meta list-inline mb-10 color-mid"> '+
+                                  '  <li><i class="ico fa fa-map-marker mr-10"></i>United State</li> '+
+                                   ' <li><i class="ico fa fa-shopping-basket mr-10"></i>120 Bought</li> '+
+                               ' </ul> '+
+                               ' <p class="text-muted mb-20">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam numquam nostrum.</p> '+
+                            '</div> '+
+                            '<div class="deal-price pos-r mb-15"> '+
+                              '  <h3 class="price ptb-5 text-right"><span class="price-sale">$300.00</span>$150.00</h3> '+
+                            '</div> '+
+                        '</div> '+
+                   ' </div>'+
+                '</div>'
       }
 
       function getDeals(callback){
@@ -568,7 +608,7 @@
           deals = data.deals;
 
           deals.forEach(function(deal, i, deals) {
-              createMarker({lat: deal.lat, lng: deal.lng}, deal.title, deal.dispensary_city, deal.dispensary_state, deal.dispensary, deal.bought, deal.image_url, '<div style="min-width:270px"><a target="_blank" href="' + deal.deal_url + '" style="width: 100%; height: 100%; display: inline-block" ><img src="'+ deal.image_url +'" alt="Logo" align="left" style="width: 80px; height: 80px"> <div class="p-wrapper" style="text-overflow:ellipsis; overflow:hidden; white-space:nowrap; max-width: 500px; display: inline-block; padding-left: 13px; vertical-align: top; padding-bottom: 8px; font-size: 20px">'+ deal.title +'</div><br><span style="text-transform: uppercase; padding-left: 13px; font-weight: 400;" >'+ deal.dispensary +'</span><br><div style="display: inline-block; padding-left: 10px; padding-top: 6px" class="demo mb-5"> <button class="like like-custom" disabled=""><i class="fa fa-thumbs-up"></i> Likes <span class="likes">'+ deal.likes +'</span> </button> <button class="dislike dislike-custom" disabled=""><i class="fa fa-thumbs-down"></i> Dislikes <span class="dislikes">'+ deal.dislikes +'</span> </button> </div> </a></div>');
+              createMarker({lat: deal.lat, lng: deal.lng}, deal.title, deal.dispensary_city, deal.dispensary_state, deal.dispensary, deal.bought, deal.image_url, deal.likes, deal.dislikes, '<div style="min-width:270px"><a target="_blank" href="' + deal.deal_url + '" style="width: 100%; height: 100%; display: inline-block" ><img src="'+ deal.image_url +'" alt="Logo" align="left" style="width: 80px; height: 80px"> <div class="p-wrapper" style="text-overflow:ellipsis; overflow:hidden; white-space:nowrap; max-width: 500px; display: inline-block; padding-left: 13px; vertical-align: top; padding-bottom: 8px; font-size: 20px">'+ deal.title +'</div><br><span style="text-transform: uppercase; padding-left: 13px; font-weight: 400;" >'+ deal.dispensary +'</span><br><div style="display: inline-block; padding-left: 10px; padding-top: 6px" class="demo mb-5"> <button class="like like-custom" disabled=""><i class="fa fa-thumbs-up"></i> Likes <span class="likes">'+ deal.likes +'</span> </button> <button class="dislike dislike-custom" disabled=""><i class="fa fa-thumbs-down"></i> Dislikes <span class="dislikes">'+ deal.dislikes +'</span> </button> </div> </a></div>');
           });
           /*
           createMarker({lat: -25.363, lng: 131.044}, 'Deal name 1', 'gogdeogo');
