@@ -132,13 +132,11 @@
                                 <li class="hidden">
                                     <a href="#"><i class="fa fa-account"></i>Armen <i class="fa fa-caret-down"></i></a>
                                     <ul>
-                                        <li><a href="#">profile</a>
+                                        <li><a href="{% url 'users_app:profile' %}">{% if user.profile.user_type == 1 %}Dashboard{% else %}Profile{% endif %}</a>
                                         </li>
-                                        <li><a href="#">setings</a>
-                                        </li>
-                                        <li><a href="#">rewards</a>
-                                        </li>
-                                        <li><a href="#">wallet</a>
+                                        <!--li><a href="{% url 'users_app:profile' %}#wallet">wallet</a>
+                                        </li-->
+                                        <li><a href="{% url 'logout' %}">Sign Out</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -196,10 +194,10 @@
                                 <div class="col-sm-4 t-xs-center t-md-right">
                                     <div class="header-cart">
                                         {% if user.profile.user_type == 1 %}
-                                        <a href="{% url 'users_app:profile' %}">
+                                        <!--a href="{% url 'users_app:profile' %}">
                                             <span class="icon lnr lnr-cart"></span>
                                             <span class="title">Cabinet</span>
-                                        </a>
+                                        </a-->
                                         {% else %}
                                             <a href="{% url 'users_app:profile' %}#wallet">
                                             <span class="icon lnr lnr-cart"></span>

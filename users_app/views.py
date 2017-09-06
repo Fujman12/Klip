@@ -146,7 +146,7 @@ def change_first_name(request):
 
 
 def change_last_name(request):
-    data ={ 'value' :request.POST["value"] }
+    data ={'value': request.POST["value"] }
 
     user = request.user
     user.last_name = request.POST["value"]
@@ -224,5 +224,13 @@ def change_about(request):
     user = request.user
     user.profile.about = request.POST["value"]
     user.profile.save()
+
+    return JsonResponse({'value': 'OK'})
+
+
+def change_reward_points(request):
+    user = request.user
+    user.profile.dispensary.points = request.POST['value']
+    user.profile.dispensary.save()
 
     return JsonResponse({'value': 'OK'})

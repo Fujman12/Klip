@@ -43,7 +43,7 @@ var App = (function () {
 		});
 
 		//make event editable
-		$('#username,#email-address,#password,#street-address,#apt-unit-no,#city,#state,#address, #zip-code,#phone-number,#dispensary-name,#first-name,#last-name,#website,#business-email,#business-phone').editable({
+		$('#username,#email-address,#password,#street-address,#apt-unit-no,#city,#state,#address, #zip-code,#phone-number,#dispensary-name,#first-name,#last-name,#website,#business-email,#business-phone,#points').editable({
 			 placement: 'top',
 		});
 

@@ -19,6 +19,7 @@ urlpatterns = [
     url(r'^change_phone_number', views.change_phone_number, name='change_phone_number'),
     url(r'^change_about', views.change_about, name='change_about'),
     url(r'^upload_image', views.upload_image, name='upload_image'),
+    url(r'^change_reward_points', views.change_reward_points, name='change_reward_points'),
     #url(r'^wallet', views.wallet, name='wallet')
 
 ]

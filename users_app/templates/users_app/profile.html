@@ -144,10 +144,10 @@
                                 <li>
                                     <a href="#"><i class="fa fa-account"></i>{{ user.first_name }} {{ user.last_name }} <i class="fa fa-caret-down"></i></a>
                                     <ul>
-                                        <li><a href="{% url 'users_app:profile' %}">profile</a>
+                                        <li><a href="{% url 'users_app:profile' %}">{% if user.profile.user_type == 1 %}Dashboard{% else %}Profile{% endif %}</a>
                                         </li>
-                                        <li><a href="{% url 'users_app:profile' %}#wallet">wallet</a>
-                                        </li>
+                                        <!--li><a href="{% url 'users_app:profile' %}#wallet">wallet</a>
+                                        </li-->
                                         <li><a href="{% url 'logout' %}">Sign Out</a>
                                         </li>
                                     </ul>

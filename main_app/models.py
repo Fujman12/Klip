@@ -85,6 +85,12 @@ class Dispensary(models.Model):
         super(Dispensary, self).save(*args, **kwargs)
 
 
+class DispensaryPatientPoints(models.Model):
+    user = models.ForeignKey(User, related_name='dispensaries_points')
+    dispensary = models.ForeignKey(Dispensary, related_name='users_points')
+    total_points = models.IntegerField(blank=False, null=False, default=0)
+
+
 class Review(models.Model):
     user = models.ForeignKey(User, related_name='reviews')
     text = models.TextField()

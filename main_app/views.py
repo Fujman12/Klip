@@ -5,7 +5,7 @@ from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.core.files import File
 from django.views.decorators.csrf import csrf_exempt
-from .models import Deal, Dispensary, Review, DealImage, Coupon, Order, Charge
+from .models import Deal, Dispensary, Review, DealImage, Coupon, Order, Charge, DispensaryPatientPoints
 from users_app.models import Profile
 from django.contrib.auth.models import User
 from .forms import SearchForm, ReviewForm, CreateDealForm, ImageUploadForm, SelectAmountForm
@@ -324,8 +324,16 @@ def patient_view(request, pk):
         if coupon.status == coupon.ACTIVE:
             coupon.status = coupon.USED
             coupon.save()
-            return render(request, 'main_app/patient_view.html', {'coupon': coupon})
+            patient_dispensary_points = coupon.user.dispensaries_points.filter(dispensary=coupon.deal.dispensary).first()
+            if not patient_dispensary_points:
+                patient_dispensary_points = DispensaryPatientPoints(dispensary=coupon.deal.dispensary, user=coupon.user)
+
+            patient_dispensary_points.total_points += coupon.deal.dispensary.points
+
+            return render(request, 'main_app/patient_view.html', {'coupon': coupon, 'points': patient_dispensary_points.total_points})
+
         else:
+
             return JsonResponse({'message': 'Sorry! Coupon is expired'})
 
     else:

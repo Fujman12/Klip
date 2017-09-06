@@ -23,6 +23,29 @@
 /* ––––––––––––––––––––––––––––––––––––––––––––– */
 /* ––––––––––––––>>> Components  <<<–––––––––––– */
 /* ––––––––––––––––––––––––––––––––––––––––––––– */
+.categories-mnu{
+  background-color: #2ed87b;
+  display: flex;
+  justify-content: space-between;
+  list-style: none;
+  padding: 0 2em;
+  color:#fff;
+}
+.categories-mnu li{
+  padding: 1em 5em;
+  text-align: center;
+  transition: all 1s ease;
+}
+.categories-mnu li:hover {
+  color: #314555;
+  cursor: pointer;
+}
+
+@media screen and (max-width:500px){
+  .categories-mnu{
+    flex-direction: column;
+  }
+}
 .payment-box, .select-amount-box {
   position: absolute;
   top: 50%;
@@ -2456,7 +2479,7 @@ div.tab button.active {
 
 @media only screen and (max-width: 992px) {
   .table-responsive {
-    margin-top: 92px!important;
+    margin-top: 22px!important;
   }
   .category-map-content, div[class="right-10 is-inline-block mt-20"] {
     display: none!important;
