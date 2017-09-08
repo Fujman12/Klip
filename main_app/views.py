@@ -329,6 +329,7 @@ def patient_view(request, pk):
                 patient_dispensary_points = DispensaryPatientPoints(dispensary=coupon.deal.dispensary, user=coupon.user)
 
             patient_dispensary_points.total_points += coupon.deal.dispensary.points
+            patient_dispensary_points.save()
 
             return render(request, 'main_app/patient_view.html', {'coupon': coupon, 'points': patient_dispensary_points.total_points})
 
@@ -351,6 +352,21 @@ def activation_attempt(request, pk):
             return redirect(reverse('patient_view', args=[str(coupon.pk)]))
 
     return render(request, 'main_app/activation_attempt.html', {'pk': pk})
+
+
+def deduct_points(request, user_pk, dispensary_pk):
+    user = get_object_or_404(User, pk=user_pk)
+    dispensary = get_object_or_404(Dispensary, pk=dispensary_pk)
+    dispensary_patient_points = DispensaryPatientPoints.objects.filter(user=user, dispensary=dispensary).first()
+
+    points = int(request.POST['points'])
+
+    if dispensary_patient_points.total_points >= points:
+        dispensary_patient_points.total_points = points
+        dispensary_patient_points.save()
+        return JsonResponse({'status': "Patients's points have been used successfully"})
+    else:
+        return JsonResponse({'status': "Something went wrong!"})
 
 
 def remove_coupon(request, pk):
@@ -449,19 +465,6 @@ def payment_view(request, pk):
     return render(request, "main_app/payment.html", context)
 
 
-def deduct_points(request, user_pk, dispensary_pk):
-    user = get_object_or_404(User, pk=user_pk)
-    dispensary = get_object_or_404(Dispensary, pk=dispensary_pk)
-    dispensary_patient_points = DispensaryPatientPoints.objects.filter(user=user, dispensary=dispensary).first()
-
-    points = int(request.POST['points'])
-
-    if dispensary_patient_points.points >= points:
-        dispensary_patient_points.points = points
-        dispensary_patient_points.save()
-        return JsonResponse({'status': "Patients's points have been used successfully"})
-    else:
-        return JsonResponse({'status': "Something went wrong!"})
 
 
 def show_me_the_money(sender, **kwargs):
