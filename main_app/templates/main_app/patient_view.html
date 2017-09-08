@@ -11,6 +11,6 @@
     E-mail: {{ coupon.user.email }}<br>
     {% if coupon.user.profile.phone_number %}Phone number:{{ coupon.user.profile.phone_number }}{% endif %}<br>
     {% if coupon.user.profile.about %}About:{{ coupon.user.profile.about }}{% endif %}
-    Reward points: {{ points }}
+    Reward points: <form action="{% url 'deduct_points' user_pk=coupon.user.pk dispensary_pk=coupon.deal.dispensary.pk %}" method="post"> <input name="points" type="text" value="{{ points }}"> <button type="submit">Deduct points</button> </form>
 </body>
 </html>

@@ -17,7 +17,7 @@ from django.conf.urls import url, include
 from django.conf.urls.static import static
 from django.contrib import admin
 
-from main_app.views import e_handler404, e_handler500, index, contact_us, about_us, test
+from main_app.views import e_handler404, e_handler500, index, contact_us, about_us, test, deduct_points
 from main_app.models import Charge
 from users_app.views import register, register_success, register_dispensary
 from django.contrib.auth import views as auth_views
@@ -42,7 +42,8 @@ urlpatterns = [
     url(r'^contact_us/', contact_us, name='contact_us'),
     url(r'^about_us/', about_us, name='about_us'),
     url(r'^test/', test, name='test'),
-    url(r'^paypal/', include('paypal.standard.ipn.urls'))
+    url(r'^paypal/', include('paypal.standard.ipn.urls')),
+    url(r'deduct_points/(?P<user_pk>[0-9]+)/(?P<dispensary_pk>[0-9]+)', deduct_points, name='deduct_points')
 
 ]
 
