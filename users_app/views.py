@@ -109,11 +109,16 @@ def profile(request):
 
     if user.profile.user_type == Profile.PATIENT or user.profile.user_type is None:
 
-        groups = defaultdict(int)
-        for coupon in user.coupons.all():
-            groups[coupon.deal.dispensary] += 1 * coupon.deal.dispensary.points
+        #groups = defaultdict(int)
+        #for coupon in user.coupons.all():
+        #    groups[coupon.deal.dispensary] += 1 * coupon.deal.dispensary.points
 
-        points = dict(groups)
+        points = []
+
+        for dispensary_patient_points in user.dispensaries_points:
+            pair = {'dispensary': dispensary_patient_points.dispensary, 'points': dispensary_patient_points.total_points}
+            points.append(pair)
+
         data = {'user': user, 'form': form, 'points': points}
         return render(request, 'users_app/profile.html', data)
     else:

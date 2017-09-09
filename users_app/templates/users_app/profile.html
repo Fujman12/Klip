@@ -387,16 +387,16 @@
                 <div class="wishlist-wrapper">
                     <table id="cart_list" class="wishlist">
                         <tbody>
-                            {% for disp,apoints in points.items %}
+                            {% for pair in points %}
                             <tr class="panel alert">
                                 <td class="col-sm-8 col-md-9">
                                     <div class="media-left is-hidden-sm-down" >
-                                        <figure class="product-thumb" style="background-image: url({% if disp.profile.avatar %}{{ disp.profile.avatar.url }}{% else %} {% static 'main_app/images/avatars/avatar_01.jpg' %} {% endif %}); background-size: cover;">
+                                        <figure class="product-thumb" style="background-image: url({% if pair.dispensary.profile.avatar %}{{ pair.dispensary.profile.avatar.url }}{% else %} {% static 'main_app/images/avatars/avatar_01.jpg' %} {% endif %}); background-size: cover;">
                                             <!--img src="{{ coupon.deal.images.first.image.url }}" alt="product"-->
                                         </figure>
                                     </div>
                                     <div class="media-body valign-middle">
-                                        <h5 class="title mb-5 t-uppercase"><a href="#">{{ disp.name }}</a></h5>
+                                        <h5 class="title mb-5 t-uppercase"><a href="#">{{ pair.dispensary.name }}</a></h5>
                                         <!--div class="demo mb-10">
                                             <button class="like like-custom" disabled><i class="fa fa-thumbs-up"></i> Like
                                                 <span class="likes">{{ coupon.deal.likes }}</span>
@@ -410,7 +410,7 @@
                                 </td>
                                 <td class="col-sm-1">
                                     <button data-url="#" type="button" class="close pr-xs-0 pr-sm-10 js-remove-coupon" data-dismiss="alert" aria-hidden="true">
-                                        {{ apoints }}
+                                        {{ pair.dispensary.points }}
                                     </button>
                                 </td>
                             </tr>
