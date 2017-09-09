@@ -115,7 +115,7 @@ def profile(request):
 
         points = []
 
-        for dispensary_patient_points in user.dispensaries_points:
+        for dispensary_patient_points in user.dispensaries_points.all():
             pair = {'dispensary': dispensary_patient_points.dispensary, 'points': dispensary_patient_points.total_points}
             points.append(pair)
 
