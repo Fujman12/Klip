@@ -62,7 +62,7 @@
   font-size: 19px;
 }
 .fileinput {
-  margin-top: 40px;
+  margin-top: 20px;
 }
 .fileinput div:last-child{
   margin-top: 20px;
@@ -1474,6 +1474,9 @@ h6 + .demo button {
 }
 .deal-single .panel-body {
   position: relative;
+}
+.user-profile-panel-body {
+  margin-top: 100px;
 }
 .deal-single p {
   font-size: 13px;
