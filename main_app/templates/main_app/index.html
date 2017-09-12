@@ -591,6 +591,8 @@
         } else {
             console.log('Geolocation is not allowed');
         }
+        var input = document.getElementById('searchTextField');
+        var autocomplete = new google.maps.places.Autocomplete(input);
     }
 
     function initMap(position) {
@@ -602,8 +604,7 @@
             center: center,
             disableDefaultUI: true
         });
-        var input = document.getElementById('searchTextField');
-        var autocomplete = new google.maps.places.Autocomplete(input);
+
 
         var location = position.coords.latitude + ' ' + position.coords.longitude;
 
