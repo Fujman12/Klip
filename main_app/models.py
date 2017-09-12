@@ -61,7 +61,7 @@ class Deal(models.Model):
     type = models.CharField(max_length=1, null=False, default=REGULAR, choices=TYPE_CHOICES)
 
     def __str__(self):
-        return "{} - by {}".format(self.title, self.dispensary.name)
+        return "{} - by {} type - {}; status - {}".format(self.title, self.dispensary.name, self.type, self.status)
 
 
 def get_deal_upload_path(instance, filename):
