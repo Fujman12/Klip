@@ -34,7 +34,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'i4s$i##ucjhgq244v3x739o+ti$espl-urrk48t_8k&@6tgk7='
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['fujman.pythonanywhere.com', 'localhost']
 CSRF_TRUSTED_ORIGINS = ['fujman.pythonanywhere.com', 'localhost']
@@ -111,27 +111,27 @@ WSGI_APPLICATION = 'klip.wsgi.application'
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'OPTIONS': {
-                    'sql_mode': 'traditional',
-                },
-        'NAME': 'mydb',
-        'USER': 'Fujman',
-        'PASSWORD': '1q2w3e',
-        'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
-        'PORT': '8889',
-    }
     #'default': {
     #    'ENGINE': 'django.db.backends.mysql',
-    #    'NAME': 'Fujman$default',
-    #    'USER': 'Fujman',
-    #    'PASSWORD': '1q2w3e4r5t',
-    #    'HOST': 'Fujman.mysql.pythonanywhere-services.com',   # Or an IP Address that your DB is hosted on
     #    'OPTIONS': {
-    #                        'sql_mode': 'traditional',
-    #                    }
+    #                'sql_mode': 'traditional',
+    #            },
+    #    'NAME': 'mydb',
+    #    'USER': 'Fujman',
+    #    'PASSWORD': '1q2w3e',
+    #    'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
+    #    'PORT': '8889',
     #}
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'Fujman$default',
+        'USER': 'Fujman',
+        'PASSWORD': '1q2w3e4r5t',
+        'HOST': 'Fujman.mysql.pythonanywhere-services.com',   # Or an IP Address that your DB is hosted on
+        'OPTIONS': {
+                            'sql_mode': 'traditional',
+                        }
+    }
 }
 
 # Password validation
