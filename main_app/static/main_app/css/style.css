@@ -32,7 +32,7 @@
   color:#fff;
 }
 .categories-mnu li{
-  padding: 1em 5em;
+  padding: 1em 10px;
   text-align: center;
   transition: all 1s ease;
 }
@@ -1222,7 +1222,6 @@ h6 + .demo button {
 .main-footer {
   text-align: center;
   background: #1e2b35;
-  height: 60px;
 }
 .main-footer p {
   font-size: 15px;
@@ -2368,7 +2367,7 @@ h6 + .demo button {
   height: 100vh;
 }
 .map_sidebar{
-  height: 100%;
+  height: 100vh;
   min-width: 412px;
   position: absolute;
   z-index: 2;

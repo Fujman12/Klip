@@ -31,6 +31,7 @@ class CreateDealForm(forms.Form):
     status = forms.ChoiceField(choices=CATEGORY_CHOICES, label="", initial='', widget=forms.Select(), required=True)
     price = forms.DecimalField(max_digits=10, decimal_places=2)
     old_price = forms.DecimalField(max_digits=10, decimal_places=2)
+    featured = forms.BooleanField(required=False)
     date_start = forms.DateField()
     date_end = forms.DateField()
 

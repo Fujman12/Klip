@@ -1,3 +1,4 @@
+import django
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required
@@ -28,6 +29,7 @@ import subprocess
 import warnings
 import json
 from django.core.urlresolvers import resolve
+from django.contrib import messages
 
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
@@ -93,14 +95,14 @@ def about_us(request):
     return render(request, 'main_app/about_us.html', context)
 
 
-@csrf_exempt
-def deals_around(request):
-    location = request.POST['location']
+def get_deals_around(location):
     g = geocoder.google(location)
 
     deals = []
-    for dispensary in Dispensary.objects.raw("SELECT main_app_dispensary.id, ( 3959 * acos( cos( radians({}) ) * cos( radians( lat ) ) * cos( radians( lng ) - radians({}) ) + sin( radians({}) ) * sin( radians( lat ) ) ) ) "
-                                             "AS distance FROM main_app_dispensary JOIN main_app_location ON main_app_dispensary.location_id=main_app_location.id GROUP BY id HAVING distance < 25 ORDER BY distance LIMIT 0 , 20;".format(g.lat, g.lng, g.lat)):
+    for dispensary in Dispensary.objects.raw(
+            "SELECT main_app_dispensary.id, ( 3959 * acos( cos( radians({}) ) * cos( radians( lat ) ) * cos( radians( lng ) - radians({}) ) + sin( radians({}) ) * sin( radians( lat ) ) ) ) "
+            "AS distance FROM main_app_dispensary JOIN main_app_location ON main_app_dispensary.location_id=main_app_location.id GROUP BY id HAVING distance < 25 ORDER BY distance LIMIT 0 , 20;".format(
+                g.lat, g.lng, g.lat)):
         print(dispensary)
         for deal in dispensary.deals.all():
             if deal.status == deal.ACTIVE:
@@ -110,13 +112,46 @@ def deals_around(request):
                 else:
                     image_url = static('main_app/images/deals/thumb_02.jpg')
 
-                deals.append({'title': deal.title, 'description': deal.description, 'price': deal.price, 'old_price': deal.old_price,
-                              'expires': deal.date_expires, 'lat': deal.dispensary.location.lat, 'lng': deal.dispensary.location.lng,
-                              'deal_url': reverse('deal', args=[deal.pk]), 'image_url': static('main_app/images/deals/thumb_02.jpg'),
+                deals.append({'title': deal.title, 'description': deal.description, 'price': deal.price,
+                              'old_price': deal.old_price,
+                              'expires': deal.date_expires, 'lat': deal.dispensary.location.lat,
+                              'starts': deal.date_starts,
+                              'lng': deal.dispensary.location.lng,
+                              'deal_url': reverse('deal', args=[deal.pk]),
+                              'image_url': static('main_app/images/deals/thumb_02.jpg'),
                               'dispensary': deal.dispensary.name, 'likes': deal.likes, 'dislikes': deal.dislikes,
-                              'dispensary_city': deal.dispensary.location.city, 'dispensary_state': deal.dispensary.location.state,
-                              'bought': deal.coupons.all().count(), 'image_url': image_url})
-    print(deals)
+                              'dispensary_city': deal.dispensary.location.city,
+                              'dispensary_state': deal.dispensary.location.state,
+                              'bought': deal.coupons.all().count(), 'image_url': image_url, 'type': deal.type, 'category': deal.category})
+    return deals
+
+
+@csrf_exempt
+def deals_around(request):
+    location = request.POST['location']
+    #g = geocoder.google(location)
+
+    #deals = []
+    #for dispensary in Dispensary.objects.raw("SELECT main_app_dispensary.id, ( 3959 * acos( cos( radians({}) ) * cos( radians( lat ) ) * cos( radians( lng ) - radians({}) ) + sin( radians({}) ) * sin( radians( lat ) ) ) ) "
+    #                                         "AS distance FROM main_app_dispensary JOIN main_app_location ON main_app_dispensary.location_id=main_app_location.id GROUP BY id HAVING distance < 25 ORDER BY distance LIMIT 0 , 20;".format(g.lat, g.lng, g.lat)):
+    #    print(dispensary)
+    #    for deal in dispensary.deals.all():
+    #        if deal.status == deal.ACTIVE:
+
+    #            if deal.dispensary.profile is not None and deal.dispensary.profile.avatar:
+    #                image_url = deal.dispensary.profile.avatar.url
+    #            else:
+    #                image_url = static('main_app/images/deals/thumb_02.jpg')
+
+    #            deals.append({'title': deal.title, 'description': deal.description, 'price': deal.price, 'old_price': deal.old_price,
+    #                          'expires': deal.date_expires, 'lat': deal.dispensary.location.lat, 'lng': deal.dispensary.location.lng,
+    #                          'deal_url': reverse('deal', args=[deal.pk]), 'image_url': static('main_app/images/deals/thumb_02.jpg'),
+    #                          'dispensary': deal.dispensary.name, 'likes': deal.likes, 'dislikes': deal.dislikes,
+    #                          'dispensary_city': deal.dispensary.location.city, 'dispensary_state': deal.dispensary.location.state,
+    #                          'bought': deal.coupons.all().count(), 'image_url': image_url, 'type': deal.type})
+    #print(deals)
+    deals = get_deals_around(location)
+
     return JsonResponse({'deals': deals})
 
 
@@ -228,10 +263,33 @@ def create_deal(request):
     if request.method == 'POST':
         form = CreateDealForm(request.POST)
         if form.is_valid():
+            date_featured_charge = None
+            _type = Deal.REGULAR
+            if form.cleaned_data['featured']:
+                location = user.profile.dispensary.location
+                location_string = "{} {} {}".format(location.street_address, location.city, location.state)
+                deals = get_deals_around(location=location_string)
+
+                count = 0
+
+                for _deal in deals:
+                    if _deal['type'] == Deal.FEATURED:
+                        count += 1
+
+                print("There are {} featured deals around".format(count))
+
+                if count >= 6:
+                    messages.add_message(request, messages.INFO, 'There are no empty "Featured" slots in your location at the moment.'
+                                                                 'You will be notified once available slot appears and your deal will be placed in it!')
+                    _type = Deal.WAITING
+                else:
+                    date_featured_charge = django.utils.timezone.now()
+                    _type = Deal.FEATURED
+
             data = {'form_is_valid': True}
             deal = Deal(title=form.cleaned_data['title'], description=form.cleaned_data['description'], category=form.cleaned_data['status'],
                         price=form.cleaned_data['price'], old_price=form.cleaned_data['old_price'], date_starts=form.cleaned_data['date_start'],
-                        date_expires=form.cleaned_data['date_end'], dispensary=user.profile.dispensary)
+                        date_expires=form.cleaned_data['date_end'], dispensary=user.profile.dispensary, type=_type, date_featured_charge=date_featured_charge)
             deal.save()
             data['pk'] = deal.pk
 

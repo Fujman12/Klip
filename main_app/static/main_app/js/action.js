@@ -48,6 +48,15 @@ $(function () {
         });
         return false;
     });
+
+    $('#imageModal').on('hidden', function(){
+        alert('reload');
+        window.location.href = '#';
+    });
+
+    $('#imageModal').on('hidden.bs.modal', function () {
+        location.reload();
+    });
     
     $('.status-switch-js').change(function () {
         var item =$(this);

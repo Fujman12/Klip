@@ -203,7 +203,9 @@
         <!-- –––––––––––––––[ HEADER ]––––––––––––––– -->
 
         <!-- –––––––––––––––[ PAGE CONTENT ]––––––––––––––– -->
+
         <main id="mainContent" class="main-content main-content-home">
+        {% if not user.is_authenticated %}
             <div class="page-container ptb-10">
                 <div class="container">
                     <h1 style="text-align: center; padding-top: 35px">Claim and save!</h1>
@@ -271,38 +273,55 @@
                         </section>
                     </div>
                 </div>
-            <div class="page-container ptb-10">
-                <div class="container">
-                    <section class="section deals-area ptb-30">
-                        <ul class="categories-mnu mb-10">
-                            <li>Indica</li>
-                            <li>Sativa</li>
-                            <li>Hybrid</li>
-                            <li>Concentrates</li>
-                            <li>Edibles</li>
+            {% else %}
+            <div class="page-container ptb-10 mrl-15">
+                    <section class="section deals-area pt-30">
+                        <ul class="categories-mnu mb-10 js-categories">
+                            <li id="1">Indica</li>
+                            <li id="2">Sativa</li>
+                            <li id="3">Hybrid</li>
+                            <li id="4">Concentrates</li>
+                            <li id="5">Edibles</li>
+                            <li id="6">CBD</li>
                         </ul>
                         <!-- Page Control -->
                         <header class="page-control panel ptb-15 prl-20 pos-r mb-30">
                             <!-- List Control View -->
                             <ul class="list-control-view list-inline">
-                                <li><a href="deals_list.html"><i class="fa fa-bars"></i></a>
-                                </li>
-                                <li><a href="deals_grid.html"><i class="fa fa-th"></i></a>
+                                <li>
+                                    <select id="js-select-view" class="form-control input-sm select-view prl-25">
+                                        <option value="0" >Map View</option>
+                                        <option value="1" >List View</option>
+                                    </select>
                                 </li>
                             </ul>
                             <!-- End List Control View -->
 
                             <div class="right-10 pos-tb-center">
-                                <select class="form-control input-sm">
-                                    <option>SORT BY</option>
-                                    <option>Featured</option>
-                                    <option>Just added</option>
-                                    <option>Most ckaimed</option>
+                                <select class="form-control input-sm" id="js-switch-sort">
+                                    <option value="0">Featured</option>
+                                    <option value="1">Just added</option>
+                                    <option value="2">Most claimed</option>
                                 </select>
                             </div>
                         </header>
                         <!-- End Page Control -->
-                        <div class="row row-masnory row-tb-20">
+
+
+                        <!-- MAP -->
+                        <div id="js-map-view" class="page-content category-map-content">
+                            <div class="page-sidebar map_sidebar">
+                                <!-- Blog Sidebar -->
+                                <div id="side_bar">
+                                </div>
+                                <!-- End Blog Sidebar -->
+                            </div>
+                            <div id="map" style="display: inline-block; height: 100%; width: 100%; overflow: hidden"></div>
+                        </div>
+
+
+
+                        <div class="row row-masnory row-tb-20 " id="js-list-view" style="display: none">
 
                             <div class="col-sm-6 col-lg-4">
                                 <div class="deal-single panel">
@@ -342,9 +361,9 @@
                         </div>
 
                         <!-- Page Pagination -->
-                        <div class="page-pagination text-center mt-30 p-10 panel">
+                        <!--div class="page-pagination text-center mt-30 p-10 panel">
                             <nav>
-                                <!-- Page Pagination -->
+                                <!-- Page Pagination >
                                 <ul class="page-pagination">
                                     <li><a class="page-numbers previous" href="#">Previous</a>
                                     </li>
@@ -364,90 +383,31 @@
                                     </li>
                                 </ul>
                                 <!-- End Page Pagination -->
-                            </nav>
+                            <!--/nav>
                         </div>
                         <!-- End Page Pagination -->
 
                     </section>
 
                 </div>
-            </div>
+                {% endif %}
 
             </main>
-            <!-- –––––––––––––––[ END PAGE CONTENT ]––––––––––––––– -->
-            <section class="footer-top-area pt-70 pb-30 pos-r bg-blue">
-                <div class="container">
-                    <div class="row row-tb-20">
-                        <div class="col-sm-12 col-md-7">
-                            <div class="row row-tb-20">
-                                <div class="footer-col col-sm-6">
-                                    <div class="footer-about">
-                                        <span>Klip</span>
-                                        <p class="color-light">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam dolores quidem mollitia id ipsa nisi necessitatibus iure repudiandae aperiam, odit ipsam dolor fugiat corporis nesciunt illo nemo minus.</p>
-                                    </div>
-                                </div>
-                                <div class="footer-col col-sm-6">
-                                    <div class="footer-top-twitter">
-                                        <h2 class="color-lighter">Something else</h2>
-                                    <!-- <ul class="twitter-list">
-                                        <li class="single-twitter">
-                                            <p class="color-light"><i class="ico fa fa-twitter"></i><a href="#">@masum_rana :</a> Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore in reprehenderit.</p>
-                                        </li>
-                                        <li class="single-twitter">
-                                            <p class="color-light"><i class="ico fa fa-twitter"></i><a href="#">@masum_rana :</a> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ratione id corrupti iusto cupiditate omnis.</p>
-                                        </li>
-                                    </ul> -->
-                                </div>
-                            </div>
-                        </div>
+        <!-- –––––––––––––––[ FOOTER ]––––––––––––––– -->
+        <footer id="mainFooter" class="main-footer ptb-20">
+            <div class="container">
+                <div class="row">
+                    <div>
+                        <p style="margin-top: 0;">Copyright &copy; 2017 . All rights reserved.</p>
                     </div>
-                    <div class="col-sm-12 col-md-5">
-                        <div class="row row-tb-20">
-                            <div class="footer-col col-sm-6">
-                                <div class="footer-links">
-                                    <h2 class="color-lighter">Quick Links</h2>
-                                    <ul>
-                                        <li><a href="deals_grid.html">Latest Deals</a>
-                                        </li>
-                                        <li><a href="coupons_grid.html">Newest Coupons</a>
-                                        </li>
-                                        <li><a href="contact_us_02.html">Contact Us</a>
-                                        </li>
-                                        <li><a href="404.html">Error 404</a>
-                                        </li>
-                                        <li><a href="terms_conditions.html">Terms of Use</a>
-                                        </li>
-                                        <li><a href="faq.html">FAQs</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="footer-col col-sm-6">
-                                <div class="footer-top-questions">
-                                    <h2>Got any questions?</h2>
-                                    <p>If you are having any questions,<br> please feel free to ask.</p>
-                                    <button class="btn">Drop us a line</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-12">
-                        <div class="payment-methods t-center">
+                    <div class="payment-methods t-center mt-30" style="opacity: 0.8;">
                             <span><img src="{% static 'main_app/images/icons/payment/paypal.jpg' %}" alt=""></span>
                             <span><img src="{% static 'main_app/images/icons/payment/visa.jpg' %}" alt=""></span>
                             <span><img src="{% static 'main_app/images/icons/payment/mastercard.jpg' %}" alt=""></span>
                             <span><img src="{% static 'main_app/images/icons/payment/discover.jpg' %}" alt=""></span>
                             <span><img src="{% static 'main_app/images/icons/payment/american.jpg' %}" alt=""></span>
-                        </div>
                     </div>
-                </div>
-            </div>
-        </section>
-        <!-- –––––––––––––––[ FOOTER ]––––––––––––––– -->
-        <footer id="mainFooter" class="main-footer">
-            <div class="container">
-                <div class="row">
-                    <p>Copyright &copy; 2017 . All rights reserved.</p>
+
                 </div>
             </div>
         </footer>
@@ -514,7 +474,170 @@
 
     //google.maps.event.addDomListener(window, 'load', initialize);
 </script>
-<script  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAW0b9tbcJ6Sj4D31PLx5zfJ7WXItdOfsQ&libraries=places&callback=initialize" type="text/javascript"></script>
+<script>
+    var side_bar_html = "";
+    var list_view_html = "";
+    var markers = [];
+    var deals = [];
+    var newd = [];
+    var featured = [];
+    var map;
+
+    function offsetCenter(latlng, offsetx, offsety) {
+
+    // latlng is the apparent centre-point
+    // offsetx is the distance you want that point to move to the right, in pixels
+    // offsety is the distance you want that point to move upwards, in pixels
+    // offset can be negative
+    // offsetx and offsety are both optional
+
+    var scale = Math.pow(2, map.getZoom());
+
+    var worldCoordinateCenter = map.getProjection().fromLatLngToPoint(latlng);
+    var pixelOffset = new google.maps.Point((offsetx/scale) || 0,(offsety/scale) ||0);
+
+    var worldCoordinateNewCenter = new google.maps.Point(
+        worldCoordinateCenter.x - pixelOffset.x,
+        worldCoordinateCenter.y + pixelOffset.y
+    );
+
+    var newCenter = map.getProjection().fromPointToLatLng(worldCoordinateNewCenter);
+
+    map.setCenter(newCenter);
+
+    }
+
+    function myclick(i) {
+      google.maps.event.trigger(markers[i], "click");
+    }
+
+    function createMarker(position, name, city, state, dispensary, bought, image_url, likes, dislikes, deal_url, price, old_price, info_html) {
+
+        var marker = new google.maps.Marker({
+          position: position,
+          map: map
+        });
+
+        var infowindow = new google.maps.InfoWindow({
+          content: info_html
+        });
+
+
+        marker.addListener('click', function() {
+            infowindow.open(map, marker);
+            map.setCenter(marker.position);
+            offsetCenter(marker.position, 200, 50)
+          });
+
+        markers.push(marker);
+        side_bar_html += '<a href="javascript:myclick(' + (markers.length-1) + ')"><div class="map_sidebar_item"><div class="store_img_wrapper" style="background-image: url('+ image_url +')"></div><div class="map_sidebar_content1">' +
+            '<div class="p-wrapper" style="padding-top: 3px;width: 296px; height: 55px; line-height: 1.4; font-size: 17px; font-weight: 500;"><p>' + name + '</p></div>' +
+            '<ul class="deal-meta list-inline color-mid" style="font-weight: 500"> <li><i class="ico fa fa-globe"></i> '+ dispensary +'</li><li><i class="ico fa fa-map-marker"></i> '+ city +', '+ state +'</li>' +
+            '<li><i class="ico fa fa-shopping-basket"></i>' + bought + ' Bought</li></ul></div></div></a>';
+
+
+        list_view_html += '<div class="col-xs-offset-1 col-xs-10 col-sm-offset-0 col-sm-4 col-md-4 col-lg-3"> <div class="deal-single panel">' +
+                        '<figure class="deal-thumbnail embed-responsive embed-responsive-16by9" data-bg-img="'+ image_url +' " style="background-image: url('+ image_url +');">' +
+                            '<div class="time-left bottom-15 right-20 font-md-14">' +
+                               ' <span> ' +
+                        '<i class="ico fa fa-clock-o mr-10"></i> ' +
+                    '</span>' +
+                            '</div>' +
+
+                        '</figure> ' +
+                        '<div class="bg-white pt-20 pl-20 pr-15"> ' +
+                           ' <div class="pr-md-10"> ' +
+                              '  <div class="demo mb-15 t-center"> '+
+                                   ' <button class="like like-custom" disabled=""><i class="fa fa-thumbs-up is-inline-block"></i> Likes '+
+                                      '  <span class="likes">'+ likes +'</span> '+
+                                    '</button>'+
+                                    '<button class="dislike dislike-custom" disabled=""><i class="fa fa-thumbs-down is-inline-block"></i> Dislikes '+
+                                        '<span class="dislikes">'+ dislikes +'</span> '+
+                                    '</button> '+
+                               ' </div> '+
+                               ' <h3 class="deal-title mb-10"> '+
+                       ' <a href="' + deal_url + '">'+ dispensary +'</a> '+
+                    '</h3> '+
+                              '  <ul class="deal-meta list-inline mb-10 color-mid"> '+
+                                  '  <li><i class="ico fa fa-map-marker mr-10"></i>'+ state +','+ city +'</li> '+
+                                   ' <li><i class="ico fa fa-shopping-basket mr-10"></i>' + bought + ' Bought</li> '+
+                               ' </ul> '+
+                               ' <p class="text-muted mb-20">' + name + '</p> '+
+                            '</div> '+
+                            '<div class="deal-price pos-r mb-15"> '+
+                               ' <h3 class="price ptb-5 text-right"><span class="price-sale">$'+ old_price +'</span>$'+ price +'</h3> '+
+                            '</div> ' +
+                        '</div> '+
+                   ' </div>'+
+                '</div>'
+      }
+
+    function getDeals(location, callback){
+
+      $.ajax({
+        url: '{% url 'deals_around' %}',
+        type: 'post',
+        data: {location: location},
+        success: function(data){
+           callback(data);
+
+        }
+
+      });
+    }
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(initMap);
+        } else {
+            console.log('Geolocation is not allowed');
+        }
+    }
+
+    function initMap(position) {
+        console.log(position.coords.latitude);
+        var center = {lat: position.coords.latitude, lng: position.coords.longitude};
+
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 10,
+            center: center,
+            disableDefaultUI: true
+        });
+        var input = document.getElementById('searchTextField');
+        var autocomplete = new google.maps.places.Autocomplete(input);
+
+        var location = position.coords.latitude + ' ' + position.coords.longitude;
+
+
+
+        getDeals(location, function(data){
+            console.log(data);
+            deals = data.deals;
+            newd = deals;
+            deals.forEach(function(deal, i, deals) {
+                if (deal.type == '1') {
+                    featured.push(deal);
+                    createMarker({
+                        lat: deal.lat,
+                        lng: deal.lng
+                    }, deal.title, deal.dispensary_city, deal.dispensary_state, deal.dispensary, deal.bought, deal.image_url, deal.likes, deal.dislikes, deal.deal_url, deal.price, deal.old_price, '<div style="min-width:270px"><a target="_blank" href="' + deal.deal_url + '" style="width: 100%; height: 100%; display: inline-block" ><img src="' + deal.image_url + '" alt="Logo" align="left" style="width: 80px; height: 80px"> <div class="p-wrapper" style="text-overflow:ellipsis; overflow:hidden; white-space:nowrap; max-width: 500px; display: inline-block; padding-left: 13px; vertical-align: top; padding-bottom: 8px; font-size: 20px">' + deal.title + '</div><br><span style="text-transform: uppercase; padding-left: 13px; font-weight: 400;" >' + deal.dispensary + '</span><br><div style="display: inline-block; padding-left: 10px; padding-top: 6px" class="demo mb-5"> <button class="like like-custom" disabled=""><i class="fa fa-thumbs-up"></i> Likes <span class="likes">' + deal.likes + '</span> </button> <button class="dislike dislike-custom" disabled=""><i class="fa fa-thumbs-down"></i> Dislikes <span class="dislikes">' + deal.dislikes + '</span> </button> </div> </a></div>');
+                }
+              });
+
+            document.getElementById("side_bar").innerHTML = side_bar_html;
+            document.getElementById("js-list-view").innerHTML = list_view_html;
+            $(".p-wrapper").dotdotdot({
+                //	configuration goes her
+                ellipsis    : '...',
+                wrap		: 'word',
+            });
+
+        })
+    }
+</script>
+<!--script  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAW0b9tbcJ6Sj4D31PLx5zfJ7WXItdOfsQ&libraries=places&callback=initialize" type="text/javascript"></script-->
+<script  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAW0b9tbcJ6Sj4D31PLx5zfJ7WXItdOfsQ&libraries=places&callback=getLocation" type="text/javascript"></script>
+<script src="{% static "main_app/vendors/jQuery.dotdotdot-master/src/jquery.dotdotdot.min.js" %}" ></script>
+
 <script>
     $("#current").on('click', function(){
     var x = $('#searchTextField');
@@ -534,6 +657,138 @@
     getLocation();
     })
 
+</script>
+<script>
+    $('#js-select-view').on('change',function(){
+        if ($(this).val() == '0'){
+            $('#js-map-view').css({'display':'block'});
+            $('#js-list-view').css({'display':'none'});
+        }
+        if ($(this).val() == '1'){
+            $('#js-map-view').css({'display':'none'});
+            $('#js-list-view').css({'display':'block'});
+        }
+    })
+</script>
+<script>
+    function removeMarkers(){
+        for(i=0; i<markers.length; i++){
+            markers[i] = null;
+        }
+    }
+
+    function sort_by_pk(a, b) {
+        return b.pk -a.pk;
+    }
+    function sort_by_start_date(a, b) {
+        return new Date(b.starts).getTime() - new Date(a.starts).getTime();
+    }
+
+    function sort_by_most_claimed(a, b) {
+        return b.bought - a.bought;
+    }
+
+    $('#js-switch-sort').on('change', function(){
+        var control = $(this);
+
+        if(control.val() == '1') {
+            newd = newd.sort(sort_by_start_date);
+        }
+
+        if(control.val() == '2'){
+            newd = newd.sort(sort_by_most_claimed)
+        }
+
+        if(control.val() == '0'){
+            side_bar_html = '';
+            list_view_html = '';
+            removeMarkers();
+            featured.forEach(function (deal, i, newd) {
+                if (deal.type == '1') {
+                    createMarker({
+                        lat: deal.lat,
+                        lng: deal.lng
+                    }, deal.title, deal.dispensary_city, deal.dispensary_state, deal.dispensary, deal.bought, deal.image_url, deal.likes, deal.dislikes, deal.deal_url, deal.price, deal.old_price, '<div style="min-width:270px"><a target="_blank" href="' + deal.deal_url + '" style="width: 100%; height: 100%; display: inline-block" ><img src="' + deal.image_url + '" alt="Logo" align="left" style="width: 80px; height: 80px"> <div class="p-wrapper" style="text-overflow:ellipsis; overflow:hidden; white-space:nowrap; max-width: 500px; display: inline-block; padding-left: 13px; vertical-align: top; padding-bottom: 8px; font-size: 20px">' + deal.title + '</div><br><span style="text-transform: uppercase; padding-left: 13px; font-weight: 400;" >' + deal.dispensary + '</span><br><div style="display: inline-block; padding-left: 10px; padding-top: 6px" class="demo mb-5"> <button class="like like-custom" disabled=""><i class="fa fa-thumbs-up"></i> Likes <span class="likes">' + deal.likes + '</span> </button> <button class="dislike dislike-custom" disabled=""><i class="fa fa-thumbs-down"></i> Dislikes <span class="dislikes">' + deal.dislikes + '</span> </button> </div> </a></div>');
+                }
+            });
+            document.getElementById("side_bar").innerHTML = side_bar_html;
+            document.getElementById("js-list-view").innerHTML = list_view_html;
+
+            return false;
+        }
+        side_bar_html = '';
+        list_view_html = '';
+        removeMarkers();
+        newd.forEach(function (deal, i, newd) {
+
+        createMarker({
+            lat: deal.lat,
+            lng: deal.lng
+        }, deal.title, deal.dispensary_city, deal.dispensary_state, deal.dispensary, deal.bought, deal.image_url, deal.likes, deal.dislikes, deal.deal_url, deal.price, deal.old_price, '<div style="min-width:270px"><a target="_blank" href="' + deal.deal_url + '" style="width: 100%; height: 100%; display: inline-block" ><img src="' + deal.image_url + '" alt="Logo" align="left" style="width: 80px; height: 80px"> <div class="p-wrapper" style="text-overflow:ellipsis; overflow:hidden; white-space:nowrap; max-width: 500px; display: inline-block; padding-left: 13px; vertical-align: top; padding-bottom: 8px; font-size: 20px">' + deal.title + '</div><br><span style="text-transform: uppercase; padding-left: 13px; font-weight: 400;" >' + deal.dispensary + '</span><br><div style="display: inline-block; padding-left: 10px; padding-top: 6px" class="demo mb-5"> <button class="like like-custom" disabled=""><i class="fa fa-thumbs-up"></i> Likes <span class="likes">' + deal.likes + '</span> </button> <button class="dislike dislike-custom" disabled=""><i class="fa fa-thumbs-down"></i> Dislikes <span class="dislikes">' + deal.dislikes + '</span> </button> </div> </a></div>');
+
+        });
+        document.getElementById("side_bar").innerHTML = side_bar_html;
+        document.getElementById("js-list-view").innerHTML = list_view_html;
+    });
+
+    $('.js-categories li').on('click', function(){
+        var li = $(this);
+        var category_id = li.attr('id');
+        var filter;
+        if($('#js-switch-sort').val() == '5'){
+            return false;
+        } else {
+            switch (category_id) {
+                case '1':
+                    filter = 'in';
+                    break;
+                case '2':
+                    filter = 'sa';
+                    break;
+                case '3':
+                    filter ='hy';
+                    break;
+                case '4':
+                    filter = 'co';
+                    break;
+                case '5':
+                    filter = 'ed';
+                    break;
+                case '6':
+                    filter = 'cbd';
+                    break;
+            }
+
+            newd = [];
+            deals.forEach(function (deal, i) {
+                if (deal.category == filter){
+                    newd.push(deal);
+                }
+
+            })
+
+            if($('#js-switch-sort').val() == '1') {
+                newd = newd.sort(sort_by_start_date);
+            }
+
+            if($('#js-switch-sort').val() == '2'){
+                newd = newd.sort(sort_by_most_claimed)
+            }
+        }
+        side_bar_html = '';
+        list_view_html = '';
+        removeMarkers();
+        newd.forEach(function (deal, i, newd) {
+        createMarker({
+            lat: deal.lat,
+            lng: deal.lng
+        }, deal.title, deal.dispensary_city, deal.dispensary_state, deal.dispensary, deal.bought, deal.image_url, deal.likes, deal.dislikes, deal.deal_url, deal.price, deal.old_price, '<div style="min-width:270px"><a target="_blank" href="' + deal.deal_url + '" style="width: 100%; height: 100%; display: inline-block" ><img src="' + deal.image_url + '" alt="Logo" align="left" style="width: 80px; height: 80px"> <div class="p-wrapper" style="text-overflow:ellipsis; overflow:hidden; white-space:nowrap; max-width: 500px; display: inline-block; padding-left: 13px; vertical-align: top; padding-bottom: 8px; font-size: 20px">' + deal.title + '</div><br><span style="text-transform: uppercase; padding-left: 13px; font-weight: 400;" >' + deal.dispensary + '</span><br><div style="display: inline-block; padding-left: 10px; padding-top: 6px" class="demo mb-5"> <button class="like like-custom" disabled=""><i class="fa fa-thumbs-up"></i> Likes <span class="likes">' + deal.likes + '</span> </button> <button class="dislike dislike-custom" disabled=""><i class="fa fa-thumbs-down"></i> Dislikes <span class="dislikes">' + deal.dislikes + '</span> </button> </div> </a></div>');
+
+        });
+        document.getElementById("side_bar").innerHTML = side_bar_html;
+        document.getElementById("js-list-view").innerHTML = list_view_html;
+        console.log(deals);
+    })
 </script>
 </body>
 

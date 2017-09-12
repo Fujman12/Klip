@@ -9,6 +9,10 @@ import string
 # Create your models here.
 
 
+def plus_30_days_date():
+    return django.utils.timezone.now() + timedelta(days=30)
+
+
 class Deal(models.Model):
     CATEGORY_CHOICES = (
         ('in', 'Indica'),
@@ -28,6 +32,16 @@ class Deal(models.Model):
         (INACTIVE, 'Inactive')
     )
 
+    REGULAR = '0'
+    FEATURED = '1'
+    WAITING = '2'
+
+    TYPE_CHOICES = (
+        (REGULAR, 'Regular'),
+        (FEATURED, 'Featured'),
+        (WAITING, 'Waiting')
+    )
+
     title = models.CharField(max_length=150, blank=False, null=False)
     description = models.TextField(blank=False, null=False)
     category = models.CharField(max_length=3, choices=CATEGORY_CHOICES, default='in')
@@ -38,11 +52,13 @@ class Deal(models.Model):
 
     date_created = models.DateTimeField(auto_now_add=True)
     date_starts = models.DateField(default=django.utils.timezone.now)
-    date_expires = models.DateField(default=datetime.now() + timedelta(days=30))
+    date_expires = models.DateField(default=plus_30_days_date)
+    date_featured_charge = models.DateField(null=True, blank=True)
 
     dispensary = models.ForeignKey('Dispensary', on_delete=models.CASCADE, related_name='deals')
 
     status = models.CharField(max_length=1, null=False, default=PENDING, choices=STATUS_CHOICES)
+    type = models.CharField(max_length=1, null=False, default=REGULAR, choices=TYPE_CHOICES)
 
     def __str__(self):
         return "{} - by {}".format(self.title, self.dispensary.name)
@@ -185,6 +201,7 @@ class Order(models.Model):
 
 class Charge(models.Model):
     cost_per_click = models.DecimalField(null=False, blank=False, max_digits=10, decimal_places=2, default=0.05)
+    featured_cost = models.DecimalField(null=False, blank=False, max_digits=10, decimal_places=2, default=1.00)
 
     def __str__(self):
         _string = "Current cost per click = {} USD".format(self.cost_per_click)

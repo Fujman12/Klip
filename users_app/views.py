@@ -1,4 +1,5 @@
 # views.py
+import django
 from .forms import *
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
@@ -7,9 +8,10 @@ from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render_to_response, render
 from django.http import HttpResponseRedirect, JsonResponse
 from django.template import RequestContext
-from main_app.models import Dispensary, Location, Coupon
+from main_app.models import Dispensary, Location, Coupon, Deal, Charge
 from main_app.forms import SearchForm, CreateDealForm
 from users_app.models import Profile
+from main_app.views import get_deals_around
 from main_app.decorators import is_dispensary
 from collections import defaultdict
 from time import strptime
@@ -102,9 +104,12 @@ def home(request):
 
 
 def profile(request):
+    charge = Charge.objects.first()
+
     deal_form = CreateDealForm()
     form = SearchForm()
     user = request.user
+    data = dict()
     print(user.profile.dispensary)
 
     if user.profile.user_type == Profile.PATIENT or user.profile.user_type is None:
@@ -122,7 +127,42 @@ def profile(request):
         data = {'user': user, 'form': form, 'points': points}
         return render(request, 'users_app/profile.html', data)
     else:
+
         data = {'user': user, 'form': form, 'deal_form': deal_form}
+
+        dispensary = user.profile.dispensary
+        deals = dispensary.deals.all()
+
+        # Charging for featured deals
+        for deal in deals:
+            if deal.type == deal.FEATURED and deal.status == deal.ACTIVE:
+                delta = django.utils.timezone.now().date() - deal.date_featured_charge
+                dispensary.profile.balance -= delta.days * charge.featured_cost
+                dispensary.profile.save()
+                deal.date_featured_charge = django.utils.timezone.now().date()
+                deal.save()
+
+        # Checking if there're waiting for featured deals and if there's a slot available
+        waiting_deal = None
+
+        for deal in deals:
+            if deal.type == deal.WAITING and deal.status == deal.ACTIVE:
+                waiting_deal = deal
+
+        if waiting_deal is not None:
+            count = 0
+            location_string = "{} {} {}".format(dispensary.location.street_address, dispensary.location.city, dispensary.location.state)
+            deals_around = get_deals_around(location_string)
+            for _deal in deals_around:
+                if _deal['type'] == Deal.FEATURED:
+                    count += 1
+
+            if count < 6:
+                waiting_deal.type = Deal.FEATURED
+                waiting_deal.date_featured_charge = django.utils.timezone.now().date()
+                waiting_deal.save()
+                data['new_featured_deal'] = waiting_deal
+
         return render(request, 'users_app/profile-dispensary.html', data)
 
 

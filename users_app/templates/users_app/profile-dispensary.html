@@ -181,7 +181,8 @@
                         {% render_field deal_form.date_end class="form-control input-lg datepicker" id="deal-date-end" style="color: #a0a0a0" %}
                       </div>
                       <div class="custom-checkbox mt-20">
-                        <input type="checkbox" id="remember_account" checked="">
+                        <!--input type="checkbox" id="remember_account" checked=""-->
+                        {% render_field deal_form.featured id="remember_account" %}
                         <label class="color-mid" for="remember_account">Extra option. Deal can be listed on the home page "featured".</label>
                       </div>
                     </div>
@@ -321,6 +322,26 @@
             <main id="mainContent" class="main-content">
               <div class="container-fluid">
                   <div class="row bg-white">
+                  {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                        <div class="alert alert-success" >
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                        </div>
+                        {% endfor %}
+                    </ul>
+                  {% endif %}
+                  {% if new_featured_deal %}
+                      <ul class="messages">
+
+                        <div class="alert alert-success" >
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <li>New 'Featured' slot has become available. Your deal '{{ new_featured_deal.title }}' is now in Featured section!</li>
+                        </div>
+
+                    </ul>
+                  {% endif %}
                     <div class="col-xs-12 col-md-4 t-center">
                         <h2 class="mt-30 font-40" style="color: #314555; text-shadow: 1px 1px 2px #314555;">{{ user.first_name }} {{ user.last_name }}</h2>
                         <!--div class="photo-wrap mt-30"><img src="{% static "main_app/images/avatars/avatar_01.jpg" %}" alt="avatar" style="width: 100%"></div>
@@ -665,81 +686,20 @@
 
             </main>
             <!-- –––––––––––––––[ END PAGE CONTENT ]––––––––––––––– -->
-            <section class="footer-top-area pt-70 pb-30 pos-r bg-blue">
-                <div class="container">
-                    <div class="row row-tb-20">
-                        <div class="col-sm-12 col-md-7">
-                            <div class="row row-tb-20">
-                                <div class="footer-col col-sm-6">
-                                    <div class="footer-about">
-                                        <img src="{% static "main_app/images/logo_light.png" %}" alt="" width="250" style="height: 90px">
-                                        <p class="color-light">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam dolores quidem mollitia id ipsa nisi necessitatibus iure repudiandae aperiam, odit ipsam dolor fugiat corporis nesciunt illo nemo minus.</p>
-                                    </div>
-                                </div>
-                                <div class="footer-col col-sm-6">
-                                    <div class="footer-top-twitter">
-                                        <h2 class="color-lighter">Something else</h2>
-                                    <!-- <ul class="twitter-list">
-                                        <li class="single-twitter">
-                                            <p class="color-light"><i class="ico fa fa-twitter"></i><a href="#">@masum_rana :</a> Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore in reprehenderit.</p>
-                                        </li>
-                                        <li class="single-twitter">
-                                            <p class="color-light"><i class="ico fa fa-twitter"></i><a href="#">@masum_rana :</a> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ratione id corrupti iusto cupiditate omnis.</p>
-                                        </li>
-                                    </ul> -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-12 col-md-5">
-                        <div class="row row-tb-20">
-                            <div class="footer-col col-sm-6">
-                                <div class="footer-links">
-                                    <h2 class="color-lighter">Quick Links</h2>
-                                    <ul>
-                                        <li><a href="deals_grid.html">Latest Deals</a>
-                                        </li>
-                                        <li><a href="coupons_grid.html">Newest Coupons</a>
-                                        </li>
-                                        <li><a href="contact_us_02.html">Contact Us</a>
-                                        </li>
-                                        <li><a href="404.html">Error 404</a>
-                                        </li>
-                                        <li><a href="terms_conditions.html">Terms of Use</a>
-                                        </li>
-                                        <li><a href="faq.html">FAQs</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="footer-col col-sm-6">
-                                <div class="footer-top-questions">
-                                    <h2>Got any questions?</h2>
-                                    <p>If you are having any questions,<br> please feel free to ask.</p>
-                                    <button class="btn">Drop us a line</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-12">
-                        <div class="payment-methods t-center">
-                            <span><img src="{% static "main_app/images/icons/payment/paypal.jpg" %}" alt=""></span>
-                            <span><img src="{% static "main_app/images/icons/payment/visa.jpg" %}" alt=""></span>
-                            <span><img src="{% static "main_app/images/icons/payment/mastercard.jpg" %}" alt=""></span>
-                            <span><img src="{% static "main_app/images/icons/payment/discover.jpg" %}" alt=""></span>
-                            <span><img src="{% static "main_app/images/icons/payment/american.jpg" %}" alt=""></span>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-        </section>
-        <!-- –––––––––––––––[ FOOTER ]––––––––––––––– -->
-        <footer id="mainFooter" class="main-footer">
+        <footer id="mainFooter" class="main-footer ptb-20">
             <div class="container">
                 <div class="row">
-                    <p>Copyright &copy; 2016 . All rights reserved.</p>
+                    <div>
+                        <p style="margin-top: 0;">Copyright &copy; 2017 . All rights reserved.</p>
+                    </div>
+                    <div class="payment-methods t-center mt-30" style="opacity: 0.8;">
+                            <span><img src="{% static 'main_app/images/icons/payment/paypal.jpg' %}" alt=""></span>
+                            <span><img src="{% static 'main_app/images/icons/payment/visa.jpg' %}" alt=""></span>
+                            <span><img src="{% static 'main_app/images/icons/payment/mastercard.jpg' %}" alt=""></span>
+                            <span><img src="{% static 'main_app/images/icons/payment/discover.jpg' %}" alt=""></span>
+                            <span><img src="{% static 'main_app/images/icons/payment/american.jpg' %}" alt=""></span>
+                    </div>
+
                 </div>
             </div>
         </footer>
