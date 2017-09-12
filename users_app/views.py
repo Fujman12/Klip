@@ -128,7 +128,7 @@ def profile(request):
         return render(request, 'users_app/profile.html', data)
     else:
 
-        data = {'user': user, 'form': form, 'deal_form': deal_form}
+        data = {'user': user, 'form': form, 'deal_form': deal_form, 'featured_cost': charge.featured_cost}
 
         dispensary = user.profile.dispensary
         deals = dispensary.deals.all()
