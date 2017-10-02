@@ -512,7 +512,7 @@ def payment_view(request, pk):
         "business": "nanlicawork-facilitator@gmail.com",
         "amount": order.amount,
         "item_name": 'Dispensary balance',
-        "invoice": order.id,
+        "invoice": order.id+100,
         "notify_url": request.build_absolute_uri(reverse('paypal-ipn')),
         "return_url": request.build_absolute_uri(reverse('payment_success')),
         "cancel_return": request.build_absolute_uri(reverse('payment_cancel')),
