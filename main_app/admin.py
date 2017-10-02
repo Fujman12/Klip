@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Dispensary, Deal, Review, Location, DealImage, Coupon, Charge
+from .models import Dispensary, Deal, Review, Location, DealImage, Coupon, Charge, Order
 #from main_app.admin import DispensaryAdmin
 # Register your models here.
 admin.site.register(Dispensary)
@@ -9,6 +9,7 @@ admin.site.register(Location)
 admin.site.register(DealImage)
 admin.site.register(Coupon)
 admin.site.register(Charge)
+admin.site.register(Order)
 #class LocationInline(admin.StackedInline):
 #    model = Location
 
