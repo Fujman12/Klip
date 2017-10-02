@@ -506,6 +506,8 @@ def payment_view(request, pk):
 
     order = get_object_or_404(Order, pk=pk)
     # What you want the button to do.
+    print("Order id: {} ".format(order.id))
+
     paypal_dict = {
         "business": "nanlicawork-facilitator@gmail.com",
         "amount": order.amount,
