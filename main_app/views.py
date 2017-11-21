@@ -438,13 +438,15 @@ def remove_coupon(request, pk):
 
 def webhook(request):
     if request.method == 'GET':
+        challenge = request.GET["hub_challenge"]
         verify_token = request.GET["hub.verify_token"]
-
-        return HttpResponse(verify_token)
+        if verify_token == 'abc123':
+            print('Goodbye, cruel world!')
+            return HttpResponse(challenge)
 
     if request.method == 'POST':
 
-        print(request.POST)
+        print(request.POPST)
 
         return HttpResponse({'status': 'OK'})
 
