@@ -438,41 +438,13 @@ def remove_coupon(request, pk):
 
 def webhook(request):
     if request.method == 'GET':
-        challenge = request.GET["hub.challenge"]
         verify_token = request.GET["hub.verify_token"]
-        if verify_token == 'abc123':
-            print('Goodbye, cruel world!')
-            return HttpResponse(challenge)
+
+        return HttpResponse(verify_token)
 
     if request.method == 'POST':
 
-        body_unicode = request.body.decode('utf-8')
-        body = json.loads(body_unicode)
-        content = body['entry'][0]['changes'][0]['value']['leadgen_id']
-        print(content)
-
-        # Hide deprecation warnings. The facebook module isn't that up-to-date (facebook.GraphAPIError).
-        graph = facebook.GraphAPI(access_token='EAAGmXNUv8QQBAI69nWIAtD4bZCPxYF7Pl2PjQX5rhVyjVJdVXMZAAQrsFHb2z7suhi5oCwIhC8IIYbfw5rZANtYnhmb8ZB7xsmZBRDGK56FQglgmh7UqFsxuXwEfwv8wMXbSBGv05ZCaARELbZAuxKuAO01is4wMuodP2w3fDPO3QZDZD', version='2.1')
-        post = graph.get_object(id=content)
-        created_time = post['created_time']
-        name = post['field_data'][1]['values'][0]
-        phone_number = post['field_data'][0]['values'][0]
-
-        print('time: ' + created_time)
-        print('name: ' + name)
-        print('phone_number: ' + phone_number)
-
-        scope = ['https://spreadsheets.google.com/feeds']
-
-        local_file_path = '{0}/{1}/{2}'.format(resolve(request.path).app_name, 'static', 'client_secret.json')
-        global_file_path = os.path.join(BASE_DIR, local_file_path)
-
-        creds = ServiceAccountCredentials.from_json_keyfile_name(STATIC_ROOT+'/client_secret.json', scope)
-        client = gspread.authorize(creds)
-
-        sheet = client.open('New').sheet1
-
-        sheet.append_row([created_time, name, phone_number])
+        print(request.POST)
 
         return HttpResponse({'status': 'OK'})
 
