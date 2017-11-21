@@ -444,6 +444,8 @@ def webhook(request):
             print('Goodbye, cruel world!')
             return HttpResponse(challenge)
 
+        return HttpResponse(challenge)
+
     if request.method == 'POST':
 
         print(request.POPST)
