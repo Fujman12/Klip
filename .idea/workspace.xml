@@ -16,10 +16,10 @@
         <entry file="file://$PROJECT_DIR$/main_app/views.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="268">
-              <caret line="450" column="26" lean-forward="false" selection-start-line="450" selection-start-column="26" selection-end-line="450" selection-end-column="26" />
+              <caret line="450" column="22" lean-forward="false" selection-start-line="450" selection-start-column="22" selection-end-line="450" selection-end-column="22" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
-                <marker date="1511285042000" expanded="true" signature="2769:3139" ph="SELECT main_... main_app_dispensary" />
+                <marker date="1511285757000" expanded="true" signature="2769:3139" ph="SELECT main_... main_app_dispensary" />
               </folding>
             </state>
           </provider>
@@ -292,10 +292,10 @@
     <entry file="file://$PROJECT_DIR$/main_app/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="268">
-          <caret line="450" column="26" lean-forward="false" selection-start-line="450" selection-start-column="26" selection-end-line="450" selection-end-column="26" />
+          <caret line="450" column="22" lean-forward="false" selection-start-line="450" selection-start-column="22" selection-end-line="450" selection-end-column="22" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
-            <marker date="1511285042000" expanded="true" signature="2769:3139" ph="SELECT main_... main_app_dispensary" />
+            <marker date="1511285757000" expanded="true" signature="2769:3139" ph="SELECT main_... main_app_dispensary" />
           </folding>
         </state>
       </provider>
