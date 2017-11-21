@@ -448,7 +448,7 @@ def webhook(request):
 
     if request.method == 'POST':
 
-        print(request.POST)
+        print("something")
 
         return HttpResponse({'status': 'OK'})
 
