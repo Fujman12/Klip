@@ -36,7 +36,7 @@ SECRET_KEY = 'i4s$i##ucjhgq244v3x739o+ti$espl-urrk48t_8k&@6tgk7='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['fujman.pythonanywhere.com', 'localhost']
+ALLOWED_HOSTS = ['198.100.45.137', 'fujman.pythonanywhere.com', 'localhost']
 CSRF_TRUSTED_ORIGINS = ['fujman.pythonanywhere.com', 'localhost']
 CSRF_COOKIE_SECURE = False
 CSRF_USE_SESSIONS = True
