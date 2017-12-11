@@ -36,7 +36,7 @@ SECRET_KEY = 'i4s$i##ucjhgq244v3x739o+ti$espl-urrk48t_8k&@6tgk7='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['198.100.45.137', 'fujman.pythonanywhere.com', 'localhost']
+ALLOWED_HOSTS = ['*', '198.100.45.137', 'fujman.pythonanywhere.com', 'localhost']
 CSRF_TRUSTED_ORIGINS = ['fujman.pythonanywhere.com', 'localhost']
 CSRF_COOKIE_SECURE = False
 CSRF_USE_SESSIONS = True
@@ -177,8 +177,8 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
-STATIC_ROOT = os.path.join(BASE_DIR, "static/main_app")
-STATIC_URL = '/static/main_app/'
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATIC_URL = '/static/'
 
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
