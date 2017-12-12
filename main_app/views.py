@@ -73,6 +73,7 @@ def index(request):
     form = SearchForm()
     context = dict()
     context['form'] = form
+    print(BASE_DIR)
 
     return render(request, 'main_app/index.html', context)
 
