@@ -65,20 +65,20 @@ def register_dispensary(request):
             user.save()
             location = Location(city=form.cleaned_data['city'], state=form.cleaned_data['state'], street_address=form.cleaned_data['street_address'])
             location.save()
-            print(form.cleaned_data['working_from'])
+            #print(form.cleaned_data['working_from'])
             working_from = strptime(form.cleaned_data['working_from'], "%H:%M")
             working_to = strptime(form.cleaned_data['working_to'], "%H:%M")
-            print(working_from)
+            #print(working_from)
             dispensary = Dispensary(location=location, name=form.cleaned_data['dispensary_name'], description='blabla', website=form.cleaned_data['website'],
                                     working_from=form.cleaned_data['working_from'], working_to=form.cleaned_data['working_to'])
             dispensary.save()
             user.profile.dispensary = dispensary
             user.save()
             user.profile.save()
-            print(user.profile.dispensary.description)
+            #print(user.profile.dispensary.description)
             return HttpResponseRedirect('/register/success/')
         else:
-            print('shit')
+            #print('shit')
     else:
         form = DispensaryRegistrationForm()
 
@@ -110,7 +110,7 @@ def profile(request):
     form = SearchForm()
     user = request.user
     data = dict()
-    print(user.profile.dispensary)
+    #print(user.profile.dispensary)
 
     if user.profile.user_type == Profile.PATIENT or user.profile.user_type is None:
 
@@ -174,7 +174,7 @@ def change_email(request):
     if User.objects.filter(email=email).first() is None:
         user.email = email
     user.save()
-    print("GOGOGOOGOGOG" + data['value'])
+    #print("GOGOGOOGOGOG" + data['value'])
     return JsonResponse(data)
 
 
@@ -185,7 +185,7 @@ def change_first_name(request):
     user = request.user
     user.first_name = request.POST["value"]
     user.save()
-    print("GOGOGOOGOGOG" + data['value'])
+    #print("GOGOGOOGOGOG" + data['value'])
 
     return JsonResponse(data)
 

@@ -242,7 +242,7 @@ def post_review(request, pk):
             review.deal = _deal
 
             review.save()
-            print(_deal.reviews.all().count())
+            #print(_deal.reviews.all().count())
             context['html_review_list'] = render_to_string('main_app/partial/review_list.html', {'deal': _deal})
 
         else:
@@ -441,7 +441,7 @@ def webhook(request):
         challenge = request.GET["hub.challenge"]
         verify_token = request.GET["hub.verify_token"]
         if verify_token == 'abc123':
-            print('Goodbye, cruel world!')
+            #print('Goodbye, cruel world!')
             return HttpResponse(challenge)
 
         return HttpResponse(challenge)
