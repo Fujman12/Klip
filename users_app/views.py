@@ -79,6 +79,7 @@ def register_dispensary(request):
             return HttpResponseRedirect('/register/success/')
         else:
             #print('shit')
+            pass
     else:
         form = DispensaryRegistrationForm()
 
