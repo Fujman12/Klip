@@ -73,7 +73,6 @@ def index(request):
     form = SearchForm()
     context = dict()
     context['form'] = form
-    print(BASE_DIR)
 
     return render(request, 'main_app/index.html', context)
 
@@ -104,7 +103,7 @@ def get_deals_around(location):
             "SELECT main_app_dispensary.id, ( 3959 * acos( cos( radians({}) ) * cos( radians( lat ) ) * cos( radians( lng ) - radians({}) ) + sin( radians({}) ) * sin( radians( lat ) ) ) ) "
             "AS distance FROM main_app_dispensary JOIN main_app_location ON main_app_dispensary.location_id=main_app_location.id GROUP BY id HAVING distance < 25 ORDER BY distance LIMIT 0 , 20;".format(
                 g.lat, g.lng, g.lat)):
-        print(dispensary)
+
         for deal in dispensary.deals.all():
             if deal.status == deal.ACTIVE:
 
@@ -277,7 +276,7 @@ def create_deal(request):
                     if _deal['type'] == Deal.FEATURED:
                         count += 1
 
-                print("There are {} featured deals around".format(count))
+                #print("There are {} featured deals around".format(count))
 
                 if count >= 6:
                     messages.add_message(request, messages.INFO, 'There are no empty "Featured" slots in your location at the moment.'
@@ -304,7 +303,7 @@ def upload_deal_image(request, pk):
     _deal = get_object_or_404(Deal, pk=pk)
     if request.method == 'POST':
 
-        print(request.FILES['file[0]'])
+        #print(request.FILES['file[0]'])
         file = request.FILES['file[0]']
         new_image = DealImage(image=file, deal=_deal)
         new_image.save()
@@ -322,14 +321,14 @@ def deal_image_remove(request):
         id = request.POST['id']
         image = get_object_or_404(DealImage, pk=id)
         image.delete()
-        print(id)
+        #print(id)
         return JsonResponse({'status': 'OK'})
 
 
 @is_dispensary
 def change_deal_status(request, pk):
     _deal = get_object_or_404(Deal, pk=pk)
-    print('bla')
+    #print('bla')
     if _deal.status != _deal.PENDING:
         if request.POST['checked'] == '1':
             _deal.status = Deal.ACTIVE
@@ -449,8 +448,8 @@ def webhook(request):
 
     if request.method == 'POST':
 
-        print("something")
-        print(request.body)
+        #print("something")
+        #print(request.body)
 
         return HttpResponse({'status': 'OK'})
 
@@ -484,7 +483,7 @@ def payment_view(request, pk):
 
     order = get_object_or_404(Order, pk=pk)
     # What you want the button to do.
-    print("Order id: {} ".format(order.id))
+    #print("Order id: {} ".format(order.id))
 
     paypal_dict = {
         "business": "nanlicawork-facilitator@gmail.com",
@@ -503,13 +502,11 @@ def payment_view(request, pk):
     return render(request, "main_app/payment.html", context)
 
 
-
-
 def show_me_the_money(sender, **kwargs):
     ipn_obj = sender
-    print("GO!")
+    #print("GO!")
     if ipn_obj.payment_status == ST_PP_COMPLETED:
-        print('GOGO!')
+        #print('GOGO!')
         # WARNING !
         # Check that the receiver email is the same we previously
         # set on the `business` field. (The user could tamper with
@@ -526,7 +523,7 @@ def show_me_the_money(sender, **kwargs):
         user = User.objects.filter(id=ipn_obj.custom).first()
         user.profile.balance += ipn_obj.mc_gross
         user.save()
-        print('GOGOGO!')
+        #print('GOGOGO!')
     else:
         return
 
