@@ -1725,9 +1725,6 @@ h6 + .demo button {
   padding-bottom: 10px;
   border-bottom: 1px solid #eee;
 }
-.sign-area .col-left {
-  border-right: 1px solid #eee;
-}
 .sign-area label {
   font-weight: normal;
 }

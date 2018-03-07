@@ -111,7 +111,7 @@ WSGI_APPLICATION = 'klip.wsgi.application'
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 DATABASES = {
-    #'default': {
+    # 'default': {
     #    'ENGINE': 'django.db.backends.mysql',
     #    'OPTIONS': {
     #                'sql_mode': 'traditional',
@@ -121,7 +121,7 @@ DATABASES = {
     #    'PASSWORD': '1q2w3e',
     #    'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
     #    'PORT': '8889',
-    #}
+    # }
     #'default': {
     #    'ENGINE': 'django.db.backends.mysql',
     #    'NAME': 'Fujman$default',
