@@ -2446,10 +2446,11 @@ div.tab button:nth-child(n+2) {
   div.tab button {
     padding: 14px 42px;
   }
+  .explain-process-area .item {
+    height: auto;
+  }
 }
 @media only screen and (max-width: 479px) {
-  div.tab {
-  }
   div.tab button {
     width: 100%;
     display: block;
